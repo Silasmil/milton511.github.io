@@ -5,24 +5,110 @@
   <title>Milton511 | Cybersecurity Analyst & Trainer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; margin:0; padding:0; background:#f5f7fa; color:#333; }
-    header { background:#111827; color:#fff; padding:2rem 1rem; text-align:center; }
-    header h1{ margin:0; font-size:2rem; }
-    header p{ margin:.5rem 0 0; font-size:1.1rem; color:#9ca3af; }
-    nav{ background:#1f2937; display:flex; justify-content:center; gap:2rem; padding:.75rem 0; }
-    nav a{ color:#f3f4f6; text-decoration:none; font-weight:500; }
-    nav a:hover{ color:#60a5fa; }
-    main{ max-width:900px; margin:2rem auto; padding:0 1rem; }
-    section{ margin-bottom:2rem; }
-    h2{ border-bottom:2px solid #e5e7eb; padding-bottom:.5rem; margin-bottom:1rem; color:#111827; }
-    footer{ text-align:center; padding:1rem; background:#1f2937; color:#9ca3af; font-size:.9rem; }
-    .social a{ margin:0 .5rem; color:#007acc; text-decoration:none; }
+    :root {
+      --teal: #008080;
+      --orange: #ff6600;
+      --dark: #111827;
+      --light: #f5f7fa;
+      --gray: #9ca3af;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; 
+      padding: 0;
+      background: var(--light);
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--teal), var(--orange));
+      color: #fff;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    header h1 { margin: 0; font-size: 2.5rem; }
+    header p { margin: .5rem 0 0; font-size: 1.2rem; color: #fefefe; }
+
+    nav {
+      background: var(--dark);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: .75rem 0;
+    }
+    nav a {
+      color: #f3f4f6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      border-left: 5px solid var(--teal);
+      padding-left: .75rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    ul { padding-left: 1.5rem; }
+    li { margin-bottom: .5rem; }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--dark);
+      color: var(--gray);
+      font-size: .9rem;
+    }
+
+    .social a {
+      margin: 0 .5rem;
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .social a:hover {
+      color: var(--orange);
+    }
+
+    /* Buttons (optional for CTAs) */
+    .btn {
+      display: inline-block;
+      padding: .6rem 1.2rem;
+      margin-top: 1rem;
+      background: var(--teal);
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: var(--orange);
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Milton Silas (Milton511)</h1>
     <p>Cybersecurity Analyst • Red Team Specialist • Cisco Instructor</p>
+    <a href="#projects" class="btn">View My Work</a>
   </header>
 
   <nav>
