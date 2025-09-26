@@ -9,7 +9,7 @@
       --teal: #008080;
       --orange: #ff6600;
       --brown: #4e342e;
-      --light: #f5f7fa;
+      --light: #fdfdfd;
       --dark: #1e1e1e;
       --gray: #9ca3af;
     }
@@ -28,9 +28,10 @@
       color: #fff;
       padding: 3rem 1rem;
       text-align: center;
+      position: relative;
     }
 
-    header h1 { margin: 0; font-size: 2.5rem; }
+    header h1 { margin: 0; font-size: 2.8rem; }
     header p { margin: .5rem 0 1rem; font-size: 1.2rem; color: #fefefe; }
 
     nav {
@@ -49,7 +50,7 @@
     }
     nav a:hover { color: var(--orange); }
 
-    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
     section { margin-bottom: 2.5rem; }
     h2 {
       border-left: 5px solid var(--teal);
@@ -100,25 +101,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       margin-bottom: 1rem;
     }
-
-    /* Gallery styling */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .gallery img {
-      width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: transform 0.3s;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
   </style>
 </head>
 <body>
@@ -126,14 +108,14 @@
     <img src="assets/images/profile.jpg" alt="Milton Silas" class="profile-pic">
     <h1>Milton Silas</h1>
     <p>Cybersecurity Analyst • Red Team Specialist • Cisco Instructor</p>
-    <a href="#projects" class="btn">View My Work</a>
+    <!-- View my work now goes to projects.html -->
+    <a href="projects.html" class="btn">View My Work</a>
   </header>
 
   <nav>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#gallery">Gallery</a>
+    <a href="projects.html">Projects</a>
     <a href="#contact">Contact</a>
   </nav>
 
@@ -173,26 +155,6 @@
       </ul>
     </section>
 
-    <section id="projects">
-      <h2>Projects & Portfolio</h2>
-      <ul>
-        <li><strong>Cyberwise_KE:</strong> Beginner-friendly cybersecurity guides and labs.</li>
-        <li><strong>Milton Graphics Designs:</strong> Tech + design work to explain security visually.</li>
-        <li><strong>Penetration Testing Labs:</strong> Write-ups and CTF-style exercises for practice.</li>
-        <li><strong>Training Resources:</strong> SOC analyst walkthroughs, incident report templates, and slides.</li>
-      </ul>
-    </section>
-
-    <section id="gallery">
-      <h2>Portfolio Gallery</h2>
-      <div class="gallery">
-        <img src="assets/images/project1.jpg" alt="Cyberwise Lab Screenshot">
-        <img src="assets/images/project2.jpg" alt="Pentest Write-up Example">
-        <img src="assets/images/project3.jpg" alt="Training Slides Preview">
-        <img src="assets/images/project4.jpg" alt="Design Work">
-      </div>
-    </section>
-
     <section id="contact">
       <h2>Contact</h2>
       <p>Let’s connect:</p>
@@ -205,7 +167,7 @@
   </main>
 
   <footer>
-    © 2025 Milton511 — Built on GitHub Pages
+    © 2025 Milton Silas — Built on GitHub Pages
   </footer>
 </body>
 </html>
