@@ -2,169 +2,156 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Milton Silas | Cybersecurity Analyst & Trainer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milton Silas | Cybersecurity Portfolio</title>
   <style>
-    :root {
-      --teal: #008080;
-      --orange: #ff6600;
-      --brown: #4e342e;
-      --light: #fdfdfd;
-      --dark: #1e1e1e;
-      --gray: #9ca3af;
-    }
-
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 0;
-      background: var(--light);
-      color: #333;
-      line-height: 1.6;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f5f5f5;
     }
-
     header {
-      background: linear-gradient(135deg, var(--teal), var(--orange));
-      color: #fff;
-      padding: 3rem 1rem;
       text-align: center;
-      position: relative;
+      padding: 3rem 1rem;
+      background: rgba(0, 0, 0, 0.6);
     }
-
-    header h1 { margin: 0; font-size: 2.8rem; }
-    header p { margin: .5rem 0 1rem; font-size: 1.2rem; color: #fefefe; }
-
-    nav {
-      background: var(--brown);
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: .75rem 0;
+    header img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 3px solid #00adb5;
+      margin-bottom: 1rem;
+      object-fit: cover;
     }
-
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+    }
+    header h2 {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin: 0.5rem 0 2rem;
+      color: #cccccc;
+    }
     nav a {
-      color: #f3f4f6;
       text-decoration: none;
-      font-weight: 500;
+      color: #00adb5;
+      margin: 0 1rem;
+      font-weight: bold;
       transition: 0.3s;
     }
-    nav a:hover { color: var(--orange); }
-
-    main { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    section { margin-bottom: 2.5rem; }
-    h2 {
-      border-left: 5px solid var(--teal);
-      padding-left: .75rem;
-      margin-bottom: 1rem;
-      color: var(--brown);
+    nav a:hover {
+      color: #f8b400;
     }
-
-    ul { padding-left: 1.5rem; }
-    li { margin-bottom: .5rem; }
-
+    section {
+      padding: 3rem 2rem;
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 2rem;
+      border-radius: 10px;
+    }
+    section h3 {
+      border-bottom: 2px solid #00adb5;
+      display: inline-block;
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 0.5rem 0;
+    }
     footer {
       text-align: center;
-      padding: 1rem;
-      background: var(--brown);
-      color: var(--gray);
-      font-size: .9rem;
+      padding: 1.5rem;
+      font-size: 0.9rem;
+      background: rgba(0, 0, 0, 0.7);
     }
-
-    .social a {
-      margin: 0 .5rem;
-      color: var(--teal);
-      font-weight: 600;
+    footer a {
+      color: #00adb5;
+      margin: 0 0.5rem;
       text-decoration: none;
-      transition: 0.3s;
     }
-    .social a:hover { color: var(--orange); }
-
-    .btn {
+    footer a:hover {
+      color: #f8b400;
+    }
+    .cta-button {
       display: inline-block;
-      padding: .6rem 1.2rem;
       margin-top: 1rem;
-      background: var(--teal);
+      padding: 0.8rem 1.5rem;
+      background: #00adb5;
       color: #fff;
-      border-radius: 6px;
+      border-radius: 25px;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: bold;
       transition: 0.3s;
     }
-    .btn:hover { background: var(--orange); }
-
-    .profile-pic {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      border: 4px solid #fff;
-      object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      margin-bottom: 1rem;
+    .cta-button:hover {
+      background: #f8b400;
+      color: #000;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="assets/images/profile.jpg" alt="Milton Silas" class="profile-pic">
+    <!-- Profile Image -->
+    <img src="assets/profile.jpg" alt="Milton Silas Profile Picture">
+    
+    <!-- Name & Role -->
     <h1>Milton Silas</h1>
-    <p>Cybersecurity Analyst • Red Team Specialist • Cisco Instructor</p>
-    <!-- View my work now goes to projects.html -->
-    <a href="projects.html" class="btn">View My Work</a>
+    <h2>Cybersecurity Analyst • Red Team Specialist • Cisco Instructor</h2>
+
+    <!-- Navigation -->
+    <nav>
+      <a href="about.html">About</a>
+      <a href="skills.html">Skills</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+      <a href="work.html" class="cta-button">View My Work</a>
+    </nav>
   </header>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="projects.html">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <section>
+    <h3>About Me</h3>
+    <p>
+      I’m a cybersecurity analyst and red team specialist who teaches Cisco IT Essentials and builds hands-on security labs. I focus on threat detection, incident response, vulnerability assessment, and practical pentesting workshops for beginners.
+    </p>
+  </section>
 
-  <main>
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        I’m Milton Silas, a <strong>cybersecurity analyst</strong>, <strong>red team specialist</strong>, 
-        and <strong>Cisco IT Essentials instructor</strong>. I bridge the gap between 
-        <em>technical security expertise</em> and <em>teaching clarity</em>.
-      </p>
-      <p>
-        My work revolves around <strong>threat detection, incident response, vulnerability assessment, 
-        and penetration testing</strong>. I build hands-on security labs and workshops to help 
-        learners move from theory to practice, making cybersecurity skills accessible 
-        to beginners and professionals alike.
-      </p>
-      <p>
-        Beyond security, I integrate <strong>design and content creation</strong> into my training — 
-        creating visuals, walkthroughs, and interactive labs that make complex topics 
-        easier to understand and apply in real-world scenarios.
-      </p>
-      <p>
-        My goal is simple: <strong>empower others</strong> to learn, practice, and grow in cybersecurity 
-        while shaping a safer digital space.
-      </p>
-    </section>
+  <section>
+    <h3>Skills & Expertise</h3>
+    <ul>
+      <li>Threat Detection & Incident Response</li>
+      <li>Red Teaming & Ethical Hacking</li>
+      <li>Vulnerability Management & Risk Assessment</li>
+      <li>Cisco IT Essentials Training</li>
+      <li>Creating training material & hands-on labs</li>
+    </ul>
+  </section>
 
-    <section id="skills">
-      <h2>Skills & Expertise</h2>
-      <ul>
-        <li>Threat Detection & Incident Response</li>
-        <li>Red Teaming & Ethical Hacking</li>
-        <li>Vulnerability Management & Risk Assessment</li>
-        <li>Cisco IT Essentials Training</li>
-        <li>Creating training material & hands-on labs</li>
-      </ul>
-    </section>
+  <section>
+    <h3>Projects & Portfolio</h3>
+    <ul>
+      <li><b>Cyberwise_KE:</b> Beginner-friendly cybersecurity guides and labs.</li>
+      <li><b>Milton Graphics Designs:</b> Tech + design work to explain security visually.</li>
+      <li><b>Penetration Testing Labs:</b> Write-ups and CTF-style exercises for practice.</li>
+      <li><b>Training Resources:</b> SOC analyst walkthroughs, incident report templates, and slides.</li>
+    </ul>
+  </section>
 
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Let’s connect:</p>
-      <div class="social">
-        <a href="mailto:miltonsilas564@gmail.com">Email</a> |
-        <a href="https://github.com/Milton511">GitHub</a> |
-        <a href="https://www.linkedin.com/in/milton-silas-736a852b8">LinkedIn</a>
-      </div>
-    </section>
-  </main>
+  <section>
+    <h3>Contact</h3>
+    <p>Let’s connect:</p>
+    <p>
+      <a href="mailto:miltonsilas564@gmail.com">Email</a> |
+      <a href="https://github.com/Milton511" target="_blank">GitHub</a> |
+      <a href="https://www.linkedin.com/in/milton-silas" target="_blank">LinkedIn</a>
+    </p>
+  </section>
 
   <footer>
     © 2025 Milton Silas — Built on GitHub Pages
