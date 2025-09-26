@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Projects | Milton Silas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fdfdfd;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #008080, #ff6600);
+      color: #fff;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 { margin: 0; }
+    main { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    h2 { color: #4e342e; margin-bottom: 1rem; }
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #4e342e;
+      color: #9ca3af;
+      font-size: .9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Projects & Portfolio</h1>
+    <p>Explore my cybersecurity work, labs, and training resources</p>
+  </header>
+
+  <main>
+    <h2>Featured Work</h2>
+    <div class="project-grid">
+      <div class="card">
+        <h3>Cyberwise_KE</h3>
+        <p>Beginner-friendly cybersecurity guides and labs.</p>
+      </div>
+      <div class="card">
+        <h3>Milton Graphics Designs</h3>
+        <p>Tech + design work to explain security visually.</p>
+      </div>
+      <div class="card">
+        <h3>Penetration Testing Labs</h3>
+        <p>Write-ups and CTF-style exercises for practice.</p>
+      </div>
+      <div class="card">
+        <h3>Training Resources</h3>
+        <p>SOC analyst walkthroughs, incident report templates, and slides.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Milton Silas — Built on GitHub Pages
+  </footer>
+</body>
+</html>
