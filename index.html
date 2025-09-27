@@ -7,121 +7,67 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 0 20px;
       background-color: #fdfdfd;
-      color: #222;
+      color: #1a1a1a;
       scroll-behavior: smooth;
     }
-
-    header {
-      text-align: center;
-      margin: 40px 0 20px 0;
-    }
-
-    header img {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #0d6efd;
-      margin-bottom: 15px;
-    }
-
-    h1 { margin: 0; color: #1a1a1a; }
-    h2 { margin-top: 5px; color: #0d6efd; font-weight: normal; }
-
     nav {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #fdfdfd;
-      border-bottom: 1px solid #ccc;
+      background-color: #ffffff;
+      border-bottom: 2px solid #008080;
       display: flex;
       justify-content: center;
-      padding: 10px 0;
+      padding: 12px 0;
       z-index: 1000;
     }
-
     nav a {
       margin: 0 15px;
-      color: #0d6efd;
+      color: #008080;
       text-decoration: none;
       font-weight: 600;
       font-size: 16px;
       transition: color 0.3s;
     }
-
-    nav a:hover {
-      color: #0056b3;
-    }
-
-    section {
-      margin-bottom: 60px;
-      padding-top: 60px; /* offset for fixed nav */
-    }
-
-    h3 {
-      color: #0d6efd;
-      margin-bottom: 10px;
-    }
-
-    .button-container {
+    nav a:hover { color: #FF6600; }
+    header {
       text-align: center;
-      margin: 20px 0;
+      margin: 100px 0 40px 0;
     }
-
+    header img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #008080;
+      margin-bottom: 15px;
+    }
+    h1 { color: #1a1a1a; margin:0; }
+    h2 { color: #008080; margin-top:5px; font-weight:normal; }
+    section { margin-bottom: 50px; }
+    h3 { color: #FF6600; margin-bottom:10px; }
+    .button-container { text-align:center; margin:20px 0; }
     button {
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      margin: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      background-color: #008080;
+      color:white;
+      border:none;
+      padding:12px 24px;
+      margin:10px;
+      font-size:16px;
+      cursor:pointer;
+      border-radius:6px;
+      font-weight:600;
+      transition:0.3s ease;
     }
-
-    button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    a.external-link {
-      color: #0d6efd;
-      text-decoration: none;
-    }
-
-    a.external-link:hover {
-      text-decoration: underline;
-    }
-
-    /* Add spacing for fixed nav */
-    body::before {
-      content: "";
-      display: block;
-      height: 60px;
-    }
+    button:hover { background-color:#005555; transform:translateY(-2px); }
+    a.button-link { text-decoration: none; }
+    ul { list-style-type: none; padding-left:0; }
+    li { margin-bottom:8px; }
   </style>
 </head>
 <body>
@@ -135,39 +81,29 @@
     <a href="coverletter.html">Cover Letter</a>
   </nav>
 
-  <!-- Header with Profile Picture -->
+  <!-- Header -->
   <header>
-    <img src="assets/images/WhatsApp%20Image%202025-09-25%20at%203.57.45%20PM.jpeg" alt="Milton Silas Profile Picture">
+    <img src="assets/images/profile.jpeg" alt="Milton Silas">
     <h1>Milton Silas</h1>
     <h2>Cybersecurity Analyst • Red Team Specialist • Cisco Instructor</h2>
+    <div class="button-container">
+      <a class="button-link" href="cv.html"><button>View CV</button></a>
+      <a class="button-link" href="CV_MiltonSilas.pdf" download><button>Download CV</button></a>
+      <a class="button-link" href="coverletter.html"><button>View Cover Letter</button></a>
+      <a class="button-link" href="CoverLetter_MiltonSilas.pdf" download><button>Download Cover Letter</button></a>
+    </div>
   </header>
 
-  <!-- Buttons to CV and Cover Letter -->
-  <div class="button-container">
-    <a href="cv.html"><button>View CV</button></a>
-    <a href="CV_MiltonSilas.pdf" download><button>Download CV</button></a>
-    <a href="coverletter.html"><button>View Cover Letter</button></a>
-    <a href="CoverLetter_MiltonSilas.pdf" download><button>Download Cover Letter</button></a>
-  </div>
-
-  <!-- About Me Section -->
+  <!-- About Section -->
   <section id="about">
     <h3>About Me</h3>
-    <p>
-      I’m Milton Silas, a cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor. I bridge the gap between technical security expertise and teaching clarity.
-    </p>
-    <p>
-      My work revolves around threat detection, incident response, vulnerability assessment, and penetration testing. I build hands-on security labs and workshops to help learners move from theory to practice, making cybersecurity skills accessible to beginners and professionals alike.
-    </p>
-    <p>
-      Beyond security, I integrate design and content creation into my training — creating visuals, walkthroughs, and interactive labs that make complex topics easier to understand and apply in real-world scenarios.
-    </p>
-    <p>
-      My goal is simple: empower others to learn, practice, and grow in cybersecurity while shaping a safer digital space.
-    </p>
+    <p>I’m Milton Silas, a cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor. I bridge the gap between technical security expertise and teaching clarity.</p>
+    <p>My work revolves around threat detection, incident response, vulnerability assessment, and penetration testing. I build hands-on security labs and workshops to help learners move from theory to practice, making cybersecurity skills accessible to beginners and professionals alike.</p>
+    <p>Beyond security, I integrate design and content creation into my training — creating visuals, walkthroughs, and interactive labs that make complex topics easier to understand and apply in real-world scenarios.</p>
+    <p>My goal is simple: empower others to learn, practice, and grow in cybersecurity while shaping a safer digital space.</p>
   </section>
 
-  <!-- Skills & Expertise Section -->
+  <!-- Skills Section -->
   <section id="skills">
     <h3>Skills & Expertise</h3>
     <ul>
@@ -183,14 +119,14 @@
   <section id="contact">
     <h3>Contact</h3>
     <p>Let’s connect:</p>
-    <p>
-      <a class="external-link" href="mailto:silasmilton046@gmail.com">Email</a> | 
-      <a class="external-link" href="https://github.com/Milton511" target="_blank">GitHub</a> | 
-      <a class="external-link" href="https://www.linkedin.com/in/milton-silas-736a852b8/" target="_blank">LinkedIn</a>
-    </p>
+    <ul>
+      <li>Email: <a href="mailto:silasmilton046@gmail.com">silasmilton046@gmail.com</a></li>
+      <li>GitHub: <a href="https://github.com/Milton511" target="_blank">Milton511</a></li>
+      <li>LinkedIn: <a href="https://linkedin.com/in/milton-silas-736a852b8" target="_blank">Milton Silas</a></li>
+    </ul>
   </section>
 
-  <footer>
+  <footer style="text-align:center; margin-bottom:20px; color:#1a1a1a;">
     © 2025 Milton Silas — Built on GitHub Pages
   </footer>
 
