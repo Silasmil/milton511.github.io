@@ -8,15 +8,42 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       max-width: 900px;
-      margin: 40px auto;
+      margin: 0 auto;
       padding: 0 20px;
       background-color: #fdfdfd;
       color: #222;
+      scroll-behavior: smooth;
     }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fdfdfd;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      margin: 0 15px;
+      color: #0d6efd;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    nav a:hover { color: #0056b3; }
+
     header {
       text-align: center;
-      margin-bottom: 30px;
+      margin: 80px 0 30px 0; /* extra top margin to avoid nav overlap */
     }
+
     header img {
       width: 120px;
       height: 120px;
@@ -25,9 +52,12 @@
       border: 3px solid #0d6efd;
       margin-bottom: 10px;
     }
+
     h1 { color: #1a1a1a; margin:0; }
     h2 { color: #0d6efd; margin-top:5px; font-weight:normal; }
+
     .button-container { text-align:center; margin:20px 0; }
+
     button {
       background-color: #0d6efd;
       color:white;
@@ -40,24 +70,38 @@
       font-weight:600;
       transition:0.3s ease;
     }
+
     button:hover { background-color:#0056b3; transform:translateY(-2px); }
+
     iframe { width:100%; height:800px; border:1px solid #ccc; border-radius:6px; margin-bottom:30px; }
   </style>
 </head>
 <body>
 
+  <!-- Navigation Menu -->
+  <nav>
+    <a href="index.html#about">About</a>
+    <a href="index.html#skills">Skills</a>
+    <a href="index.html#contact">Contact</a>
+    <a href="cv.html">CV</a>
+    <a href="coverletter.html">Cover Letter</a>
+  </nav>
+
+  <!-- Header with Profile Picture -->
   <header>
     <img src="assets/images/WhatsApp%20Image%202025-09-25%20at%203.57.45%20PM.jpeg" alt="Milton Silas">
     <h1>Milton Silas</h1>
     <h2>Curriculum Vitae</h2>
   </header>
 
+  <!-- Buttons to View / Download -->
   <div class="button-container">
     <a href="CV_MiltonSilas.pdf" target="_blank"><button>View CV</button></a>
     <a href="CV_MiltonSilas.pdf" download><button>Download CV</button></a>
     <a href="index.html"><button>Back to Home</button></a>
   </div>
 
+  <!-- Embed PDF -->
   <iframe src="CV_MiltonSilas.pdf"></iframe>
 
 </body>
