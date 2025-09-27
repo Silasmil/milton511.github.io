@@ -12,17 +12,37 @@
       padding: 0 20px;
       background-color: #fdfdfd;
       color: #222;
+    }
+    header {
       text-align: center;
+      margin-bottom: 40px;
+    }
+    header img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #0d6efd;
+      margin-bottom: 15px;
     }
     h1 {
+      margin: 0;
       color: #1a1a1a;
     }
     h2 {
+      margin-top: 5px;
       color: #0d6efd;
       font-weight: normal;
-      margin-top: 5px;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    h3 {
+      color: #0d6efd;
+      margin-bottom: 10px;
     }
     .button-container {
+      text-align: center;
       margin: 20px 0;
     }
     button {
@@ -41,22 +61,88 @@
       background-color: #0056b3;
       transform: translateY(-2px);
     }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #555;
+    }
+    a {
+      color: #0d6efd;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Milton Silas</h1>
-  <h2>Cybersecurity Analyst & Cisco Instructor</h2>
+  <!-- Header with Profile Picture -->
+  <header>
+    <img src="assets/images/WhatsApp%20Image%202025-09-25%20at%203.57.45%20PM.jpeg" alt="Milton Silas Profile Picture">
+    <h1>Milton Silas</h1>
+    <h2>Cybersecurity Analyst • Red Team Specialist • Cisco Instructor</h2>
+  </header>
 
+  <!-- Buttons to CV and Cover Letter -->
   <div class="button-container">
     <a href="cv.html"><button>View CV</button></a>
     <a href="CV_MiltonSilas.pdf" download><button>Download CV</button></a>
-  </div>
-
-  <div class="button-container">
     <a href="coverletter.html"><button>View Cover Letter</button></a>
     <a href="CoverLetter_MiltonSilas.pdf" download><button>Download Cover Letter</button></a>
   </div>
+
+  <!-- About Me Section -->
+  <section id="about">
+    <h3>About Me</h3>
+    <p>
+      I’m Milton Silas, a cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor. I bridge the gap between technical security expertise and teaching clarity.
+    </p>
+    <p>
+      My work revolves around threat detection, incident response, vulnerability assessment, and penetration testing. I build hands-on security labs and workshops to help learners move from theory to practice, making cybersecurity skills accessible to beginners and professionals alike.
+    </p>
+    <p>
+      Beyond security, I integrate design and content creation into my training — creating visuals, walkthroughs, and interactive labs that make complex topics easier to understand and apply in real-world scenarios.
+    </p>
+    <p>
+      My goal is simple: empower others to learn, practice, and grow in cybersecurity while shaping a safer digital space.
+    </p>
+  </section>
+
+  <!-- Skills & Expertise Section -->
+  <section id="skills">
+    <h3>Skills & Expertise</h3>
+    <ul>
+      <li>Threat Detection & Incident Response</li>
+      <li>Red Teaming & Ethical Hacking</li>
+      <li>Vulnerability Management & Risk Assessment</li>
+      <li>Cisco IT Essentials Training</li>
+      <li>Creating training material & hands-on labs</li>
+    </ul>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <h3>Contact</h3>
+    <p>Let’s connect:</p>
+    <p>
+      <a href="mailto:silasmilton046@gmail.com">Email</a> | 
+      <a href="https://github.com/Milton511" target="_blank">GitHub</a> | 
+      <a href="https://www.linkedin.com/in/milton-silas-736a852b8/" target="_blank">LinkedIn</a>
+    </p>
+  </section>
+
+  <footer>
+    © 2025 Milton Silas — Built on GitHub Pages
+  </footer>
 
 </body>
 </html>
