@@ -8,15 +8,18 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       max-width: 900px;
-      margin: 40px auto;
+      margin: 0 auto;
       padding: 0 20px;
       background-color: #fdfdfd;
       color: #222;
+      scroll-behavior: smooth;
     }
+
     header {
       text-align: center;
-      margin-bottom: 40px;
+      margin: 40px 0 20px 0;
     }
+
     header img {
       width: 150px;
       height: 150px;
@@ -25,26 +28,51 @@
       border: 3px solid #0d6efd;
       margin-bottom: 15px;
     }
-    h1 {
-      margin: 0;
-      color: #1a1a1a;
+
+    h1 { margin: 0; color: #1a1a1a; }
+    h2 { margin-top: 5px; color: #0d6efd; font-weight: normal; }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fdfdfd;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      z-index: 1000;
     }
-    h2 {
-      margin-top: 5px;
+
+    nav a {
+      margin: 0 15px;
       color: #0d6efd;
-      font-weight: normal;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: color 0.3s;
     }
+
+    nav a:hover {
+      color: #0056b3;
+    }
+
     section {
-      margin-bottom: 40px;
+      margin-bottom: 60px;
+      padding-top: 60px; /* offset for fixed nav */
     }
+
     h3 {
       color: #0d6efd;
       margin-bottom: 10px;
     }
+
     .button-container {
       text-align: center;
       margin: 20px 0;
     }
+
     button {
       background-color: #0d6efd;
       color: white;
@@ -57,33 +85,55 @@
       font-weight: 600;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
+
     button:hover {
       background-color: #0056b3;
       transform: translateY(-2px);
     }
+
     ul {
       list-style-type: none;
       padding-left: 0;
     }
+
     li {
       margin-bottom: 8px;
     }
+
     footer {
       text-align: center;
       margin-top: 40px;
       font-size: 14px;
       color: #555;
     }
-    a {
+
+    a.external-link {
       color: #0d6efd;
       text-decoration: none;
     }
-    a:hover {
+
+    a.external-link:hover {
       text-decoration: underline;
+    }
+
+    /* Add spacing for fixed nav */
+    body::before {
+      content: "";
+      display: block;
+      height: 60px;
     }
   </style>
 </head>
 <body>
+
+  <!-- Navigation Menu -->
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+    <a href="cv.html">CV</a>
+    <a href="coverletter.html">Cover Letter</a>
+  </nav>
 
   <!-- Header with Profile Picture -->
   <header>
@@ -134,9 +184,9 @@
     <h3>Contact</h3>
     <p>Let’s connect:</p>
     <p>
-      <a href="mailto:silasmilton046@gmail.com">Email</a> | 
-      <a href="https://github.com/Milton511" target="_blank">GitHub</a> | 
-      <a href="https://www.linkedin.com/in/milton-silas-736a852b8/" target="_blank">LinkedIn</a>
+      <a class="external-link" href="mailto:silasmilton046@gmail.com">Email</a> | 
+      <a class="external-link" href="https://github.com/Milton511" target="_blank">GitHub</a> | 
+      <a class="external-link" href="https://www.linkedin.com/in/milton-silas-736a852b8/" target="_blank">LinkedIn</a>
     </p>
   </section>
 
