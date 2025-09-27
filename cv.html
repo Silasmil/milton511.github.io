@@ -3,64 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milton Silas - CV</title>
-  <link rel="stylesheet" href="style.css"> <!-- optional: use your existing CSS -->
+  <title>Milton Silas - CV & Cover Letter</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      background-color: #fdfdfd;
+      color: #222; /* professional dark grey text */
+    }
+    h1 {
+      text-align: center;
+      color: #1a1a1a; /* darker heading */
+      margin-bottom: 0;
+    }
+    h2 {
+      text-align: center;
+      color: #0d6efd; /* professional blue */
+      margin-top: 5px;
+      font-weight: normal;
+    }
+    .button-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    button {
+      background-color: #0d6efd; /* professional blue */
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      font-weight: 600;
+    }
+    button:hover {
+      background-color: #0056b3; /* darker blue on hover */
+      transform: translateY(-2px);
+    }
+    iframe {
+      width: 100%;
+      height: 800px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 30px;
+    }
+    p {
+      color: #333; /* standard text color */
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Milton Silas</h1>
-    <h2>Cybersecurity Analyst & Cisco Instructor</h2>
-    <p>📞 0713121435 | 📧 silasmilton046@gmail.com | 📍 Kilifi, Kenya</p>
-    <p><a href="https://linkedin.com/in/milton-silas-736a852b8">LinkedIn</a> | <a href="https://milton511.github.io/">Portfolio</a></p>
-  </header>
 
-  <section>
-    <h3>Career Summary</h3>
-    <p>I am a certified cybersecurity analyst and Cisco IT Essentials instructor with strong expertise in network security, ethical hacking, and system administration. I deliver hands-on training, mentor learners, and simplify complex IT and cybersecurity concepts. My goal is to advance my expertise in cybersecurity operations and contribute to safer digital environments.</p>
-  </section>
+  <h1>Milton Silas</h1>
+  <h2>Cybersecurity Analyst & Cisco Instructor</h2>
 
-  <section>
-    <h3>Education & Certifications</h3>
-    <ul>
-      <li>Cyber Shujaa – Certificate, Cybersecurity Analyst, 2025</li>
-      <li>Cisco Networking Academy – Certificate, IT Essentials, 2025</li>
-      <li>AFRALTI – IT Essentials Course</li>
-      <li>HP Foundation – Agile Project Management Certificate</li>
-      <li>HP Foundation – Cybersecurity Awareness Certificate</li>
-      <li>Beyond Success – Leadership Development (Zicron Quarts Cohort 8)</li>
-    </ul>
-  </section>
+  <div class="button-container">
+    <!-- CV Buttons -->
+    <a href="CV_MiltonSilas.pdf" target="_blank">
+      <button>View CV</button>
+    </a>
+    <a href="CV_MiltonSilas.pdf" download>
+      <button>Download CV</button>
+    </a>
+  </div>
 
-  <section>
-    <h3>Professional Experience</h3>
-    <p><strong>Cisco Instructor & Cybersecurity Trainer – Missions of Hope International (Jan 2025 – Present)</strong></p>
-    <ul>
-      <li>Deliver IT Essentials course to learners (Grade 5–8 and adults)</li>
-      <li>Design hands-on labs, workshops, and practical exercises</li>
-      <li>Simplify complex technical concepts using interactive teaching methods</li>
-      <li>Develop training materials and guides to enhance student learning outcomes</li>
-      <li>Mentor learners to build foundational IT skills and cybersecurity awareness</li>
-    </ul>
-  </section>
+  <!-- Embed CV in iframe for viewing directly -->
+  <iframe src="CV_MiltonSilas.pdf"></iframe>
 
-  <section>
-    <h3>Skills</h3>
-    <ul>
-      <li><strong>Cybersecurity:</strong> Vulnerability Assessment, Penetration Testing, Threat Detection, Ethical Hacking, Risk Assessment, Incident Handling</li>
-      <li><strong>Networking / IT Essentials:</strong> Hardware & Software Setup, Network Configuration, Troubleshooting, System Administration</li>
-      <li><strong>Training / Teaching:</strong> Curriculum Development, Hands-on Labs, Learner Mentorship, Simplifying Technical Concepts</li>
-      <li><strong>Creative / Digital Skills:</strong> Web Development, Graphic Design, AI & ChatGPT Content Creation</li>
-      <li><strong>Soft Skills:</strong> Communication, Leadership, Attention to Detail, Problem-Solving, Positive Attitude</li>
-    </ul>
-  </section>
+  <div class="button-container">
+    <!-- Cover Letter Buttons -->
+    <a href="CoverLetter_MiltonSilas.pdf" target="_blank">
+      <button>View Cover Letter</button>
+    </a>
+    <a href="CoverLetter_MiltonSilas.pdf" download>
+      <button>Download Cover Letter</button>
+    </a>
+  </div>
 
-  <section>
-    <h3>Projects</h3>
-    <ul>
-      <li>AI Threat Detector – Python-based AI tool for detecting malicious activity (<a href="https://github.com/Milton511/ai-threat-detector">GitHub</a>)</li>
-      <li>Milton Graphics & Web Design – Portfolio website showcasing web development and cybersecurity projects (<a href="https://milton511.github.io/">Portfolio</a>)</li>
-      <li>Cybersecurity Learning Modules – Interactive exercises and guides for students on networking, hardware, and cybersecurity basics</li>
-    </ul>
-  </section>
+  <!-- Embed Cover Letter in iframe -->
+  <iframe src="CoverLetter_MiltonSilas.pdf"></iframe>
+
 </body>
 </html>
