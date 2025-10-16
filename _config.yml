@@ -1,6 +1,6 @@
 author:
   name: "Milton Silas"
-  avatar: "/assets/images/milton-profile.jpg"
+  avatar: "/assets/images/profile.jpeg"
   bio: "Cybersecurity Analyst • Red Team Specialist • Cisco Instructor"
   links:
     - label: "Email"
@@ -11,11 +11,17 @@ author:
       url: "https://github.com/Milton511"
     - label: "LinkedIn"
       icon: "fab fa-linkedin"
-      url: "https://www.linkedin.com/in/milton-silas-736a852b8"
+      url: "https://linkedin.com/in/milton-silas-736a852b8"
 
 include:
+  - index.html
   - labs.html
   - projects.html
   - cv.html
   - coverletter.html
-  - index.html
+
+markdown: kramdown
+theme: null
+exclude:
+  - Gemfile
+  - Gemfile.lock
