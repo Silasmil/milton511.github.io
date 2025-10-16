@@ -12,3 +12,5 @@ author:
     - label: "LinkedIn"
       icon: "fab fa-linkedin"
       url: "https://www.linkedin.com/in/milton-silas-736a852b8"
+include:
+  - labs.html
