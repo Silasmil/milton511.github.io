@@ -1,7 +1,8 @@
 ---
 layout: none
-permalink: /FILENAME.html
+permalink: /cv.html
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,58 +19,25 @@ permalink: /FILENAME.html
       color: #1a1a1a;
     }
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #ffffff;
-      border-bottom: 2px solid #008080;
-      display: flex;
-      justify-content: center;
-      padding: 12px 0;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; width: 100%;
+      background-color: #ffffff; border-bottom: 2px solid #008080;
+      display: flex; justify-content: center; padding: 12px 0; z-index: 1000;
     }
-    nav a {
-      margin: 0 15px;
-      color: #008080;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-    }
+    nav a { margin: 0 15px; color: #008080; text-decoration: none; font-weight: 600; }
     nav a:hover { color: #FF6600; }
-    header {
-      text-align: center;
-      margin: 100px 0 30px 0;
-    }
-    header img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 3px solid #008080;
-      margin-bottom: 10px;
-    }
-    h1 { color: #1a1a1a; margin:0; }
-    h2 { color: #008080; margin-top:5px; font-weight:normal; }
-    .button-container { text-align:center; margin:20px 0; }
+    header { text-align: center; margin: 100px 0 30px 0; }
+    header img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #008080; margin-bottom: 10px; }
+    .button-container { text-align: center; margin: 20px 0; }
     button {
-      background-color: #008080;
-      color:white;
-      border:none;
-      padding:12px 24px;
-      margin:10px;
-      font-size:16px;
-      cursor:pointer;
-      border-radius:6px;
-      font-weight:600;
-      transition:0.3s ease;
+      background-color: #008080; color: white; border: none;
+      padding: 12px 24px; margin: 10px; font-size: 16px;
+      cursor: pointer; border-radius: 6px; font-weight: 600; transition: 0.3s ease;
     }
-    button:hover { background-color:#005555; transform:translateY(-2px); }
-    iframe { width:100%; height:800px; border:1px solid #ccc; border-radius:6px; margin-bottom:30px; }
+    button:hover { background-color: #005555; transform: translateY(-2px); }
+    iframe { width: 100%; height: 800px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 30px; }
   </style>
 </head>
 <body>
-
-  <!-- Navigation -->
   <nav>
     <a href="index.html#about">About</a>
     <a href="index.html#skills">Skills</a>
@@ -78,22 +46,18 @@ permalink: /FILENAME.html
     <a href="coverletter.html">Cover Letter</a>
   </nav>
 
-  <!-- Header -->
   <header>
     <img src="assets/images/profile.jpeg" alt="Milton Silas">
     <h1>Milton Silas</h1>
     <h2>Curriculum Vitae</h2>
   </header>
 
-  <!-- Buttons -->
   <div class="button-container">
     <a href="CV_MiltonSilas.pdf" target="_blank"><button>View CV</button></a>
     <a href="CV_MiltonSilas.pdf" download><button>Download CV</button></a>
     <a href="index.html"><button>Back to Home</button></a>
   </div>
 
-  <!-- Embedded PDF -->
   <iframe src="CV_MiltonSilas.pdf"></iframe>
-
 </body>
 </html>
