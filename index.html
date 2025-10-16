@@ -1,7 +1,8 @@
 ---
 layout: none
-permalink: /FILENAME.html
+permalink: /
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +21,7 @@ permalink: /FILENAME.html
     }
     html,body{height:100%;}
     body{
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       max-width:var(--maxw);
       margin:0 auto;
       padding:0 20px 60px;
@@ -34,31 +35,25 @@ permalink: /FILENAME.html
     }
     nav a{margin:0 14px;color:var(--teal);text-decoration:none;font-weight:600;font-size:15px;transition:color .2s}
     nav a:hover{color:var(--accent)}
-    header{ text-align:center; margin:100px 0 30px 0 }
-    header img{ width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid var(--teal);margin-bottom:12px }
-    h1{ margin:0; font-size:28px }
-    h2{ margin:6px 0 0 0;color:var(--teal);font-weight:500;font-size:16px }
-    section{ margin-bottom:44px }
-    h3{ color:var(--accent); margin-bottom:8px }
-    p.lead{ max-width:760px; margin:8px auto; color:var(--muted) }
-    .button-container{ text-align:center;margin-top:14px }
-    .btn{ background:var(--teal); color:#fff; border:none; padding:10px 18px; margin:8px; font-size:15px; cursor:pointer; border-radius:6px; font-weight:600; text-decoration:none; display:inline-block }
-    .btn:hover{ background:var(--teal-dark); transform:translateY(-2px) }
-    ul{ list-style:none; padding-left:0 }
-    li{ margin-bottom:8px }
-    .card{ background:var(--card-bg); padding:16px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.04); margin:10px 0 }
-    .meta{ color:var(--muted); font-size:14px }
-    footer{ text-align:center; margin-top:8px; color:var(--muted); font-size:13px }
-    /* responsive */
-    @media (max-width:640px){
-      header img{width:110px;height:110px}
-      nav a{font-size:14px;margin:0 8px}
-    }
+    header{text-align:center;margin:100px 0 30px 0}
+    header img{width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid var(--teal);margin-bottom:12px}
+    h1{margin:0;font-size:28px}
+    h2{margin:6px 0 0 0;color:var(--teal);font-weight:500;font-size:16px}
+    section{margin-bottom:44px}
+    h3{color:var(--accent);margin-bottom:8px}
+    p.lead{max-width:760px;margin:8px auto;color:var(--muted)}
+    .button-container{text-align:center;margin-top:14px}
+    .btn{background:var(--teal);color:#fff;border:none;padding:10px 18px;margin:8px;font-size:15px;cursor:pointer;border-radius:6px;font-weight:600;text-decoration:none;display:inline-block}
+    .btn:hover{background:var(--teal-dark);transform:translateY(-2px)}
+    ul{list-style:none;padding-left:0}
+    li{margin-bottom:8px}
+    .card{background:var(--card-bg);padding:16px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.04);margin:10px 0}
+    .meta{color:var(--muted);font-size:14px}
+    footer{text-align:center;margin-top:8px;color:var(--muted);font-size:13px}
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
   <nav>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
@@ -68,7 +63,6 @@ permalink: /FILENAME.html
     <a href="cv.html">CV</a>
   </nav>
 
-  <!-- Header / Hero -->
   <header>
     <img src="assets/images/profile.jpeg" alt="Milton Silas">
     <h1>Milton Silas</h1>
@@ -82,13 +76,11 @@ permalink: /FILENAME.html
     <p class="lead">I build hands-on security labs, deliver practical training, and perform red-team assessments. I translate technical security topics into actionable learning for students and teams.</p>
   </header>
 
-  <!-- About -->
   <section id="about" class="card">
     <h3>About Me</h3>
-    <p>I’m Milton Silas, a cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor. I design labs and workshops that move learners from theory to practice. I conduct vulnerability assessments, develop training materials, and build simple tools to automate security tasks.</p>
+    <p>I’m Milton Silas, a cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor. I design labs and workshops that move learners from theory to practice.</p>
   </section>
 
-  <!-- Skills -->
   <section id="skills" class="card">
     <h3>Skills & Expertise</h3>
     <ul>
@@ -98,66 +90,34 @@ permalink: /FILENAME.html
       <li>Cisco IT Essentials Training & Lab Design</li>
       <li>Python, Bash, Nmap, Wireshark, Metasploit, Kali Linux</li>
     </ul>
-    <p class="meta">Certifications: Cyber Shujaa (2025) · Cisco IT Essentials · Hack The Box / TryHackMe achievements</p>
   </section>
 
-  <!-- Projects preview -->
   <section id="projects" class="card">
     <h3>Selected Projects</h3>
-
     <div>
       <strong>AI Threat Detector</strong>
       <div class="meta">Python · ML · Log analysis · GitHub</div>
-      <p>Python tool that analyses network logs to identify anomalous activity. Uses feature extraction from logs and simple ML classifiers to flag suspicious behaviour. (See full repo on GitHub.)</p>
+      <p>Python tool that analyses network logs to identify anomalies and threats.</p>
     </div>
-
-    <div style="margin-top:12px">
-      <strong>Milton Graphics & Web Design</strong>
-      <div class="meta">HTML/CSS · JavaScript · Design · GitHub Pages</div>
-      <p>Portfolio site for design and web projects. Focus on secure, responsive design and visual branding.</p>
-    </div>
-
-    <div style="margin-top:12px">
-      <strong>Security Audit for Small Business</strong>
-      <div class="meta">Nmap · Nessus · Burp Suite · Firewall hardening</div>
-      <p>End-to-end assessment for a local web-hosting startup. Identified misconfigurations and reduced vulnerability scores by 40% after remediation.</p>
-    </div>
-
     <div class="button-container">
       <a class="btn" href="projects.html">Open Projects Page</a>
     </div>
   </section>
 
-  <!-- Lab Challenges preview -->
   <section id="labs" class="card">
-    <h3>Lab Challenges & Reports</h3>
-    <div>
-      <strong>Hack The Box — Introduction to Networking</strong>
-      <div class="meta">Networking · Wireshark · Nmap · Aircrack-ng</div>
-      <p>Lab report covering OSI/TCP-IP, subnetting, VLANs, VPNs and protocol hardening. Practical exercises and a summary report available on the Labs page.</p>
-    </div>
-
-    <div style="margin-top:12px">
-      <strong>TryHackMe — Python Basics</strong>
-      <div class="meta">Python · Automation · File ops</div>
-      <p>Room exercises and projects. Focus on scripting for automation and building small security utilities. See detailed write-up on Labs page.</p>
-    </div>
-
+    <h3>Lab Challenges</h3>
+    <p>Explore my CTF write-ups and security lab reports.</p>
     <div class="button-container">
       <a class="btn" href="labs.html">Open Labs Page</a>
     </div>
   </section>
 
-  <!-- Contact -->
   <section id="contact" class="card">
     <h3>Contact</h3>
-    <p>Let’s connect:</p>
     <ul>
       <li>Email: <a href="mailto:silasmilton046@gmail.com">silasmilton046@gmail.com</a></li>
-      <li>Phone: +254 713 121 435</li>
-      <li>GitHub: <a href="https://github.com/Milton511" target="_blank">github.com/Milton511</a></li>
+      <li>GitHub: <a href="https://github.com/Milton511" target="_blank">Milton511</a></li>
       <li>LinkedIn: <a href="https://linkedin.com/in/milton-silas-736a852b8" target="_blank">Milton Silas</a></li>
-      <li>Portfolio: <a href="https://milton511.github.io" target="_blank">milton511.github.io</a></li>
     </ul>
   </section>
 
