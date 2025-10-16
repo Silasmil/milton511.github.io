@@ -9,113 +9,32 @@ permalink: /labs.html
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Lab Challenges — Milton Silas</title>
   <style>
-    body{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width:1000px;margin:0 auto;padding:20px;background:#fdfdfd;color:#111 }
-    header{ margin:20px 0 }
-    a{ color:#008080; text-decoration:none }
-    .back{ display:inline-block;margin-bottom:8px }
-    .card{ background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.04); margin:14px 0 }
-    h1{ margin:0 }
-    h2{ color:#008080; font-weight:500 }
-    h3{ color:#FF6600 }
-    .meta{ color:#666; font-size:14px }
-    .screenshot{ width:100%; max-width:800px; border-radius:6px; margin-top:10px; display:block }
-    pre{ background:#111;padding:12px;color:#fff;border-radius:6px; overflow:auto }
-    footer{ text-align:center;color:#666;margin-top:18px;font-size:13px }
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;max-width:1000px;margin:0 auto;padding:20px;background:#fdfdfd;color:#111}
+    a{color:#008080;text-decoration:none}
+    .card{background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.04);margin:14px 0}
+    .meta{color:#666;font-size:14px}
+    h2{color:#008080}
+    h3{color:#FF6600}
+    footer{text-align:center;color:#666;margin-top:18px;font-size:13px}
   </style>
 </head>
 <body>
-
-  <a class="back" href="index.html">← Back to Home</a>
+  <a href="index.html">← Back to Home</a>
   <header>
     <h1>Lab Challenges & Writeups</h1>
-    <p class="meta">Selected lab reports and CTF/room writeups. Each entry includes problem statement, approach, tools used, screenshots (where applicable), and lessons learned.</p>
+    <p class="meta">Selected lab reports and CTF writeups.</p>
   </header>
 
-  <!-- Hack The Box Networking -->
-  <section class="card" id="htb-networking">
-    <h2>Hack The Box · Introduction to Networking</h2>
-    <div class="meta">Completed: October 14, 2025 · Tools: Wireshark, Nmap, Aircrack-ng</div>
-
-    <h3>Problem Statement</h3>
-    <p>Understand core networking models and apply packet analysis, subnetting and protocol inspection to identify weaknesses and hardening steps.</p>
-
-    <h3>Approach</h3>
-    <ol>
-      <li>Reviewed OSI and TCP/IP models and mapped lab tasks to layers.</li>
-      <li>Captured traffic in Wireshark and analysed PDUs to identify anomalies.</li>
-      <li>Performed subnetting exercises and designed segmentation examples.</li>
-      <li>Tested wireless security with Aircrack-ng in controlled lab environment.</li>
-    </ol>
-
-    <h3>Tools Used</h3>
-    <ul>
-      <li>Wireshark</li>
-      <li>Nmap</li>
-      <li>Aircrack-ng</li>
-    </ul>
-
-    <h3>Key Findings & Lessons</h3>
-    <ul>
-      <li>Segmentation prevents lateral movement. Proper /25 or /27 planning reduces exposure.</li>
-      <li>ARP spoofing can be mitigated with DAI and static ARP entries.</li>
-      <li>Wireless audits must include both configuration checks and handshake captures for robust assessment.</li>
-    </ul>
-
-    <h3>Screenshots / Evidence</h3>
-    <p>If you want, replace the placeholders below with screenshots from your reports or Wireshark captures.</p>
-    <img src="assets/images/htb-sample-1.png" alt="HTB Wireshark sample" class="screenshot" onerror="this.style.display='none'">
-    <p class="meta">Report file: <a href="Milton_Silas_CS-SA11-24018.pdf" target="_blank">Milton_Silas_CS-SA11-24018.pdf</a></p>
-  </section>
-
-  <!-- TryHackMe Python Basics -->
-  <section class="card" id="thm-python">
-    <h2>TryHackMe · Python Basics</h2>
-    <div class="meta">Room: Python Basics · Tools: Python interpreter, code editor</div>
-
-    <h3>Problem Statement</h3>
-    <p>Learn core Python concepts to automate tasks and build small utilities useful in security workflows.</p>
-
-    <h3>Approach</h3>
-    <ol>
-      <li>Completed guided exercises: Hello World, operators, loops, functions and file I/O.</li>
-      <li>Built small projects: shipping cost calculator and Bitcoin value monitor.</li>
-      <li>Applied scripting to parse logs and automate small analysis tasks.</li>
-    </ol>
-
-    <h3>Tools Used</h3>
-    <ul>
-      <li>Python 3</li>
-      <li>VS Code / editor</li>
-    </ul>
-
-    <h3>Key Lessons</h3>
-    <ul>
-      <li>Scripting reduces manual workload for repetitive tasks like log parsing and report generation.</li>
-      <li>Functions and modular code improve reusability when building security tools.</li>
-    </ul>
-
-    <h3>Screenshots / Evidence</h3>
-    <img src="assets/images/thm-python-1.png" alt="TryHackMe Python screenshot" class="screenshot" onerror="this.style.display='none'">
-    <p class="meta">Report file: <a href="Milton_Silas_cs-sa11-24018 (3).pdf" target="_blank">Python Basics Room Report (PDF)</a></p>
-  </section>
-
-  <!-- How to include more labs -->
   <section class="card">
-    <h2>How to add more labs</h2>
-    <p>For each additional lab or CTF challenge include:</p>
-    <ul>
-      <li>Problem statement</li>
-      <li>Step-by-step approach</li>
-      <li>Tools used</li>
-      <li>Screenshots or commands and outputs</li>
-      <li>Key lessons learned</li>
-    </ul>
-    <p class="meta">Tip: Add 1–2 screenshots per lab. Commit the PDF or image evidence in `assets/reports/` and link from this page.</p>
+    <h2>Hack The Box — Networking</h2>
+    <p>Report: <a href="Milton_Silas_CS-SA11-24018.pdf" target="_blank">Download PDF</a></p>
   </section>
 
-  <footer>
-    © 2025 Milton Silas — <a href="index.html">Back to Home</a>
-  </footer>
+  <section class="card">
+    <h2>TryHackMe — Python Basics</h2>
+    <p>Report: <a href="Milton_Silas_cs-sa11-24018 (3).pdf" target="_blank">Download PDF</a></p>
+  </section>
 
+  <footer>© 2025 Milton Silas — <a href="index.html">Back to Home</a></footer>
 </body>
 </html>
