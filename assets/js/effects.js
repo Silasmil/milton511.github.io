@@ -1,32 +1,32 @@
-// Dark / Light Toggle
-const toggleBtn = document.getElementById("themeToggle");
-if(toggleBtn){
-  toggleBtn.addEventListener("click", ()=>{
-    document.body.classList.toggle("light");
-    const isLight = document.body.classList.contains("light");
-    localStorage.setItem("theme", isLight ? "light":"dark");
-    toggleBtn.textContent = isLight ? "☀️":"🌙";
-  });
-  const savedTheme = localStorage.getItem("theme");
-  if(savedTheme==="light"){
-    document.body.classList.add("light");
-    toggleBtn.textContent="☀️";
+// ==========================
+// DARK / LIGHT TOGGLE
+// ==========================
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  if(document.body.classList.contains('dark-mode')) {
+    themeToggle.textContent = '☀️';
+  } else {
+    themeToggle.textContent = '🌙';
   }
+});
+
+// ==========================
+// SCROLL REVEAL FOR SECTIONS
+// ==========================
+const revealElements = document.querySelectorAll('.reveal');
+
+function revealOnScroll() {
+  const windowHeight = window.innerHeight;
+  revealElements.forEach(el => {
+    const elementTop = el.getBoundingClientRect().top;
+    const revealPoint = 150;
+    if(elementTop < windowHeight - revealPoint){
+      el.style.opacity = 1;
+      el.style.transform = 'translateY(0)';
+    }
+  });
 }
 
-// Scroll Reveal
-function reveal(){
-  const reveals=document.querySelectorAll(".reveal");
-  for(let i=0;i<reveals.length;i++){
-    const windowHeight=window.innerHeight;
-    const elementTop=reveals[i].getBoundingClientRect().top;
-    const elementVisible=100;
-    if(elementTop<windowHeight-elementVisible){
-      reveals[i].classList.add("active");
-    }else{
-      reveals[i].classList.remove("active");
-    }
-  }
-}
-window.addEventListener("scroll",reveal);
-window.addEventListener("load",reveal);
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
