@@ -1,114 +1,175 @@
-:root{
-  --bg:#0b0f14;
-  --text:#eaeaea;
-  --glass-bg: rgba(255,255,255,0.12);
-  --glass-border: rgba(255,255,255,0.25);
-  --accent: #00b3b3;
-  --blur: blur(14px);
+/* ==========================
+   VARIABLES
+=========================== */
+:root {
+  --teal: #008080;
+  --teal-dark: #005555;
+  --accent: #FF6600;
+  --bg-light: #fdfdfd;
+  --bg-dark: #121212;
+  --text-light: #111;
+  --text-dark: #f5f5f5;
+  --glass-bg-light: rgba(255, 255, 255, 0.25);
+  --glass-bg-dark: rgba(0, 0, 0, 0.25);
+  --card-radius: 12px;
+  --card-padding: 18px;
+  --transition: 0.3s ease;
 }
 
-body.light {
-  --bg:#f5f7fa;
-  --text:#111;
-  --glass-bg: rgba(255,255,255,0.75);
-  --glass-border: rgba(0,0,0,0.1);
-  --accent:#006666;
-}
-
-body{
-  background: var(--bg);
-  color: var(--text);
+/* ==========================
+   GLOBAL STYLES
+=========================== */
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin:0;
-  padding:0 20px 60px;
+  margin: 0;
+  padding: 0 20px 60px;
+  background-color: var(--bg-light);
+  color: var(--text-light);
   scroll-behavior: smooth;
-  transition: background 0.4s ease, color 0.4s ease;
+  transition: background-color var(--transition), color var(--transition);
 }
 
-nav{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  background:var(--glass-bg);
-  backdrop-filter: var(--blur);
-  border-bottom:2px solid var(--glass-border);
-  display:flex;
-  justify-content:center;
-  padding:12px 0;
-  z-index:1000;
+nav {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  background-color: var(--glass-bg-light);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--teal);
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+  z-index: 1000;
+  transition: background-color var(--transition);
 }
 
-nav a, nav button{
-  margin:0 14px;
-  color:var(--text);
-  text-decoration:none;
-  font-weight:600;
-  font-size:15px;
-  transition: color .2s;
-  background:none;
-  border:none;
-  cursor:pointer;
+nav a {
+  margin: 0 14px;
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: color var(--transition);
 }
 
-nav a:hover{color:var(--accent);}
-nav button:hover{transform:scale(1.1);}
+nav a:hover { color: var(--accent); }
 
-header.glass, section.glass{
-  background:var(--glass-bg);
-  backdrop-filter:var(--blur);
-  border-radius:12px;
-  padding:30px;
-  margin:90px auto 30px auto;
-  max-width:900px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.1);
-  transition: all 0.4s ease;
-  opacity:0;
-  transform:translateY(20px);
+button#themeToggle {
+  margin-left: 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 18px;
+  color: var(--teal);
+  transition: color var(--transition);
 }
 
-header img{
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  border:3px solid var(--accent);
-  object-fit:cover;
-  margin-bottom:12px;
+button#themeToggle:hover { color: var(--accent); }
+
+/* ==========================
+   GLASS HEADER & SECTIONS
+=========================== */
+header.glass, section.glass {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(15px);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  margin: 100px auto 40px auto;
+  max-width: 1000px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  transition: background var(--transition), transform var(--transition);
 }
 
-h1{margin:0;font-size:28px;}
-h2{margin:6px 0 0 0;color:var(--accent);font-weight:500;font-size:16px;}
-h3{color:var(--accent);margin-bottom:12px;}
-
-.lead{max-width:760px;margin:8px auto;color:var(--text);}
-ul{list-style:none;padding-left:0;}
-li{margin-bottom:8px;}
-.button-container{text-align:center;margin-top:14px;}
-.btn{
-  background:var(--accent);
-  color:#fff;
-  border:none;
-  padding:10px 18px;
-  margin:8px;
-  font-size:15px;
-  cursor:pointer;
-  border-radius:6px;
-  font-weight:600;
-  text-decoration:none;
-  display:inline-block;
-  transition:0.3s;
+section.glass.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
-.btn:hover{background:#009999; transform:translateY(-2px);}
 
-footer{text-align:center;margin-top:20px;color:var(--text);font-size:13px;}
-
-/* Scroll Reveal */
-.reveal{
-  opacity:0;
-  transform:translateY(20px);
-  transition:all 0.6s ease;
+/* ==========================
+   GRID & CARDS
+=========================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
-.reveal.active{
-  opacity:1;
-  transform:translateY(0);
+
+.card {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(15px);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: var(--card-radius);
+  margin-bottom: 12px;
+}
+
+.card h3 { margin-bottom: 6px; }
+.card p { font-size: 14px; color: #555; }
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ==========================
+   BUTTONS
+=========================== */
+.btn {
+  display: inline-block;
+  background: var(--teal);
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 18px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn:hover {
+  background: var(--teal-dark);
+  transform: translateY(-2px);
+}
+
+/* ==========================
+   FOOTER
+=========================== */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* ==========================
+   DARK MODE
+=========================== */
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode nav {
+  background: var(--glass-bg-dark);
+}
+
+body.dark-mode .glass {
+  background: var(--glass-bg-dark);
+}
+
+body.dark-mode .card {
+  background: var(--glass-bg-dark);
+}
+
+body.dark-mode .btn {
+  background: var(--teal);
 }
