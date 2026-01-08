@@ -1,7 +1,7 @@
 author:
   name: "Milton Silas"
   avatar: "/assets/images/profile.jpeg"
-  bio: "Cybersecurity Analyst • Red Team Specialist • Cisco Instructor"
+  bio: "Cybersecurity Analyst • API & Web Application Security • Cisco Instructor"
   links:
     - label: "Email"
       icon: "fas fa-envelope"
@@ -15,6 +15,7 @@ author:
 
 include:
   - index.html
+  - roadmap.html
   - labs.html
   - projects.html
   - cv.html
@@ -22,6 +23,7 @@ include:
 
 markdown: kramdown
 theme: null
+
 exclude:
   - Gemfile
   - Gemfile.lock
