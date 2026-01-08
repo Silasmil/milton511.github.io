@@ -6,196 +6,44 @@ permalink: /roadmap.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>2026 Cybersecurity Roadmap | Milton Silas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <style>
-    :root{
-      --teal:#008080;
-      --teal-dark:#005555;
-      --accent:#FF6600;
-      --bg:#fdfdfd;
-      --card:#ffffff;
-      --muted:#555;
-      --maxw:1000px;
-    }
-
-    html{scroll-behavior:smooth;}
-    body{
-      font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
-      margin:0 auto;
-      padding:0 20px 60px;
-      max-width:var(--maxw);
-      background:var(--bg);
-      color:#111;
-    }
-
-    nav{
-      position:fixed;
-      top:0; left:0;
-      width:100%;
-      background:var(--card);
-      border-bottom:2px solid var(--teal);
-      display:flex;
-      justify-content:center;
-      padding:12px 0;
-      z-index:1000;
-    }
-
-    nav a{
-      margin:0 14px;
-      color:var(--teal);
-      text-decoration:none;
-      font-weight:600;
-      font-size:15px;
-      transition:color .2s ease;
-    }
-
-    nav a:hover{color:var(--accent);}
-
-    header{
-      text-align:center;
-      margin:110px 0 40px;
-    }
-
-    h1{margin-bottom:6px;}
-    h2{color:var(--teal);margin-top:0;}
-
-    section{
-      background:var(--card);
-      padding:22px;
-      border-radius:12px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.04);
-      margin-bottom:28px;
-      opacity:0;
-      transform:translateY(12px);
-      animation:fadeIn .6s ease forwards;
-    }
-
-    @keyframes fadeIn{
-      to{opacity:1;transform:none;}
-    }
-
-    ul{padding-left:18px;}
-    li{margin-bottom:8px;}
-
-    blockquote{
-      border-left:4px solid var(--accent);
-      padding-left:14px;
-      color:var(--muted);
-      font-style:italic;
-    }
-
-    footer{
-      text-align:center;
-      margin-top:20px;
-      color:var(--muted);
-      font-size:13px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 Roadmap — Milton Silas</title>
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
-
 <body>
 
 <nav>
   <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="skills.html">Skills</a>
   <a href="projects.html">Projects</a>
   <a href="labs.html">Labs</a>
-  <a href="roadmap.html">Roadmap</a>
+  <a href="contact.html">Contact</a>
   <a href="cv.html">CV</a>
+  <button id="themeToggle">🌙</button>
 </nav>
 
-<header>
-  <h1>🚀 2026 Cybersecurity Learning Roadmap</h1>
-  <h2>Milton Silas — API & Web Application Security</h2>
+<header class="glass reveal">
+  <h1>2026 Cybersecurity Learning Roadmap</h1>
+  <p>Public roadmap showing hands-on API & Web App security journey.</p>
+  <a class="btn" href="index.html">Back to Home</a>
 </header>
 
-<section>
-  <h3>Background (Context, Not Excuses)</h3>
+<section class="glass reveal">
+  <h3>Knowledge Pillars</h3>
   <ul>
-    <li>Completed secondary school at 17</li>
-    <li>No traditional college pathway</li>
-    <li>Skills built through labs, mentorship, and disciplined self-study</li>
-    <li>Entered a professional cybersecurity role within one year</li>
-    <li><strong>2026 focus:</strong> API Security, Web App Security, Practical Defense</li>
+    <li>Q1: Foundations — Networking, Linux, Security Principles</li>
+    <li>Q2: Web & API Security — OWASP, REST/GraphQL, Auth</li>
+    <li>Q3: Advanced API Testing — Manual attacks, OAuth/JWT</li>
+    <li>Q4: Defensive Thinking — Logging, monitoring, DevSecOps</li>
   </ul>
 </section>
 
-<section>
-  <h3>Core Theme for 2026</h3>
-  <blockquote>
-    Secure the interfaces that power modern systems.
-  </blockquote>
-  <p>
-    APIs power cloud, mobile, fintech, and AI platforms.
-    My goal is deep, practical expertise in identifying, exploiting, and helping fix real-world API and web vulnerabilities.
-  </p>
-</section>
-
-<section>
-  <h3>Q1 2026 — Foundations</h3>
-  <ul>
-    <li>HTTP/1.1, HTTP/2, TLS, DNS</li>
-    <li>Linux internals & CLI fluency</li>
-    <li>CIA triad, threat modeling, risk</li>
-    <li>ISC2 CC & GRC fundamentals</li>
-  </ul>
-</section>
-
-<section>
-  <h3>Q2 2026 — Web & API Security Core</h3>
-  <ul>
-    <li>OWASP Top 10 (Web & API)</li>
-    <li>REST vs GraphQL security</li>
-    <li>IDOR, BOLA/BFLA, auth failures</li>
-    <li>Rate limiting & logic abuse</li>
-    <li>Burp Suite, Postman, curl, JWT</li>
-  </ul>
-</section>
-
-<section>
-  <h3>Q3 2026 — Advanced API Exploitation</h3>
-  <ul>
-    <li>Manual abuse chains</li>
-    <li>OAuth 2.0 & JWT attacks</li>
-    <li>Cache poisoning & request smuggling</li>
-    <li>Microservices security flaws</li>
-  </ul>
-</section>
-
-<section>
-  <h3>Q4 2026 — Defensive & Blue-Team Thinking</h3>
-  <ul>
-    <li>API logging & monitoring</li>
-    <li>Detection strategies</li>
-    <li>Secure API design</li>
-    <li>DevSecOps collaboration</li>
-  </ul>
-</section>
-
-<section>
-  <h3>How I Learn</h3>
-  <ul>
-    <li>Learn → Break → Fix → Teach</li>
-    <li>Daily labs (even short sessions)</li>
-    <li>Document everything on GitHub</li>
-    <li>One domain at a time</li>
-  </ul>
-</section>
-
-<section>
-  <h3>2026 Identity</h3>
-  <p>
-    <strong>Cybersecurity Analyst (Practice-Focused)</strong><br>
-    API & Web Application Security<br>
-    Self-Taught • Disciplined • Lab-Driven
-  </p>
-</section>
-
-<footer>
-  © 2026 Milton Silas — Built on GitHub Pages
+<footer class="glass">
+  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
 </footer>
 
+<script src="assets/js/effects.js"></script>
 </body>
 </html>
