@@ -1,13 +1,14 @@
 ---
 layout: none
-permalink: /labs/
+permalink: /labs.html
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Lab Challenges — Milton Silas</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labs — Milton Silas</title>
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -17,44 +18,31 @@ permalink: /labs/
   <a href="about.html">About</a>
   <a href="skills.html">Skills</a>
   <a href="projects.html">Projects</a>
+  <a href="roadmap.html">Roadmap</a>
   <a href="contact.html">Contact</a>
+  <a href="cv.html">CV</a>
   <button id="themeToggle">🌙</button>
 </nav>
 
-<header class="glass">
-  <h1>Lab Challenges & Write-Ups</h1>
-  <p>Hands-on exercises, CTFs, and vulnerable environment walkthroughs</p>
+<header class="glass reveal">
+  <h1>Lab Challenges & Writeups</h1>
+  <p>Explore my CTF write-ups and security lab reports with thumbnails.</p>
+  <a class="btn" href="index.html">Back to Home</a>
 </header>
 
-<main>
-  <section class="glass reveal">
-    <div class="grid">
-      <div class="card">
-        <img src="assets/images/htb.png" alt="Hack The Box">
-        <h3>Hack The Box — Networking</h3>
-        <p>Networking lab walkthrough and vulnerability report.</p>
-        <a class="btn" href="writeups/htb-networking.html">View Write-Up</a>
-      </div>
-
-      <div class="card">
-        <img src="assets/images/tryhackme.png" alt="TryHackMe Python">
-        <h3>TryHackMe — Python Basics</h3>
-        <p>Basic Python and security scripting exercises.</p>
-        <a class="btn" href="writeups/tryhackme-python.html">View Write-Up</a>
-      </div>
-
-      <div class="card">
-        <img src="assets/images/api-lab.png" alt="API Security Lab">
-        <h3>API Security Lab</h3>
-        <p>Manual API testing, OAuth flaws, JWT attacks.</p>
-        <a class="btn" href="writeups/api-lab.html">View Write-Up</a>
-      </div>
-    </div>
+<main class="grid reveal">
+  <section class="glass card">
+    <h3>Hack The Box — Networking</h3>
+    <a href="writeups/HackTheBox_Networking.pdf" target="_blank"><img src="assets/images/lab1-thumb.png" alt="Hack The Box Lab"></a>
+  </section>
+  <section class="glass card">
+    <h3>TryHackMe — Python Basics</h3>
+    <a href="writeups/THM_Python.pdf" target="_blank"><img src="assets/images/lab2-thumb.png" alt="TryHackMe Lab"></a>
   </section>
 </main>
 
-<footer>
-  <a href="index.html">Back to Home</a> | © 2026 Milton Silas
+<footer class="glass">
+  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
 </footer>
 
 <script src="assets/js/effects.js"></script>
