@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Milton Silas - CV</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background: #f4f4f4; color: #333; }
+    h1, h2, h3 { color: #1a1a1a; }
+    h1 { font-size: 2em; margin-bottom: 5px; }
+    h2 { font-size: 1.5em; margin-top: 25px; }
+    h3 { font-size: 1.2em; margin-top: 20px; }
+    section { background: #fff; padding: 20px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    ul { list-style-type: disc; padding-left: 20px; }
+    a { color: #1a73e8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<section>
+  <h1>MILTON SILAS</h1>
+  <p>Kilifi, Kenya | 0713121435 | <a href="mailto:silasmilton046@gmail.com">silasmilton046@gmail.com</a> | 
+  <a href="https://linkedin.com/in/milton-silas-736a852b8" target="_blank">LinkedIn</a> | 
+  <a href="https://milton511.github.io" target="_blank">Portfolio</a></p>
+</section>
+
+<section>
+  <h2>PROFESSIONAL SUMMARY</h2>
+  <p>Cybersecurity Analyst, Red Team Specialist, and Cisco Instructor with hands-on experience delivering 
+  <strong>penetration testing, vulnerability assessments, network security, risk management, and AI-driven automation solutions</strong>. 
+  Founder of a cybersecurity & AI advisory startup, providing practical solutions to SMEs and institutions to improve digital resilience. 
+  Skilled in <strong>ethical hacking, threat detection, incident response, and cybersecurity education</strong>, with a track record of delivering measurable outcomes.</p>
+</section>
+
+<section>
+  <h2>TOP SKILLS & EXPERTISE</h2>
+  <ul>
+    <li><strong>Penetration Testing:</strong> Conducted red team exercises and lab-based simulations to identify vulnerabilities and provide actionable remediation.</li>
+    <li><strong>Vulnerability Assessment & Threat Detection:</strong> Performed assessments for multiple clients, mitigating security risks through structured risk analysis and reporting.</li>
+    <li><strong>Cybersecurity Training & Mentorship:</strong> Designed and delivered IT and cybersecurity courses, labs, and exercises for students and professionals, improving hands-on skills.</li>
+    <li><strong>Network & System Security:</strong> Configured and monitored networks, hardware, and systems to maintain secure environments, leveraging tools like Nmap, Wireshark, Metasploit, and Packet Tracer.</li>
+    <li><strong>AI & Security Automation:</strong> Implemented AI-based workflows to streamline threat detection and risk analysis processes using ChatGPT, Gemini, Claude, and GitHub Copilot.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>EDUCATION</h2>
+  <ul>
+    <li><strong>Cisco Networking Academy:</strong> IT Essentials, Ethical Hacking, Introduction to Cybersecurity, Introduction to AI</li>
+    <li><strong>HP Foundation:</strong> Agile Project Management, Cybersecurity Awareness</li>
+    <li><strong>Cyber Shujaa:</strong> Cybersecurity Analyst (2025)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>CERTIFICATIONS</h2>
+  <ul>
+    <li>Cybersecurity Analyst – Cyber Shujaa (2025)</li>
+    <li>Ethical Hacker – Cisco Networking Academy</li>
+    <li>Certified Web Security Expert – HACKVISER</li>
+    <li>Certified Associate Penetration Tester – HACKVISER</li>
+    <li>Introduction to AI – Cisco NetAcad</li>
+    <li>Data Analytics Essentials – Cisco NetAcad</li>
+    <li>Agile Project Management – HP Foundation</li>
+    <li>Cybersecurity Awareness – HP Foundation</li>
+    <li>Getting Started with Cisco Packet Tracer – Cisco NetAcad</li>
+    <li>(ISC)² Certified in Cybersecurity – In Progress (Exam: 17th April 2026)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>EXPERIENCE</h2>
+  <h3>Self-Employed | Founder & Cybersecurity Consultant | 2026 – Present</h3>
+  <ul>
+    <li>Delivered cybersecurity awareness workshops and risk assessments for SMEs, schools, hospitals, and public institutions across Kenya.</li>
+    <li>Conducted vulnerability assessments and provided actionable recommendations, resulting in measurable reduction of client security risks.</li>
+    <li>Developed scalable service packages to optimize security outcomes and ROI for diverse clients.</li>
+  </ul>
+
+  <h3>Missions of Hope International | Cisco Instructor & Cybersecurity Trainer | Jan 2025 – Present</h3>
+  <ul>
+    <li>Delivered IT Essentials, networking, and cybersecurity courses to students (Grades 5–8) and adult learners.</li>
+    <li>Designed hands-on labs and interactive exercises, bridging theory and real-world cybersecurity applications.</li>
+    <li>Mentored learners to develop practical IT and cybersecurity skills, enabling immediate application in labs and projects.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>PROJECTS</h2>
+  <h3>Cybersecurity Learning Modules | 2025 – 2026</h3>
+  <ul>
+    <li>Created interactive exercises and guides to train over 100 students on networking, hardware, and cybersecurity fundamentals.</li>
+    <li>Developed lab challenges and CTF-style exercises to enhance practical learning and threat detection skills.</li>
+  </ul>
+
+  <h3>Red Team Lab Exercises | 2025 – Present</h3>
+  <ul>
+    <li>Conducted penetration tests and vulnerability simulations using Kali Linux, Nmap, Metasploit, and Wireshark.</li>
+    <li>Prepared detailed reports with recommendations for risk mitigation and security posture improvement.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>HONORS & ACHIEVEMENTS</h2>
+  <ul>
+    <li>Trained 100+ students with practical cybersecurity modules, increasing hands-on skills in network security, ethical hacking, and vulnerability assessment.</li>
+    <li>Successfully launched a cybersecurity & AI advisory startup providing services to multiple institutions across Kenya.</li>
+  </ul>
+</section>
+
+</body>
+</html>
