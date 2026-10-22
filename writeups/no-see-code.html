@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No See Code — CTF Writeup — somas3ccybersecurity</title>
+<link rel="stylesheet" href="../style.css">
+<script>
+(function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<style>
+.flag-gate{display:inline-block;filter:blur(6px);transition:filter .4s ease;
+  cursor:pointer;user-select:none;background:var(--bg-alt,#141414);color:var(--fg,#f5f5f5);
+  padding:4px 10px;border-radius:4px;border:1px solid var(--border,#242424)}
+.flag-gate.unlocked{filter:none;background:var(--accent-soft,#2a0808);color:var(--accent-hi,#ff3344)}
+.flag-banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--bg-card,#171717);color:var(--fg,#f5f5f5);border:1px solid var(--accent,#e11d2e);
+  border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;
+  box-shadow:0 4px 24px rgba(0,0,0,.5);z-index:500;display:flex;gap:12px;align-items:center;
+  font-family:"Inter",system-ui,sans-serif}
+.flag-banner button{background:var(--accent,#e11d2e);color:#fff;border:none;border-radius:999px;
+  padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.flag-banner button:hover{background:var(--accent-hi,#ff3344)}
+@media (prefers-reduced-motion:reduce){.flag-gate{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation"><ul class="nav-links">
+      <li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../skills.html">Skills</a></li>
+      <li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li>
+      <li><a href="../roadmap.html">Roadmap</a></li><li><a href="../cv.html">CV</a></li><li><a href="../contact.html">Contact</a></li>
+    </ul></nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<main id="main">
+<p style="margin-bottom: 20px;"><a href="../writeups.html">← Back to all writeups</a></p>
+<article class="writeup-body">
+<h1>No See Code — CTF Writeup</h1>
+<p><strong>Platform:</strong> Perfect Root (AfricaHackon) <strong>Room:</strong> No See Code <strong>Author:</strong> p3rf3ctr00t <strong>Difficulty:</strong> Easy <strong>Points:</strong> 150 <strong>Category:</strong> Forensics / Steganography — Zero-Width Characters <strong>Result:</strong> Solved (1/1 flag captured)</p>
+<hr>
+<h2>Description</h2>
+<blockquote>
+<p>Crack and inspect the provided archive. The real message is hidden using</p>
+<p>zero-width characters.</p>
+</blockquote>
+<h2>Flag</h2>
+<pre><code><span class="flag-gate" data-flag="r00t{H1dd3n_1n_Pl41n_S1ght}">r00t{H1dd3n_1n_Pl41n_S1ght}</span></code></pre>
+<h2>Files Provided</h2>
+<ul>
+<li><code>no-see-code.zip</code> (330 bytes) — contains <code>not_fl4g.txt</code> (645 bytes), password-protected</li>
+</ul>
+<h2>Stage 1 — Crack the Archive</h2>
+<p><code>unzip</code> prompted for a password on <code>not_fl4g.txt</code>. Extracted the hash with <code>zip2john</code>:</p>
+<pre><code>$ zip2john no-see-code.zip &gt; zhash.txt</code></pre>
+<pre><code>$ cat zhash.txt</code></pre>
+<pre><code>ver 2.0 efh 5455 efh 7875 no-see-code.zip/not_fl4g.txt PKZIP Encr: TS_chk, ...</code></pre>
+<pre><code>no-see-code.zip/not_fl4g.txt:$pkzip$1*1*2*0*8c*285*ca8032fe*0*46*8*8c*50e5*ea4c0df7f32ac96a154f465f4f5f208abd...*$/pkzip$</code></pre>
+<p>Note the header: <code>PKZIP Encr: TS_chk ... type=8</code> — classic <strong>ZipCrypto</strong> (legacy PKWARE encryption), supported by John's <code>PKZIP</code> format.</p>
+<p>Cracked with rockyou:</p>
+<pre><code>$ john --format=PKZIP zhash.txt --wordlist=/usr/share/wordlists/rockyou.txt</code></pre>
+<pre><code>Using default input encoding: UTF-8</code></pre>
+<pre><code>Loaded 1 password hash (PKZIP [32/64])</code></pre>
+<pre><code>secret123        (no-see-code.zip/not_fl4g.txt)</code></pre>
+<pre><code>1g 0:00:00:00 DONE</code></pre>
+<p>Password: <strong><code>secret123</code></strong>.</p>
+<p>Extracted:</p>
+<pre><code>$ unzip -P secret123 -o no-see-code.zip</code></pre>
+<pre><code>$ ls -la not_fl4g.txt</code></pre>
+<pre><code>-rw-r--r-- 1 somasec somasec 645 Nov 28  2025 not_fl4g.txt</code></pre>
+<h2>Stage 2 — Inspect the File</h2>
+<pre><code>$ cat not_fl4g.txt</code></pre>
+<pre><code>r00t{naah_not_the_flag}</code></pre>
+<p>A decoy. The 645-byte file contains far more than 22 visible characters.</p>
+<pre><code>$ xxd not_fl4g.txt | head -20</code></pre>
+<pre><code>00000000: 72e2 808b e280 8b30 e280 8b30 e280 8c74  r......0...0...t</code></pre>
+<pre><code>00000010: e280 8c7b e280 8b6e e280 8c61 e280 8d61  ...{...n...a...a</code></pre>
+<pre><code>...</code></pre>
+<p>The bytes <code>e2 80 8b</code>, <code>e2 80 8c</code>, <code>e2 80 8d</code> are UTF-8 for:</p>
+<ul>
+<li><code>U+200B</code> ZERO WIDTH SPACE</li>
+<li><code>U+200C</code> ZERO WIDTH NON-JOINER</li>
+<li><code>U+200D</code> ZERO WIDTH JOINER</li>
+</ul>
+<p>Three distinct invisible characters interleaved with the visible text.</p>
+<h2>Stage 3 — Understand the Structure</h2>
+<p>Split the file into <strong>runs of consecutive zero-width characters</strong>, keeping their position relative to visible text:</p>
+<pre><code>Total runs: 22</code></pre>
+<pre><code>  [00] visible='r'  zw_count=  2  seq=BB</code></pre>
+<pre><code>  [01] visible='0'  zw_count=  1  seq=B</code></pre>
+<pre><code>  [02] visible='0'  zw_count=  1  seq=C</code></pre>
+<pre><code>  ...</code></pre>
+<pre><code>  [20] visible='g'  zw_count=  1  seq=D</code></pre>
+<pre><code>  [21] visible='g'  zw_count=185  seq=BBBCBCCDBBBBCBBDBCCBCCCDBBCCCBDBBCCBCCD...</code></pre>
+<pre><code>  [22] visible='}'  zw_count=  0</code></pre>
+<pre><code>  [23] visible='\n' zw_count=  0</code></pre>
+<p>Two distinct layers:</p>
+<p>1. <strong>Runs 00–20</strong> — one or two zero-width chars each, decorating the    visible characters of <code>r00t{naah_not_the_</code>. This is the <strong>decoy    channel</strong>. 2. <strong>Run 21</strong> — a 185-character run attached to the final visible <code>g</code>    before the <code>}</code>. <strong>This is the real payload.</strong></p>
+<h2>Stage 4 — Decode the Real Payload</h2>
+<p>The 185-char run uses all three zero-width characters, with <code>U+200D</code> acting as a <strong>separator</strong>. Splitting on <code>D</code>:</p>
+<pre><code>groups = big.split("D")</code></pre>
+<pre><code>24 groups, each 6-7 chars of B/C</code></pre>
+<p>Mapping <code>B</code> (U+200B) → <code>1</code>, <code>C</code> (U+200C) → <code>0</code>, and treating each B/C group as a <strong>binary byte</strong>:</p>
+<pre><code>run[21] → 't{H1dd3n_1n_Pl41n_S1ght}'</code></pre>
+<p>That's the tail of the flag. The head <code>r00t{</code> was embedded in the single-bit runs 00–20. Once combined and submitted to the platform, the answer confirmed as:</p>
+<pre><code>r00t{H1dd3n_1n_Pl41n_S1ght}</code></pre>
+<h2>The Decoding Script</h2>
+<pre><code>#!/usr/bin/env python3</code></pre>
+<pre><code>ZW = {"\u200b":"B", "\u200c":"C", "\u200d":"D"}</code></pre>
+<pre><code>text = open("not_fl4g.txt", encoding="utf-8").read()</code></pre>
+<pre><code># Split into runs of consecutive ZW characters</code></pre>
+<pre><code>runs = []</code></pre>
+<pre><code>cur = []</code></pre>
+<pre><code>for c in text:</code></pre>
+<pre><code>    if c in ZW:</code></pre>
+<pre><code>        cur.append(ZW[c])</code></pre>
+<pre><code>    else:</code></pre>
+<pre><code>        if cur: runs.append("".join(cur))</code></pre>
+<pre><code>        cur = []</code></pre>
+<pre><code>if cur: runs.append("".join(cur))</code></pre>
+<pre><code># Decode each run: B=1, C=0, D=separator</code></pre>
+<pre><code>decoded = []</code></pre>
+<pre><code>for run in runs:</code></pre>
+<pre><code>    groups = run.split("D")</code></pre>
+<pre><code>    s = "".join(chr(int(g.replace("B","1").replace("C","0"), 2))</code></pre>
+<pre><code>                for g in groups if g)</code></pre>
+<pre><code>    decoded.append(s)</code></pre>
+<pre><code>print("".join(decoded))</code></pre>
+<p>Output (before padding the prefix to 8 bits):</p>
+<pre><code>t{H1dd3n_1n_Pl41n_S1ght}</code></pre>
+<h2>What Worked</h2>
+<p>1. <strong>Recognising the three zero-width codepoints immediately</strong> from the    <code>e2 80 8b / 8c / 8d</code> byte sequence in <code>xxd</code>. This is the standard    pattern for <code>U+200B</code>, <code>U+200C</code>, <code>U+200D</code>. 2. <strong>Splitting into runs of consecutive ZW characters, preserving    position</strong> relative to visible text. This revealed the two-channel    structure (decoys around the visible text + one big hidden payload). 3. <strong>Systematically trying every mapping</strong> (<code>B=0/C=1</code>, <code>B=1/C=0</code>,    ternary, big-int, various group sizes). Only the correct combination    (<code>B=1, C=0, D=separator</code>, binary bytes) produced printable output. 4. <strong>Not trusting the decoy.</strong> <code>r00t{naah_not_the_flag}</code> was visibly    suspicious. The real answer was in the 185-char hidden run.</p>
+<h2>What Failed (and Why)</h2>
+<p>1. <strong>Naive binary decoding across all zero-widths.</strong> Ignoring the    separator meant <code>D</code> was treated as a bit, producing garbage. The    separator must be stripped first. 2. <strong>Ternary decoding with 5- or 6-trit groups.</strong> The 207 characters    decompose as <code>207 = 3 × 69</code>, but grouping by trits doesn't yield ASCII    because <code>D</code> is a separator, not a digit. 3. <strong>Trusting the visible string.</strong> <code>r00t{naah_not_the_flag}</code> is    deliberately inviting the solver to submit it. It's wrong.</p>
+<h2>Real-World Impact</h2>
+<p>Zero-width character steganography is used in real attacks:</p>
+<ul>
+<li><strong>Prompt injection into LLMs</strong> — hidden instructions sent to AI</li>
+</ul>
+<p>systems using zero-width chars, invisible to human reviewers.</p>
+<ul>
+<li><strong>Watermarking / tracking</strong> — per-user invisible tokens embedded in</li>
+</ul>
+<p>documents to identify leakers (Canary tokens, safeDocs research).</p>
+<ul>
+<li><strong>Credential smuggling</strong> — leaking secrets through logs or exported</li>
+</ul>
+<p>text files that appear identical to normal content.</p>
+<ul>
+<li><strong>Phishing payloads</strong> — hiding malicious commands in files that look</li>
+</ul>
+<p>empty or benign.</p>
+<ul>
+<li><strong>Bypass of naive filters</strong> — DLP tools that strip printable content</li>
+</ul>
+<p>may leave zero-width payloads behind.</p>
+<p>Detection: normalize all input to NFKC, strip codepoints in the <code>U+200B–U+200F</code>, <code>U+2060–U+2064</code>, <code>U+FEFF</code> ranges before processing. For logs and forensic artifacts, always <code>xxd</code> or hex-inspect — never trust <code>cat</code>.</p>
+<h2>Fixes (Defensive)</h2>
+<ul>
+<li><strong>Normalize Unicode</strong> at every trust boundary. NFKC handles most</li>
+</ul>
+<p>confusable cases; explicit ZW-stripping handles the rest.</p>
+<ul>
+<li><strong>Reject or flag</strong> files whose "visible length" differs significantly</li>
+</ul>
+<p>from their byte length.</p>
+<ul>
+<li><strong>DLP / egress filters</strong> should scan for zero-width codepoints in</li>
+</ul>
+<p>outgoing content.</p>
+<ul>
+<li><strong>When reviewing suspicious text</strong>, always view in a hex editor or</li>
+</ul>
+<p>with a tool that highlights non-printable codepoints.</p>
+<h2>Key Takeaways</h2>
+<ul>
+<li><strong><code>cat</code> lies.</strong> A file that looks empty or harmless may be packed with</li>
+</ul>
+<p>invisible characters carrying significant payload.</p>
+<ul>
+<li><strong>Three distinct zero-width characters = a signalling alphabet.</strong> The</li>
+</ul>
+<p>mapping is not always binary — sometimes one is a separator, sometimes   ternary, sometimes a run-length marker. Try variants systematically.</p>
+<ul>
+<li><strong>Structure before decoding.</strong> Splitting into runs of consecutive</li>
+</ul>
+<p>invisible chars, preserving visible-text position, reveals how the   payload is grouped.</p>
+<ul>
+<li><strong>Decoys are common.</strong> <code>not_fl4g.txt</code>, <code>r00t{naah_not_the_flag}</code> — the</li>
+</ul>
+<p>author is telling you not to stop at the first answer.</p>
+<ul>
+<li><strong>Hex-dump first, <code>cat</code> second.</strong> For any file that might contain</li>
+</ul>
+<p>hidden data, always <code>xxd | head</code> before trusting the visible content.</p>
+<h2>Tools Used</h2>
+<ul>
+<li><code>zip2john</code>, <code>john</code> — cracking the ZipCrypto password</li>
+<li><code>xxd</code> — spot the zero-width codepoints</li>
+<li><code>python3</code> — run-splitter, decoder variants, byte assembly</li>
+</ul>
+<h2>Commands That Worked</h2>
+<pre><code># crack</code></pre>
+<pre><code>zip2john no-see-code.zip &gt; zhash.txt</code></pre>
+<pre><code>john --format=PKZIP zhash.txt --wordlist=/usr/share/wordlists/rockyou.txt</code></pre>
+<pre><code>unzip -P secret123 no-see-code.zip</code></pre>
+<pre><code># inspect</code></pre>
+<pre><code>cat not_fl4g.txt       # decoy</code></pre>
+<pre><code>xxd not_fl4g.txt       # reveals e2 80 8b/8c/8d</code></pre>
+<pre><code>python3 decode.py      # run-splitter + B=1/C=0/D=sep</code></pre>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><h4>somas3ccybersecurity</h4><p class="muted" style="font-size: 0.9em; margin: 0;">Cybersecurity analyst · Red team specialist · Cisco instructor.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li><li><a href="../roadmap.html">Roadmap</a></li></ul></div>
+    <div><h4>Connect</h4><ul><li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li><li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li><li><a href="../hire.html">Hire me</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span><span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span></div>
+</footer>
+<script src="../main.js"></script>
+<script>
+(function(){
+  "use strict";
+  var SEL=".flag-gate", WAIT_MS=3*60*1000, SCROLL_RATIO=0.6;
+  var startedAt=Date.now(), scrolledEnough=false, unlocked=false;
+  function article(){return document.querySelector(".writeup-body")||document.body;}
+  function onScroll(){
+    var a=article(),r=a.getBoundingClientRect();
+    var visible=Math.max(0,Math.min(a.offsetHeight,window.innerHeight-r.top));
+    if(visible/a.offsetHeight>=SCROLL_RATIO)scrolledEnough=true;
+    maybeUnlock();
+  }
+  function maybeUnlock(force){
+    if(unlocked)return;
+    if(force||(Date.now()-startedAt>=WAIT_MS&&scrolledEnough)){
+      unlocked=true;
+      document.querySelectorAll(SEL).forEach(function(e){e.classList.add("unlocked");});
+      var b=document.getElementById("flag-banner");if(b)b.remove();
+    }
+  }
+  function tick(){
+    if(unlocked)return;
+    var left=Math.max(0,Math.ceil((WAIT_MS-(Date.now()-startedAt))/1000));
+    var m=Math.floor(left/60),s=("0"+(left%60)).slice(-2);
+    var el=document.getElementById("flag-countdown");
+    if(el)el.textContent=(scrolledEnough?"unlock in ":"keep reading — ")+m+":"+s;
+    setTimeout(tick,500);
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    if(!document.querySelector(SEL))return;
+    var b=document.createElement("div");
+    b.id="flag-banner";b.className="flag-banner";
+    b.innerHTML='<span>🔒 Flag locked — <span id="flag-countdown">3:00</span></span>'+
+                '<button type="button" id="flag-skip">Reveal now</button>';
+    document.body.appendChild(b);
+    document.getElementById("flag-skip").onclick=function(){maybeUnlock(true);};
+    document.querySelectorAll(SEL).forEach(function(e){
+      e.onclick=function(){maybeUnlock(true);};
+      e.title="Click to reveal";
+    });
+    window.addEventListener("scroll",onScroll,{passive:true});
+    tick();
+  });
+})();
+</script>
+</body>
+</html>

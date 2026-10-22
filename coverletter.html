@@ -1,38 +1,186 @@
-<!-- coverletter.html -->
----
-layout: none
-permalink: /coverletter.html
----
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cover Letter — Milton Silas</title>
-<link rel="stylesheet" href="assets/css/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cover Letter — somas3ccybersecurity</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="skills.html">Skills</a>
-  <a href="projects.html">Projects</a>
-  <a href="labs.html">Labs</a>
-  <a href="roadmap.html">Roadmap</a>
-  <a href="contact.html">Contact</a>
-  <button id="themeToggle">🌙</button>
-</nav>
-<header class="glass reveal">
-  <h1>Cover Letter</h1>
-  <a class="btn" href="CoverLetter_MiltonSilas.pdf" download>Download</a>
-  <a class="btn" href="index.html">Back to Home</a>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header no-print">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
 </header>
-<section class="glass reveal">
-  <iframe src="CoverLetter_MiltonSilas.pdf" width="100%" height="800px"></iframe>
-</section>
-<footer class="glass">
-  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
+
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="reveal no-print">
+    <div style="display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+      <div>
+        <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
+          COVER LETTER
+        </p>
+        <h1 style="border: none; padding-bottom: 0; margin: 0;">Milton Silas</h1>
+        <p class="muted" style="margin: 6px 0 0;">Cybersecurity Analyst · Red Team Specialist · Cisco Instructor</p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a class="btn" href="CoverLetter_MiltonSilas.pdf" download>Download PDF</a>
+        <button class="btn btn-ghost" onclick="window.print()" type="button">Print</button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider no-print">
+
+  <section class="reveal">
+    <div class="card">
+      <p>Dear Hiring Manager,</p>
+
+      <p>
+        I am a cybersecurity analyst and Cisco IT Essentials trainer with a strong
+        foundation in operating systems, ethical hacking, network administration,
+        and system administration. My passion lies in securing systems, identifying
+        vulnerabilities, and helping organizations strengthen their digital
+        resilience.
+      </p>
+
+      <p>
+        Over time, I have built hands-on experience in vulnerability assessment,
+        penetration testing, and threat detection. I also enjoy mentoring and
+        training others in IT and cybersecurity, simplifying complex technical
+        concepts for learners and teams.
+      </p>
+
+      <p>
+        Most recently, I have been publishing detailed CTF writeups from the
+        Perfect Root (AfricaHackon) platform — nine writeups across web, mobile,
+        smart contract, crypto, and forensics, including a First Blood on Echo
+        Signature (ECDSA signature malleability). Each writeup goes beyond the
+        exploit: the approach, the dead ends, and the defensive fix that would
+        have prevented the vulnerability in the first place. That last part is
+        what I think matters most.
+      </p>
+
+      <p>
+        I am also a Cisco IT Essentials instructor, where I have designed and
+        delivered hands-on lab components built around real equipment and
+        troubleshooting scenarios. This experience has taught me that good
+        security work is also good teaching work — the best finding is the one
+        the team can actually act on.
+      </p>
+
+      <p>
+        My goal is to continue developing my expertise in cybersecurity
+        operations and contribute to creating safer digital environments. I am
+        eager to take on new challenges that allow me to apply my technical
+        skills, problem-solving mindset, and commitment to continuous learning.
+      </p>
+
+      <p>
+        Thank you for considering my application. I would welcome the opportunity
+        to discuss how I can contribute to your team.
+      </p>
+
+      <p style="margin-bottom: 4px;">Sincerely,</p>
+      <p style="margin-top: 0;">
+        <strong>Milton Silas</strong><br>
+        <a href="mailto:miltonsilas564@proton.me">miltonsilas564@proton.me</a><br>
+        Kilifi, Kenya
+      </p>
+    </div>
+  </section>
+
+  <section class="reveal no-print center" style="margin-top: 40px;">
+    <div class="card" style="border-color: var(--accent);">
+      <h2 style="border: none; padding-bottom: 0; margin-top: 0;">Ready to talk?</h2>
+      <p class="muted" style="max-width: 560px; margin: 12px auto 24px;">
+        Download the CV or reach out directly.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+        <a class="btn" href="cv.html">View CV</a>
+        <a class="btn btn-ghost" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer no-print">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:miltonsilas564@proton.me">Email</a></li>
+        <li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
 </footer>
-<script src="assets/js/effects.js"></script>
+
+<script src="main.js"></script>
 </body>
 </html>

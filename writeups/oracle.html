@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oracle — CTF Writeup — somas3ccybersecurity</title>
+<link rel="stylesheet" href="../style.css">
+<script>
+(function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<style>
+.flag-gate{display:inline-block;filter:blur(6px);transition:filter .4s ease;
+  cursor:pointer;user-select:none;background:var(--bg-alt,#141414);color:var(--fg,#f5f5f5);
+  padding:4px 10px;border-radius:4px;border:1px solid var(--border,#242424)}
+.flag-gate.unlocked{filter:none;background:var(--accent-soft,#2a0808);color:var(--accent-hi,#ff3344)}
+.flag-banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--bg-card,#171717);color:var(--fg,#f5f5f5);border:1px solid var(--accent,#e11d2e);
+  border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;
+  box-shadow:0 4px 24px rgba(0,0,0,.5);z-index:500;display:flex;gap:12px;align-items:center;
+  font-family:"Inter",system-ui,sans-serif}
+.flag-banner button{background:var(--accent,#e11d2e);color:#fff;border:none;border-radius:999px;
+  padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.flag-banner button:hover{background:var(--accent-hi,#ff3344)}
+@media (prefers-reduced-motion:reduce){.flag-gate{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation"><ul class="nav-links">
+      <li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../skills.html">Skills</a></li>
+      <li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li>
+      <li><a href="../roadmap.html">Roadmap</a></li><li><a href="../cv.html">CV</a></li><li><a href="../contact.html">Contact</a></li>
+    </ul></nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<main id="main">
+<p style="margin-bottom: 20px;"><a href="../writeups.html">← Back to all writeups</a></p>
+<article class="writeup-body">
+<h1>Oracle — CTF Writeup</h1>
+<p><strong>Platform:</strong> Perfect Root (AfricaHackon) <strong>Room:</strong> Oracle <strong>Author:</strong> Dr Programmer <strong>Difficulty:</strong> Medium <strong>Points:</strong> 150 <strong>Category:</strong> Cryptography — CBC Padding Oracle <strong>Result:</strong> Solved (1/1 flag captured)</p>
+<hr>
+<h2>Description</h2>
+<blockquote>
+<p>You have done so well to get here, now the Oracle will answer any question</p>
+<p>you might have, goodluck.</p>
+</blockquote>
+<p>Three Linux binaries, two ciphertexts. The setup is a classic CBC padding oracle: a black-box decryptor that tells you — silently, via exit code — whether the decrypted plaintext has valid PKCS#7 padding. By observing that one bit, you recover the full plaintext byte-by-byte without ever knowing the AES key.</p>
+<h2>Flag</h2>
+<pre><code><span class="flag-gate" data-flag="r00t{0r4cl3_p4dd1ng_6512e251d6e28884bd5b37a0}">r00t{0r4cl3_p4dd1ng_6512e251d6e28884bd5b37a0}</span></code></pre>
+<h2>Files Provided</h2>
+<pre><code>check          (ELF, stripped)  — the final scoring binary</code></pre>
+<pre><code>validator      (ELF, stripped)  — formula validator (a decoy path)</code></pre>
+<pre><code>oracle         (ELF, stripped)  — the padding oracle</code></pre>
+<pre><code>ciphertext.bin  (64 bytes)      — IV(16) || C1(16) || C2(16) || C3(16)</code></pre>
+<pre><code>ciphertext2.bin (80 bytes)      — IV(16) || C1..C4 — decoy/random</code></pre>
+<h2>Static Recon</h2>
+<p><code>strings</code> revealed:</p>
+<ul>
+<li><code>oracle</code> contains a <strong>fake flag</strong>: <code>r00t{ORACLE_FAKE_TH3_P4DD1NG_IS_NOT_H3RE}</code>.</li>
+</ul>
+<p>A direct hint from the author: the answer is not in the binary — you must   run the oracle attack.</p>
+<ul>
+<li><code>oracle</code> usage: <code>Usage: %s [--mode 2] ciphertext.bin</code></li>
+<li><code>validator</code> prints <code>VALID</code>, <code>Formula verified: %s</code>, and `INVALID - formula</li>
+</ul>
+<p>mismatch` — it wants a derived formula, not raw plaintext.</p>
+<ul>
+<li><code>check</code> prints <code>CORRECT</code> then <code>Flag: %s</code> — the scoring path.</li>
+</ul>
+<h2>The Oracle's Interface</h2>
+<p>Run with no args it prints usage. Run with a ciphertext:</p>
+<pre><code>$ ./oracle ciphertext.bin ; echo $?</code></pre>
+<pre><code>0</code></pre>
+<pre><code>$ ./oracle --mode 2 ciphertext.bin ; echo $?</code></pre>
+<pre><code>1</code></pre>
+<p>No output on stdout. The result is communicated <strong>only</strong> through the process exit code. <code>0</code> = padding valid, non-zero = padding invalid. This is the leak.</p>
+<p><code>--mode 2</code> produced exit code 1 for the same input. In practice mode 2 is the "does not treat the leading 16 bytes as IV" variant; for the attack we needed mode 1.</p>
+<h2>Locating the Padding Byte</h2>
+<p>PKCS#7 padding means the last byte of the decrypted plaintext equals the number of padding bytes (1..16). Flipping bytes in the ciphertext will destroy the padding unless we flip bytes that are *not* part of the padding we're trying to preserve.</p>
+<p>We flipped each byte of <code>ciphertext.bin</code> by <code>0x01</code> and checked the exit code:</p>
+<pre><code>positions where flipping breaks validity:</code></pre>
+<pre><code>    [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,</code></pre>
+<pre><code>     60, 61, 62, 63]</code></pre>
+<p>Interpreting this for <code>IV(16) || C1(16) || C2(16) || C3(16)</code>:</p>
+<ul>
+<li>Byte offsets 45, 46, 47 = last three bytes of <strong>C2</strong> (the block before</li>
+</ul>
+<p>the final ciphertext block). These directly control the final plaintext's   trailing bytes, so flipping them breaks padding.</p>
+<ul>
+<li>Byte offsets 48..63 = <strong>entire C3</strong>. Flipping any of these randomizes the</li>
+</ul>
+<p>final block's decryption, destroying padding.</p>
+<p>Conclusion: the plaintext ends with <strong>three bytes of 0x03 padding</strong> — PKCS#7 with pad length 3. The block structure is confirmed: 16-byte IV, three 16-byte ciphertext blocks.</p>
+<h2>Attack — CBC Padding Oracle</h2>
+<h3>The math</h3>
+<p>For CBC decryption of a block <code>C_i</code>:</p>
+<pre><code>P_i = D_K(C_i) XOR C_{i-1}</code></pre>
+<p>Define the <strong>intermediate value</strong> <code>I_i = D_K(C_i)</code>. Then:</p>
+<pre><code>P_i = I_i XOR C_{i-1}</code></pre>
+<p>The oracle gives us one bit: "is the PKCS#7 padding of <code>P_i</code> valid?"</p>
+<p>Strategy for the last byte of <code>I_i</code>:</p>
+<p>1. Craft a modified previous block <code>C'</code> and query the oracle on <code>C' || C_i</code>. 2. Change only the last byte of <code>C'</code>, call it <code>g</code>. If the oracle returns    valid, then <code>P_i[15] = g XOR I_i[15]</code> equals <code>0x01</code> (the only possible    padding length when exactly one byte was manipulated). So <code>I_i[15] =    g XOR 0x01</code>. 3. To recover byte 14, target padding <code>0x02 0x02</code>. Set <code>C'[15] = I_i[15] XOR    0x02</code> (forcing the last byte to <code>0x02</code>), then brute force <code>C'[14]</code> until    the oracle accepts. <code>I_i[14] = g14 XOR 0x02</code>. 4. Continue for each position, targeting increasing padding lengths until    all 16 bytes of <code>I_i</code> are recovered. 5. Finally <code>P_i = I_i XOR C_{i-1}</code> (or <code>I_i XOR IV</code> for the first block).</p>
+<h3>The attack script</h3>
+<p>Saved as <code>attack.py</code>:</p>
+<pre><code>#!/usr/bin/env python3</code></pre>
+<pre><code>import subprocess, sys</code></pre>
+<pre><code>BS = 16</code></pre>
+<pre><code>def query(data):</code></pre>
+<pre><code>    with open("/tmp/q.bin","wb") as f:</code></pre>
+<pre><code>        f.write(data)</code></pre>
+<pre><code>    return subprocess.run(["./oracle","/tmp/q.bin"],</code></pre>
+<pre><code>                          capture_output=True).returncode == 0</code></pre>
+<pre><code>def decrypt_block(prev, cur):</code></pre>
+<pre><code>    inter = bytearray(BS)</code></pre>
+<pre><code>    plain = bytearray(BS)</code></pre>
+<pre><code>    for pad in range(1, BS+1):</code></pre>
+<pre><code>        pos = BS - pad</code></pre>
+<pre><code>        found = False</code></pre>
+<pre><code>        for g in range(256):</code></pre>
+<pre><code>            cc = bytearray(prev)</code></pre>
+<pre><code>            cc[pos] = g</code></pre>
+<pre><code>            for k in range(1, pad):</code></pre>
+<pre><code>                cc[BS-k] = inter[BS-k] ^ pad</code></pre>
+<pre><code>            if query(bytes(cc) + bytes(cur)):</code></pre>
+<pre><code>                inter[pos] = g ^ pad</code></pre>
+<pre><code>                plain[pos] = inter[pos] ^ prev[pos]</code></pre>
+<pre><code>                found = True</code></pre>
+<pre><code>                break</code></pre>
+<pre><code>        if not found:</code></pre>
+<pre><code>            print(f"  [!] no guess pos={pos} pad={pad}", file=sys.stderr)</code></pre>
+<pre><code>            return None, None</code></pre>
+<pre><code>    return bytes(plain), bytes(inter)</code></pre>
+<pre><code>def attack(path):</code></pre>
+<pre><code>    data = open(path,"rb").read()</code></pre>
+<pre><code>    nb = len(data) // BS</code></pre>
+<pre><code>    iv  = data[:BS]</code></pre>
+<pre><code>    cbs = [data[i*BS:(i+1)*BS] for i in range(1, nb)]</code></pre>
+<pre><code>    out = b""</code></pre>
+<pre><code>    for i, cur in enumerate(cbs):</code></pre>
+<pre><code>        prev = iv if i == 0 else cbs[i-1]</code></pre>
+<pre><code>        print(f"[*] decrypting block {i+1}/{len(cbs)}", flush=True)</code></pre>
+<pre><code>        p, _ = decrypt_block(prev, cur)</code></pre>
+<pre><code>        if p is None:</code></pre>
+<pre><code>            return None</code></pre>
+<pre><code>        print(f"    -&gt; {p!r}")</code></pre>
+<pre><code>        out += p</code></pre>
+<pre><code>    print(f"[+] plaintext: {out!r}")</code></pre>
+<pre><code>    return out</code></pre>
+<pre><code>if __name__ == "__main__":</code></pre>
+<pre><code>    for path in (sys.argv[1:] or</code></pre>
+<pre><code>                 ["ciphertext.bin","ciphertext2.bin"]):</code></pre>
+<pre><code>        attack(path)</code></pre>
+<h3>Running the attack</h3>
+<pre><code>$ python3 attack.py ciphertext.bin ciphertext2.bin</code></pre>
+<pre><code>[*] ciphertext.bin: 4 blocks (IV + 3 ciphertext blocks)</code></pre>
+<pre><code>[*] decrypting block 1/3</code></pre>
+<pre><code>    -&gt; b'r00t{0r4cl3_p4dd'</code></pre>
+<pre><code>[*] decrypting block 2/3</code></pre>
+<pre><code>    -&gt; b'1ng_6512e251d6e2'</code></pre>
+<pre><code>[*] decrypting block 3/3</code></pre>
+<pre><code>    -&gt; b'8884bd5b37a0}\x03\x03\x03'</code></pre>
+<pre><code>[+] plaintext: b'r00t{0r4cl3_p4dd1ng_6512e251d6e28884bd5b37a0}\x03\x03\x03'</code></pre>
+<pre><code>[*] ciphertext2.bin: 5 blocks (IV + 4 ciphertext blocks)</code></pre>
+<pre><code>[*] decrypting block 1/4</code></pre>
+<pre><code>    -&gt; b'\xcb\x95\\\x9b\xaa\x9a)_\xbd7&amp;\xa5\x98\xcf\x12\x12'</code></pre>
+<pre><code>...</code></pre>
+<pre><code>[+] plaintext: b'\xcb\x95\\\x9b...'   (random — decoy)</code></pre>
+<p>The <code>\x03\x03\x03</code> at the end confirms PKCS#7 padding length 3 — matching the byte-flip detection earlier. <code>ciphertext.bin</code> is the flag. <code>ciphertext2.bin</code> is noise — a decoy.</p>
+<h3>Submitting</h3>
+<pre><code>$ echo 'r00t{0r4cl3_p4dd1ng_6512e251d6e28884bd5b37a0}' | ./check</code></pre>
+<pre><code>CORRECT</code></pre>
+<pre><code>Flag: r00t{0r4cl3_p4dd1ng_6512e251d6e28884bd5b37a0}</code></pre>
+<p><code>validator</code> rejected the raw plaintext with <code>INVALID - formula mismatch</code> — it expects the *intermediate value* formula, not the recovered plaintext. <code>check</code> is the scoring endpoint and accepts the plaintext directly.</p>
+<h2>What Worked</h2>
+<p>1. <strong><code>strings</code> on all three binaries first.</strong> Immediately found the decoy    flag in <code>oracle</code>, which told us the path forward was to *run* the    oracle, not read the binary. 2. <strong>Recognised exit-code-as-signal.</strong> No stdout, but exit codes differ for    valid vs invalid padding. This is the classic silent padding oracle    interface. 3. <strong>Byte-flip probe to locate the padding byte.</strong> Flipping each byte and    watching for the exit-code change pinned the padding length (3) and the    block structure in a single pass. 4. <strong>Standard CBC padding oracle attack.</strong> 256 guesses × 16 bytes × N    blocks. Ran in ~1 minute per ciphertext.</p>
+<h2>What Failed (and Why)</h2>
+<p>1. <strong>Sending the full ciphertext per query.</strong> The initial attack script    treated each block as its own "ciphertext file" but fed the whole 64    bytes into the oracle. The oracle only inspects the *last* block's    padding, so this failed for all but the last block. Fix: send    <code>modified_prev || cur</code> (32 bytes) per query, one target block at a time.</p>
+<p>2. <strong>Assuming byte 15 was the padding byte.</strong> First probe flipped only byte    15 (last byte of IV position). No change in exit code — because with    three bytes of padding, modifying a byte far from the padding does    nothing, and the actual padding bytes are at 45–47. Fix: flip *every*    byte and look at the full set of positions that matter.</p>
+<p>3. <strong>Expecting <code>validator</code> to accept the plaintext.</strong> <code>validator</code> wants a    formula; its string <code>Formula verified: %s</code> indicates it checks some    intermediate derivation (likely <code>I_i</code> values or a specific XOR chain).    <code>check</code> is the final scoring endpoint and accepts the plaintext.</p>
+<h2>Real-World Impact — Where Padding Oracles Still Bite</h2>
+<p>Padding oracles have been a top-tier practical crypto bug for over two decades:</p>
+<ul>
+<li><strong>POODLE (CVE-2014-3566)</strong> — padding oracle in SSL 3.0's CBC mode;</li>
+</ul>
+<p>forced browser downgrade to SSL 3.0 to exploit.</p>
+<ul>
+<li><strong>Lucky13 (CVE-2013-0169)</strong> — timing-based padding oracle in TLS CBC;</li>
+</ul>
+<p>affected OpenSSL, GnuTLS, NSS. Still relevant for legacy TLS CBC suites.</p>
+<ul>
+<li><strong>BEAST (CVE-2011-3389)</strong> — related CBC chosen-plaintext attack against</li>
+</ul>
+<p>TLS 1.0.</p>
+<ul>
+<li><strong>ASP.NET padding oracle (2010)</strong> — Microsoft's <code>ScriptResource.axd</code></li>
+</ul>
+<p>leaked padding oracle, allowing attackers to decrypt viewstate and auth   cookies.</p>
+<ul>
+<li><strong>Java JSF / Oracle ADF</strong> — repeated padding oracle disclosures through</li>
+</ul>
+<p>the 2010s in enterprise frameworks.</p>
+<ul>
+<li><strong>Node.js <code>cookie</code> and various JWT libraries</strong> — cases where CBC-mode</li>
+</ul>
+<p>tokens or session cookies leaked padding behaviour via error messages or   response timing.</p>
+<h3>Where to look in bug bounties</h3>
+<p>1. <strong>Any encrypted cookie, token, or session value</strong> that comes back with a    decrypt/verify error path differing from other errors. Test with    bit-flipped ciphertext — if the response changes (status code, body,    timing, error message), you likely have an oracle. 2. <strong>Encrypted URL parameters</strong> (<code>?id=<base64></code>). Flip the last byte of the    decoded ciphertext and watch for distinct error responses. 3. <strong>"Remember me" tokens</strong> with CBC-mode encryption (legacy Rails, Django,    old Spring). 4. <strong>Error-based oracles</strong> — "invalid padding" vs "invalid signature" vs    "malformed token". Any distinct error is a bit. 5. <strong>Timing side-channels</strong> — Lucky13-class bugs. Measure response time    over thousands of requests with a <code>hrtime</code>-grade clock.</p>
+<h3>The core lesson</h3>
+<p><strong>Do not reveal *why* a decryption failed.</strong> Return the same generic error, at the same time, regardless of whether padding, MAC, or ciphertext was the problem. Better: authenticate-then-decrypt (encrypt-then-MAC), and use AEAD modes (AES-GCM, ChaCha20-Poly1305) that don't have a padding oracle surface at all.</p>
+<h2>Fixes (Defensive)</h2>
+<p>1. <strong>Use AEAD.</strong> AES-GCM or ChaCha20-Poly1305 eliminates the padding oracle    class entirely. No padding, integrity checked during decryption. 2. <strong>Encrypt-then-MAC.</strong> If CBC is unavoidable, MAC the ciphertext and    verify the MAC *before* attempting decryption. An attacker who flips a    byte in the ciphertext fails MAC verification and never reaches the    padding step. 3. <strong>Constant-time error handling.</strong> Every decryption failure must return    the same response, at the same time. No "invalid padding" distinct from    "invalid MAC". 4. <strong>Constant-time decryption routines.</strong> Prevent Lucky13-class timing    oracles. 5. <strong>Rotate keys and tokens on suspicion.</strong> If a padding oracle is    discovered in production, assume all encrypted data that passed through    it is compromised.</p>
+<h2>Key Takeaways</h2>
+<ul>
+<li><strong>A single bit of leaked information is enough to break CBC encryption.</strong></li>
+</ul>
+<p>The padding oracle isn't a math weakness in AES — it's a protocol design   bug that lets an attacker recover plaintext byte-by-byte.</p>
+<ul>
+<li><strong>Exit codes, error strings, and timing all leak.</strong> "Silent" binaries</li>
+</ul>
+<p>that only differ in exit status are still oracles.</p>
+<ul>
+<li><strong>Attack in the right granularity.</strong> CBC padding oracles operate on the</li>
+</ul>
+<p>*last block* of whatever you feed in — you must craft <code>prev || target</code>   per query, not send the full ciphertext.</p>
+<ul>
+<li><strong>Decoys are everywhere.</strong> The <code>oracle</code> binary contained a fake flag</li>
+</ul>
+<p>designed to short-circuit solvers who <code>strings</code>-grepped and stopped.   <code>ciphertext2.bin</code> decrypted to noise on purpose. Confirm everything.</p>
+<ul>
+<li><strong>The formula the challenge wants isn't always the plaintext.</strong> The</li>
+</ul>
+<p><code>validator</code> binary wanted an intermediate derivation; <code>check</code> wanted the   plaintext. Read the strings of every binary before deciding what to   submit.</p>
+<h2>Tools Used</h2>
+<ul>
+<li><code>strings</code>, <code>file</code>, <code>xxd</code> — static recon</li>
+<li><code>python3</code> + <code>subprocess</code> — query loop and byte-flip probe</li>
+<li>Custom CBC padding oracle attack script (<code>attack.py</code>)</li>
+</ul>
+<h2>Commands That Worked</h2>
+<pre><code># static recon</code></pre>
+<pre><code>strings oracle validator check | grep -iE "flag|usage|padding|valid|formula"</code></pre>
+<pre><code># confirm exit-code oracle</code></pre>
+<pre><code>./oracle ciphertext.bin ; echo $?</code></pre>
+<pre><code>./oracle --mode 2 ciphertext.bin ; echo $?</code></pre>
+<pre><code># locate padding byte via byte-flip probe</code></pre>
+<pre><code>python3 flip_probe.py    # reports offsets [45..63]</code></pre>
+<pre><code># run the attack</code></pre>
+<pre><code>python3 attack.py ciphertext.bin ciphertext2.bin</code></pre>
+<pre><code># submit</code></pre>
+<pre><code>echo 'r00t{...}' | ./check</code></pre>
+<h2>Commands That Did NOT Work (and why)</h2>
+<pre><code># Sending the whole ciphertext per query — only last block's padding is checked</code></pre>
+<pre><code>./oracle ciphertext.bin</code></pre>
+<pre><code># Fix: send modified_prev || target_block</code></pre>
+<pre><code># Flipping only byte 15 — misses padding bytes at 45-47 when pad length &gt; 1</code></pre>
+<pre><code># Fix: flip every byte, look at the full hit set</code></pre>
+<pre><code># Feeding plaintext to validator</code></pre>
+<pre><code>echo 'r00t{...}' | ./validator     # INVALID - formula mismatch</code></pre>
+<pre><code># Fix: validator wants a derivation; check accepts plaintext</code></pre>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><h4>somas3ccybersecurity</h4><p class="muted" style="font-size: 0.9em; margin: 0;">Cybersecurity analyst · Red team specialist · Cisco instructor.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li><li><a href="../roadmap.html">Roadmap</a></li></ul></div>
+    <div><h4>Connect</h4><ul><li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li><li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li><li><a href="../hire.html">Hire me</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span><span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span></div>
+</footer>
+<script src="../main.js"></script>
+<script>
+(function(){
+  "use strict";
+  var SEL=".flag-gate", WAIT_MS=3*60*1000, SCROLL_RATIO=0.6;
+  var startedAt=Date.now(), scrolledEnough=false, unlocked=false;
+  function article(){return document.querySelector(".writeup-body")||document.body;}
+  function onScroll(){
+    var a=article(),r=a.getBoundingClientRect();
+    var visible=Math.max(0,Math.min(a.offsetHeight,window.innerHeight-r.top));
+    if(visible/a.offsetHeight>=SCROLL_RATIO)scrolledEnough=true;
+    maybeUnlock();
+  }
+  function maybeUnlock(force){
+    if(unlocked)return;
+    if(force||(Date.now()-startedAt>=WAIT_MS&&scrolledEnough)){
+      unlocked=true;
+      document.querySelectorAll(SEL).forEach(function(e){e.classList.add("unlocked");});
+      var b=document.getElementById("flag-banner");if(b)b.remove();
+    }
+  }
+  function tick(){
+    if(unlocked)return;
+    var left=Math.max(0,Math.ceil((WAIT_MS-(Date.now()-startedAt))/1000));
+    var m=Math.floor(left/60),s=("0"+(left%60)).slice(-2);
+    var el=document.getElementById("flag-countdown");
+    if(el)el.textContent=(scrolledEnough?"unlock in ":"keep reading — ")+m+":"+s;
+    setTimeout(tick,500);
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    if(!document.querySelector(SEL))return;
+    var b=document.createElement("div");
+    b.id="flag-banner";b.className="flag-banner";
+    b.innerHTML='<span>🔒 Flag locked — <span id="flag-countdown">3:00</span></span>'+
+                '<button type="button" id="flag-skip">Reveal now</button>';
+    document.body.appendChild(b);
+    document.getElementById("flag-skip").onclick=function(){maybeUnlock(true);};
+    document.querySelectorAll(SEL).forEach(function(e){
+      e.onclick=function(){maybeUnlock(true);};
+      e.title="Click to reveal";
+    });
+    window.addEventListener("scroll",onScroll,{passive:true});
+    tick();
+  });
+})();
+</script>
+</body>
+</html>

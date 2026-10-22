@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — somas3ccybersecurity</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<main id="main" class="center" style="padding-top: 100px;">
+  <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
+    ERROR 404
+  </p>
+  <h1 style="font-size: clamp(2.5em, 7vw, 4.5em); border: none; margin-bottom: 8px;">
+    Not Found
+  </h1>
+  <p class="muted" style="font-size: 1.1em; margin-bottom: 32px;">
+    That page doesn't exist. It was probably deleted, renamed, or never there.
+  </p>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+    <a class="btn" href="index.html">Go home</a>
+    <a class="btn btn-ghost" href="writeups.html">Browse writeups</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="border: none; padding-top: 0;">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

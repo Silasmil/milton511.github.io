@@ -1,81 +1,238 @@
----
-layout: none
-permalink: /
----
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Milton Silas - Portfolio</title>
-  <link rel="stylesheet" href="assets/css/main.css">
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"41b1b4144121a93546d24f7a490996c9"})});</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>somas3ccybersecurity — Milton Silas · Red Team · CTF Writeups</title>
+<meta name="description" content="Cybersecurity analyst, red team specialist, and Cisco instructor. Hands-on labs, CTF writeups, and offensive security work.">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Prevent theme flash: apply saved theme before CSS paints
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 
-<nav>
-  <a href="about.html">About</a>
-  <a href="skills.html">Skills</a>
-  <a href="projects.html">Projects</a>
-  <a href="labs.html">Labs</a>
-  <a href="roadmap.html">Roadmap</a>
-  <a href="contact.html">Contact</a>
-  <a href="cv.html">CV</a>
-  <button id="themeToggle">🌙</button>
-</nav>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<header class="glass">
-  <img src="assets/images/profile.jpeg" alt="Milton Silas">
-  <h1>Milton Silas</h1>
-  <h2>Cybersecurity Analyst • Red Team • Cisco Instructor</h2>
-  <div class="button-container">
-    <a class="btn" href="cv.html">View CV</a>
-    <a class="btn" href="CV_MiltonSilas.pdf" download>Download CV</a>
-    <a class="btn" href="projects.html">Projects</a>
-    <a class="btn" href="labs.html">Labs</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">
+      Search <kbd>Ctrl</kbd><kbd>K</kbd>
+    </button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
   </div>
-  <p class="lead">I build hands-on security labs, deliver practical training, and perform red-team assessments. I translate technical security topics into actionable learning for students and teams.</p>
 </header>
 
-<section class="glass reveal">
-  <h3>About Me</h3>
-  <p>I'm Milton Silas, a cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor. I design labs and workshops that move learners from theory to practice.</p>
-  <a class="btn" href="about.html">Learn More</a>
-</section>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
 
-<section class="glass reveal">
-  <h3>Skills & Expertise</h3>
-  <ul>
-    <li>Threat Detection & Incident Response</li>
-    <li>Red Teaming & Ethical Hacking</li>
-    <li>Vulnerability Management & Risk Assessment</li>
-    <li>Cisco IT Essentials Training & Lab Design</li>
-    <li>Python, Bash, Nmap, Wireshark, Metasploit, Kali Linux</li>
-  </ul>
-  <a class="btn" href="skills.html">Full Skills</a>
-</section>
-
-<section class="glass reveal">
-  <h3>Projects & Labs</h3>
-  <p>Explore my cybersecurity projects, write-ups, and CTF labs.</p>
-  <div class="button-container">
-    <a class="btn" href="projects.html">Projects</a>
-    <a class="btn" href="labs.html">Labs</a>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
   </div>
-</section>
+</div>
 
-<section class="glass reveal">
-  <h3>Learning Roadmap</h3>
-  <p>Follow my 2026 cybersecurity learning journey and public write-ups.</p>
-  <a class="btn" href="roadmap.html">View Roadmap</a>
-</section>
+<main id="main">
 
-<footer class="glass">
-  <p>Contact: <a href="mailto:miltonsilas564@gmail.com">miltonsilas564@gmail.com</a> | GitHub: <a href="https://github.com/Milton511" target="_blank">Milton511</a> | LinkedIn: <a href="https://linkedin.com/in/milton-silas-736a852b8" target="_blank">Milton Silas</a></p>
-  <p>© 2026 Milton Silas — Built on GitHub Pages</p>
+  <!-- ============ HERO ============ -->
+  <section class="reveal" style="padding: 30px 0 20px;">
+    <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
+      CYBERSECURITY · RED TEAM · TRAINING
+    </p>
+    <h1 style="font-size: clamp(2.4em, 6vw, 4em); line-height: 1.05; margin-bottom: 18px;">
+      Milton Silas
+    </h1>
+    <p style="font-size: clamp(1.1em, 2vw, 1.4em); font-weight: 600; max-width: 720px; margin: 0 0 20px;">
+      I break systems to make them safer — and teach others to do the same.
+    </p>
+    <p class="muted" style="font-size: 1.05em; max-width: 720px; margin: 0 0 32px;">
+      Cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor.
+      I run hands-on labs, write up every challenge I solve, and help teams find what
+      attackers will find first.
+    </p>
+    <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+      <a class="btn" href="hire.html">Hire me →</a>
+      <a class="btn btn-ghost" href="writeups.html">Read writeups</a>
+    </div>
+    <p class="muted" style="font-size: 0.95em; margin-top: 22px;">
+      ⭐ 9 CTF writeups · 1 First Blood · Cisco Instructor
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ WHAT I DO ============ -->
+  <section class="reveal">
+    <h2>What I do</h2>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">Offensive</span>
+        <h3>Red teaming &amp; pentesting</h3>
+        <p class="muted" style="margin: 0;">
+          Web apps, APIs, Android, and smart contracts. Full-report engagements
+          with reproduction steps a developer can actually action.
+        </p>
+      </div>
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">Defensive</span>
+        <h3>Detection &amp; hardening</h3>
+        <p class="muted" style="margin: 0;">
+          Threat detection, incident response, and secure code review. I find
+          what attackers will find, then help you close it.
+        </p>
+      </div>
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">Training</span>
+        <h3>Workshops &amp; labs</h3>
+        <p class="muted" style="margin: 0;">
+          Cisco IT Essentials instructor. I build hands-on labs that take learners
+          from "I read about it" to "I did it."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ FEATURED WRITEUPS ============ -->
+  <section class="reveal">
+    <div style="display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap;">
+      <h2 style="margin-bottom: 0;">Featured writeups</h2>
+      <a href="writeups.html" style="font-size: 0.9em; padding-bottom: 10px;">All 9 →</a>
+    </div>
+    <div class="grid grid-3" style="margin-top: 24px;">
+
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">Smart Contract</span>
+          <span class="badge badge-muted">Medium · 200 pts</span>
+          <span class="badge">🏆 First Blood</span>
+        </div>
+        <h3 style="margin-top: 0;">Echo Signature</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          ECDSA malleability enables signature replay. One authorization, paid
+          twice — flag derived from the malleated hash.
+        </p>
+        <div class="card-foot">
+          <a href="writeups/echo-signature.html" style="font-weight: 700;">Read →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">Web</span>
+          <span class="badge badge-muted">Easy · 100 pts</span>
+        </div>
+        <h3 style="margin-top: 0;">Securebank</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          SQLi → client-trusted JWT → SSTI in EJS. Three bugs chained into
+          full remote code execution.
+        </p>
+        <div class="card-foot">
+          <a href="writeups/securebank.html" style="font-weight: 700;">Read →</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">Cryptography</span>
+          <span class="badge badge-muted">Medium · 150 pts</span>
+        </div>
+        <h3 style="margin-top: 0;">Oracle</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          CBC padding oracle against a silent binary. Full plaintext recovered
+          byte-by-byte from exit codes alone.
+        </p>
+        <div class="card-foot">
+          <a href="writeups/oracle.html" style="font-weight: 700;">Read →</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ CTA ============ -->
+  <section class="reveal">
+    <div class="card center" style="border-color: var(--accent); box-shadow: 0 0 40px rgba(225,29,46,0.18);">
+      <h2 style="border-bottom: none; margin-top: 0; padding-bottom: 0;">Let's work together</h2>
+      <p class="muted" style="max-width: 560px; margin: 12px auto 28px;">
+        Pentesting, training, or secure code review — I'll scope it, run it,
+        and write it up so your team can act on it.
+      </p>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+        <a class="btn" href="hire.html">See services &amp; pricing →</a>
+        <a class="btn btn-ghost" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+        Writeups from CTFs, hands-on labs, and real-world testing.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:miltonsilas564@proton.me">Email</a></li>
+        <li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
 </footer>
 
-<script src="assets/js/effects.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

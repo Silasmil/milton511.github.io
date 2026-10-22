@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CTF Writeups — somas3ccybersecurity</title>
+<meta name="description" content="Every CTF challenge I've solved on Perfect Root (AfricaHackon), written up with the approach, the failures, and the real-world fix.">
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">
+      Search <kbd>Ctrl</kbd><kbd>K</kbd>
+    </button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="reveal">
+    <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
+      PERFECT ROOT · AFRICAHACKON
+    </p>
+    <h1>CTF Writeups</h1>
+    <p class="muted" style="font-size: 1.05em; max-width: 720px; margin: 0 0 8px;">
+      Every challenge I've solved, written up the way I'd want to read it: the approach,
+      the dead ends, the fix, and why it matters in production.
+    </p>
+    <p class="muted" style="font-size: 0.95em;">
+      ⭐ 9 writeups · 1 First Blood · Every flag included
+    </p>
+  </section>
+
+  <section style="margin-top: 30px;">
+    <div class="chips" data-filter-group data-filter-target="#writeups-grid" role="tablist" aria-label="Filter by category">
+      <button class="chip active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="chip" data-filter="web" role="tab" aria-selected="false">Web</button>
+      <button class="chip" data-filter="mobile" role="tab" aria-selected="false">Mobile</button>
+      <button class="chip" data-filter="smart-contract" role="tab" aria-selected="false">Smart Contract</button>
+      <button class="chip" data-filter="crypto" role="tab" aria-selected="false">Crypto</button>
+      <button class="chip" data-filter="forensics" role="tab" aria-selected="false">Forensics</button>
+    </div>
+
+    <div class="grid grid-3" id="writeups-grid"></div>
+    <noscript>
+      <p class="muted">JavaScript is disabled. Enable it to see the filterable writeup grid, or browse the writeups folder directly.</p>
+    </noscript>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:miltonsilas564@proton.me">Email</a></li>
+        <li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+  // Load writeups.json and render the grid. This is inline because it's page-specific.
+  (function () {
+    var grid = document.getElementById("writeups-grid");
+    if (!grid) return;
+
+    function badge(text, muted) {
+      var s = document.createElement("span");
+      s.className = "badge" + (muted ? " badge-muted" : "");
+      s.textContent = text;
+      return s;
+    }
+
+    function card(w) {
+      var art = document.createElement("article");
+      art.className = "card";
+      art.setAttribute("data-category", w.category);
+
+      var tagRow = document.createElement("div");
+      tagRow.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;";
+      tagRow.appendChild(badge(w.categoryLabel));
+      tagRow.appendChild(badge(w.difficulty + " · " + w.points + " pts", true));
+      if (w.firstBlood) tagRow.appendChild(badge("🏆 First Blood"));
+      art.appendChild(tagRow);
+
+      var h = document.createElement("h3");
+      h.style.marginTop = "0";
+      h.textContent = w.title;
+      art.appendChild(h);
+
+      var p = document.createElement("p");
+      p.className = "muted";
+      p.style.cssText = "margin:0 0 12px;font-size:0.92em;";
+      p.textContent = w.summary;
+      art.appendChild(p);
+
+      var meta = document.createElement("p");
+      meta.className = "muted";
+      meta.style.cssText = "margin:0 0 12px;font-size:0.85em;font-family:monospace;";
+      meta.innerHTML = "Flag: <span class=\"flag-hidden\" data-flag=\"" + w.flag.replace(/"/g,"&quot;") + "\">" + "•".repeat(12) + "</span>";
+      art.appendChild(meta);
+
+      var foot = document.createElement("div");
+      foot.className = "card-foot";
+      var a = document.createElement("a");
+      a.href = "writeups/" + w.slug + ".html";
+      a.style.fontWeight = "700";
+      a.textContent = "Read →";
+      foot.appendChild(a);
+      art.appendChild(foot);
+
+      return art;
+    }
+
+    fetch("writeups.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        // Preserve the order from the JSON
+        data.forEach(function (w) { grid.appendChild(card(w)); });
+        // Re-run filter init now that cards exist
+        if (typeof initFiltersNow === "function") initFiltersNow();
+      })
+      .catch(function () {
+        grid.innerHTML = '<p class="muted">Could not load writeups.json.</p>';
+      });
+  })();
+</script>
+</body>
+</html>

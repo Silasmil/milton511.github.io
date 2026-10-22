@@ -1,38 +1,218 @@
-<!-- cv.html -->
----
-layout: none
-permalink: /cv.html
----
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV — Milton Silas</title>
-<link rel="stylesheet" href="assets/css/main.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV — somas3ccybersecurity</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="skills.html">Skills</a>
-  <a href="projects.html">Projects</a>
-  <a href="labs.html">Labs</a>
-  <a href="roadmap.html">Roadmap</a>
-  <a href="contact.html">Contact</a>
-  <button id="themeToggle">🌙</button>
-</nav>
-<header class="glass reveal">
-  <h1>Curriculum Vitae</h1>
-  <a class="btn" href="CV_MiltonSilas.pdf" download>Download CV</a>
-  <a class="btn" href="index.html">Back to Home</a>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header no-print">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
 </header>
-<section class="glass reveal">
-  <iframe src="CV_MiltonSilas.pdf" width="100%" height="800px"></iframe>
-</section>
-<footer class="glass">
-  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
+
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="reveal no-print">
+    <div style="display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+      <div>
+        <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
+          CURRICULUM VITAE
+        </p>
+        <h1 style="border: none; padding-bottom: 0; margin: 0;">Milton Silas</h1>
+        <p class="muted" style="margin: 6px 0 0;">Cybersecurity Analyst · Red Team Specialist · Cisco Instructor</p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a class="btn" href="Resume" download>Download PDF</a>
+        <button class="btn btn-ghost" onclick="window.print()" type="button">Print</button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider no-print">
+
+  <section class="reveal">
+    <h2>Summary</h2>
+    <p style="margin: 0;">
+      Cybersecurity analyst and red team specialist with hands-on experience in
+      web, mobile, smart contract, and network security. Cisco IT Essentials
+      instructor. Published 9 CTF writeups with a First Blood on ECDSA signature
+      malleability. Focus on finding real-world impact, writing it up clearly,
+      and teaching the fix — not just the exploit.
+    </p>
+  </section>
+
+  <section class="reveal">
+    <h2>Experience</h2>
+
+    <div style="margin-bottom: 28px;">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+        <h3 style="margin: 0;">somas3ccybersecurity — Independent</h3>
+        <span class="muted" style="font-size: 0.9em;">2025 — Present</span>
+      </div>
+      <p class="muted" style="margin: 0 0 10px;">Cybersecurity analyst · Red team specialist</p>
+      <ul style="margin: 0; padding-left: 20px;">
+        <li>Penetration testing for small businesses and startups — web apps, Android APKs, and smart contracts</li>
+        <li>Published 9 CTF writeups from Perfect Root (AfricaHackon), including First Blood on Echo Signature (ECDSA malleability)</li>
+        <li>Designed and delivered hands-on security labs and workshops for beginners</li>
+        <li>Secure code review and threat modelling for web applications</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom: 28px;">
+      <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+        <h3 style="margin: 0;">Cisco IT Essentials — Instructor</h3>
+        <span class="muted" style="font-size: 0.9em;">2025 — Present</span>
+      </div>
+      <p class="muted" style="margin: 0 0 10px;">Networking Academy instructor</p>
+      <ul style="margin: 0; padding-left: 20px;">
+        <li>Full course instruction for Cisco IT Essentials: hardware, OS, networking, security fundamentals</li>
+        <li>Built the hands-on lab component with real equipment and troubleshooting scenarios</li>
+        <li>Designed assessment materials and progress tracking</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <section class="reveal">
+    <h2>Skills</h2>
+    <div class="grid grid-2">
+      <div>
+        <h4>Offensive</h4>
+        <ul style="margin: 6px 0 0; padding-left: 20px;">
+          <li>Web application pentesting (OWASP Top 10, auth, SSTI, SQLi)</li>
+          <li>Android / mobile static analysis (apktool, smali, Frida)</li>
+          <li>Smart contract security (reentrancy, malleability, randomness)</li>
+          <li>Cryptography attacks (padding oracle, ECDSA replay)</li>
+          <li>Active Directory / internal pentesting</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Defensive</h4>
+        <ul style="margin: 6px 0 0; padding-left: 20px;">
+          <li>Threat detection &amp; incident response</li>
+          <li>Vulnerability assessment &amp; risk scoring</li>
+          <li>Secure code review</li>
+          <li>Network forensics (PCAP, tshark)</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Training</h4>
+        <ul style="margin: 6px 0 0; padding-left: 20px;">
+          <li>Cisco IT Essentials instruction</li>
+          <li>Hands-on lab design</li>
+          <li>Technical writing (writeups, reports)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Selected writeups</h2>
+    <ul style="margin: 0; padding-left: 20px;">
+      <li style="margin: 6px 0;"><strong>Echo Signature</strong> — ECDSA signature malleability and replay. 🏆 First Blood.</li>
+      <li style="margin: 6px 0;"><strong>Oracle</strong> — CBC padding oracle attack against a silent binary.</li>
+      <li style="margin: 6px 0;"><strong>Securebank</strong> — SQLi → JWT → SSTI chain to RCE.</li>
+      <li style="margin: 6px 0;"><strong>The Vault That Ate Itself</strong> — Reentrancy, canonical exploit.</li>
+      <li style="margin: 6px 0;">…and 5 more — <a href="writeups.html">view all on the writeups page</a>.</li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <h2>Certifications &amp; training</h2>
+    <ul style="margin: 0; padding-left: 20px;">
+      <li style="margin: 6px 0;">Cisco IT Essentials — Instructor</li>
+      <li style="margin: 6px 0;">OSCP — in progress</li>
+      <li style="margin: 6px 0;">CRTP — in progress</li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <h2>Contact</h2>
+    <ul style="margin: 0; padding-left: 20px;">
+      <li style="margin: 6px 0;">Email: <a href="mailto:miltonsilas564@proton.me">miltonsilas564@proton.me</a></li>
+      <li style="margin: 6px 0;">GitHub: <a href="https://github.com/Milton511" target="_blank" rel="noopener">github.com/Milton511</a></li>
+      <li style="margin: 6px 0;">Site: <a href="index.html">somas3ccybersecurity</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer no-print">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:miltonsilas564@proton.me">Email</a></li>
+        <li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
 </footer>
-<script src="assets/js/effects.js"></script>
+
+<script src="main.js"></script>
 </body>
 </html>

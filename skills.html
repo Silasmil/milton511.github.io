@@ -1,51 +1,225 @@
----
-layout: none
-permalink: /skills.html
----
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skills — Milton Silas</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skills — somas3ccybersecurity</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="projects.html">Projects</a>
-  <a href="labs.html">Labs</a>
-  <a href="roadmap.html">Roadmap</a>
-  <a href="contact.html">Contact</a>
-  <a href="cv.html">CV</a>
-  <button id="themeToggle">🌙</button>
-</nav>
+<a class="skip-link" href="#main">Skip to content</a>
 
-<header class="glass reveal">
-  <h1>Skills & Expertise</h1>
-  <p>Hands-on technical skills and cybersecurity expertise for real-world impact.</p>
-  <a class="btn" href="index.html">Back to Home</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
 </header>
 
-<section class="glass reveal">
-  <h3>Core Skills</h3>
-  <ul>
-    <li>Threat Detection & Incident Response</li>
-    <li>Red Teaming & Ethical Hacking</li>
-    <li>Vulnerability Management & Risk Assessment</li>
-    <li>API & Web Application Security Testing</li>
-    <li>Python, Bash, Nmap, Wireshark, Metasploit, Kali Linux</li>
-    <li>Cisco IT Essentials & Lab Design</li>
-  </ul>
-</section>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
 
-<footer class="glass">
-  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="reveal">
+    <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
+      WHAT I'M GOOD AT
+    </p>
+    <h1>Skills</h1>
+    <p class="muted" style="font-size: 1.05em; max-width: 720px;">
+      Four areas, all practiced. The percentages are self-assessed — they represent
+      what I'd confidently take on in a paid engagement, not what I've read about.
+    </p>
+  </section>
+
+  <hr class="divider">
+
+  <section class="reveal">
+    <h2>Offensive</h2>
+    <div class="card">
+      <div class="skill-row">
+        <span class="name">Web application pentesting</span>
+        <div class="skill-bar"><span data-level="90"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Android / mobile static analysis</span>
+        <div class="skill-bar"><span data-level="80"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Smart contract security (Solidity)</span>
+        <div class="skill-bar"><span data-level="75"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Active Directory / internal pentesting</span>
+        <div class="skill-bar"><span data-level="70"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Cryptography (padding oracles, ECDSA)</span>
+        <div class="skill-bar"><span data-level="75"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Defensive</h2>
+    <div class="card">
+      <div class="skill-row">
+        <span class="name">Threat detection &amp; incident response</span>
+        <div class="skill-bar"><span data-level="80"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Vulnerability assessment &amp; risk scoring</span>
+        <div class="skill-bar"><span data-level="85"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Secure code review</span>
+        <div class="skill-bar"><span data-level="80"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Network forensics (PCAP analysis)</span>
+        <div class="skill-bar"><span data-level="75"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Cloud &amp; DevSecOps</h2>
+    <div class="card">
+      <div class="skill-row">
+        <span class="name">Container &amp; Kubernetes security basics</span>
+        <div class="skill-bar"><span data-level="65"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">CI/CD security (GitHub Actions)</span>
+        <div class="skill-bar"><span data-level="70"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Infrastructure-as-code review</span>
+        <div class="skill-bar"><span data-level="60"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2>Training</h2>
+    <div class="card">
+      <div class="skill-row">
+        <span class="name">Cisco IT Essentials instruction</span>
+        <div class="skill-bar"><span data-level="95"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Hands-on lab design</span>
+        <div class="skill-bar"><span data-level="90"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Technical writing (writeups, reports)</span>
+        <div class="skill-bar"><span data-level="90"></span></div>
+      </div>
+      <div class="skill-row">
+        <span class="name">Visual design for training material</span>
+        <div class="skill-bar"><span data-level="80"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="reveal center">
+    <div class="card" style="border-color: var(--accent);">
+      <h2 style="border: none; padding-bottom: 0; margin-top: 0;">Want to see the evidence?</h2>
+      <p class="muted" style="max-width: 560px; margin: 12px auto 24px;">
+        Nine writeups with flags, code, and defensive fixes — and a CV you can download.
+      </p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+        <a class="btn" href="writeups.html">Read writeups</a>
+        <a class="btn btn-ghost" href="cv.html">View CV</a>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="reveal">
+    <h2>Fullstack (in development)</h2>
+    <div class="card">
+      <div class="skill-row"><span class="name">Python / Flask</span><div class="skill-bar"><span data-level="80"></span></div></div>
+      <div class="skill-row"><span class="name">React / TypeScript</span><div class="skill-bar"><span data-level="70"></span></div></div>
+      <div class="skill-row"><span class="name">PostgreSQL</span><div class="skill-bar"><span data-level="65"></span></div></div>
+      <div class="skill-row"><span class="name">Docker / docker-compose</span><div class="skill-bar"><span data-level="70"></span></div></div>
+      <div class="skill-row"><span class="name">CI/CD (GitHub Actions)</span><div class="skill-bar"><span data-level="65"></span></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:miltonsilas564@proton.me">Email</a></li>
+        <li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
 </footer>
 
-<script src="assets/js/effects.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

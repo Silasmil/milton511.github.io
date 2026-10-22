@@ -1,48 +1,105 @@
----
-layout: none
-permalink: /contact.html
----
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — Milton Silas</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — somas3ccybersecurity</title>
+<link rel="stylesheet" href="style.css">
+<script>
+(function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
 </head>
 <body>
-
-<nav>
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="skills.html">Skills</a>
-  <a href="projects.html">Projects</a>
-  <a href="labs.html">Labs</a>
-  <a href="roadmap.html">Roadmap</a>
-  <a href="cv.html">CV</a>
-  <button id="themeToggle">🌙</button>
-</nav>
-
-<header class="glass reveal">
-  <h1>Contact Me</h1>
-  <p>Reach out for collaborations, projects, or mentorship opportunities.</p>
-  <a class="btn" href="index.html">Back to Home</a>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation"><ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="skills.html">Skills</a></li>
+      <li><a href="writeups.html">Writeups</a></li><li><a href="labs.html">Labs</a></li><li><a href="projects.html">Projects</a></li>
+      <li><a href="roadmap.html">Roadmap</a></li><li><a href="cv.html">CV</a></li><li><a href="contact.html">Contact</a></li>
+    </ul></nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
 </header>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<main id="main">
+  <section class="reveal">
+    <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">GET IN TOUCH</p>
+    <h1>Contact</h1>
+    <p class="muted" style="font-size: 1.05em; max-width: 720px;">If you have a project, a question, or just want to say hi — email is best. I read everything and reply within a day or two on weekdays.</p>
+  </section>
+  <hr class="divider">
+  <section class="reveal">
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">Email</span>
+        <h3 style="margin-top: 0;">Best way to reach me</h3>
+        <p class="muted" style="margin: 0 0 12px;">For inquiries, projects, and general messages.</p>
+        <a href="mailto:miltonsilas564@proton.me" style="font-weight: 700; font-size: 1.05em;">miltonsilas564@proton.me</a>
+      </div>
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">Hire</span>
+        <h3 style="margin-top: 0;">For paid work</h3>
+        <p class="muted" style="margin: 0 0 12px;">Pentesting, secure code review, or training — see the services page first, then email with the scope.</p>
+        <a href="hire.html" style="font-weight: 700; font-size: 1.05em;">See services &amp; pricing →</a>
+      </div>
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">GitHub</span>
+        <h3 style="margin-top: 0;">Code &amp; writeups</h3>
+        <p class="muted" style="margin: 0 0 12px;">All the site code is public. Writeups live in the repo too.</p>
+        <a href="https://github.com/Milton511" target="_blank" rel="noopener" style="font-weight: 700; font-size: 1.05em;">github.com/Milton511 →</a>
+      </div>
+      <div class="card">
+        <span class="badge" style="margin-bottom: 12px;">Location</span>
+        <h3 style="margin-top: 0;">Based in Kenya</h3>
+        <p class="muted" style="margin: 0 0 12px;">Kilifi, Kenya · Remote-friendly · Working across African and global time zones.</p>
+        <span class="muted" style="font-size: 0.9em;">🌍 UTC+3</span>
+      </div>
+    </div>
+  </section>
+  <hr class="divider">
+  <section class="reveal center">
+    <div class="card" style="border-color: var(--accent);">
+      <h2 style="border: none; padding-bottom: 0; margin-top: 0;">Ready to start?</h2>
+      <p class="muted" style="max-width: 560px; margin: 12px auto 24px;">Tell me what you're working on and I'll tell you how I can help.</p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+        <a class="btn" href="mailto:miltonsilas564@proton.me?subject=Project%20inquiry">Send an email</a>
+        <a class="btn btn-ghost" href="hire.html">See services</a>
+      </div>
+    </div>
+  </section>
 
-<section class="glass reveal">
-  <h3>Email & Socials</h3>
-  <ul>
-    <li>Email: <a href="mailto:miltonsilas564@gmail.com">miltonsilas564@gmail.com</a></li>
-    <li>GitHub: <a href="https://github.com/Milton511" target="_blank">Milton511</a></li>
-    <li>LinkedIn: <a href="https://linkedin.com/in/milton-silas-736a852b8" target="_blank">Milton Silas</a></li>
-  </ul>
-</section>
+  <section class="reveal">
+    <h2>Direct line</h2>
+    <div class="card">
+      <p class="muted" style="margin: 0 0 8px;">If you'd rather call than email (business hours, EAT):</p>
+      <p style="margin: 0; font-size: 1.1em; font-weight: 700;">
+        <a href="tel:+254790480098">+254 790 480 098</a>
+      </p>
+      <p class="muted" style="margin: 8px 0 0; font-size: 0.9em;">Please use email first for project inquiries — faster for both of us.</p>
+    </div>
+  </section>
 
-<footer class="glass">
-  <p>© 2026 Milton Silas — <a href="index.html">Back to Home</a></p>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><h4>somas3ccybersecurity</h4><p class="muted" style="font-size: 0.9em; margin: 0;">Cybersecurity analyst · Red team specialist · Cisco instructor.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="writeups.html">Writeups</a></li><li><a href="labs.html">Labs</a></li><li><a href="projects.html">Projects</a></li><li><a href="roadmap.html">Roadmap</a></li></ul></div>
+    <div><h4>Connect</h4><ul><li><a href="mailto:miltonsilas564@proton.me">Email</a></li><li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li><li><a href="hire.html">Hire me</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span><span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span></div>
 </footer>
-
-<script src="assets/js/effects.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

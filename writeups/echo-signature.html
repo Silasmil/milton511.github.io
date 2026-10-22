@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Echo Signature — CTF Writeup — somas3ccybersecurity</title>
+<link rel="stylesheet" href="../style.css">
+<script>
+(function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
+</script>
+<style>
+.flag-gate{display:inline-block;filter:blur(6px);transition:filter .4s ease;
+  cursor:pointer;user-select:none;background:var(--bg-alt,#141414);color:var(--fg,#f5f5f5);
+  padding:4px 10px;border-radius:4px;border:1px solid var(--border,#242424)}
+.flag-gate.unlocked{filter:none;background:var(--accent-soft,#2a0808);color:var(--accent-hi,#ff3344)}
+.flag-banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:var(--bg-card,#171717);color:var(--fg,#f5f5f5);border:1px solid var(--accent,#e11d2e);
+  border-radius:999px;padding:10px 20px;font-size:13px;font-weight:700;
+  box-shadow:0 4px 24px rgba(0,0,0,.5);z-index:500;display:flex;gap:12px;align-items:center;
+  font-family:"Inter",system-ui,sans-serif}
+.flag-banner button{background:var(--accent,#e11d2e);color:#fff;border:none;border-radius:999px;
+  padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.flag-banner button:hover{background:var(--accent-hi,#ff3344)}
+@media (prefers-reduced-motion:reduce){.flag-gate{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation"><ul class="nav-links">
+      <li><a href="../index.html">Home</a></li><li><a href="../about.html">About</a></li><li><a href="../skills.html">Skills</a></li>
+      <li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li>
+      <li><a href="../roadmap.html">Roadmap</a></li><li><a href="../cv.html">CV</a></li><li><a href="../contact.html">Contact</a></li>
+    </ul></nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">Search <kbd>Ctrl</kbd><kbd>K</kbd></button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
+<main id="main">
+<p style="margin-bottom: 20px;"><a href="../writeups.html">← Back to all writeups</a></p>
+<article class="writeup-body">
+<h1>Echo Signature — CTF Writeup</h1>
+<p><strong>Platform:</strong> Perfect Root (AfricaHackon) <strong>Room:</strong> Echo Signature <strong>Author:</strong> LordSudo <strong>Difficulty:</strong> Medium <strong>Points:</strong> 200 <strong>Category:</strong> Smart Contract — ECDSA Signature Malleability / Replay <strong>Result:</strong> Solved (1/1 flag captured) — <strong>FIRST BLOOD</strong></p>
+<hr>
+<h2>Description</h2>
+<blockquote>
+<p>A relayer contract processes signed withdrawal authorizations from a single</p>
+<p>trusted signer. Logs show a withdrawal request was authorized once, but the</p>
+<p>recipient was paid twice — with no second signature ever collected. You're</p>
+<p>given the contract source and the exact request + signature that was already</p>
+<p>used once. No live instance and no private key are needed to reproduce the</p>
+<p>incident.</p>
+</blockquote>
+<h2>Flag</h2>
+<pre><code><span class="flag-gate" data-flag="r00t{a492e46c96231d82}">r00t{a492e46c96231d82}</span></code></pre>
+<p>Derivation:</p>
+<pre><code>flag = "r00t{" + keccak256(r || (n-s) || v')[:16] + "}"</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>n</code> = secp256k1 curve order</li>
+<li><code>r, s, v</code> = the signature from <code>used_signature.json</code></li>
+<li><code>v' = 27</code> (flipped from the original <code>v = 28</code>)</li>
+<li>Packing is raw bytes, big-endian, <code>r || s' || v'</code>, <code>v'</code> as a single byte</li>
+<li>Truncate the keccak-256 digest to the first <strong>16 hex chars</strong> (8 bytes), lowercase, no <code>0x</code></li>
+</ul>
+<hr>
+<h2>Vulnerability</h2>
+<p><strong>ECDSA signature malleability</strong> enabling a <strong>replay attack</strong> (CWE-347 / SWC-117).</p>
+<p><code>WithdrawalRelayer</code> authenticates withdrawals via <code>ecrecover</code> and prevents replays by storing a hash of the signature tuple in <code>usedSignatures</code>. But the "identity" it hashes is <code>(r, s, v)</code> — which is not unique. Every valid ECDSA signature has a second, equally-valid representation <code>(r, n-s, vXOR1)</code> that recovers the same signer. The relayer accepts the second form as "new," and the recipient is paid twice.</p>
+<hr>
+<h2>Source Analysis</h2>
+<pre><code>function executeWithdrawal(</code></pre>
+<pre><code>    address recipient,</code></pre>
+<pre><code>    uint256 amount,</code></pre>
+<pre><code>    uint256 requestId,</code></pre>
+<pre><code>    uint8 v,</code></pre>
+<pre><code>    bytes32 r,</code></pre>
+<pre><code>    bytes32 s</code></pre>
+<pre><code>) external {</code></pre>
+<pre><code>    bytes32 messageHash = keccak256(abi.encodePacked(recipient, amount, requestId));</code></pre>
+<pre><code>    bytes32 ethSignedMessageHash = keccak256(</code></pre>
+<pre><code>        abi.encodePacked("\x19Ethereum Signed Message:\n32", messageHash)</code></pre>
+<pre><code>    );</code></pre>
+<pre><code>    address signer = ecrecover(ethSignedMessageHash, v, r, s);</code></pre>
+<pre><code>    require(signer == authorizedSigner, "invalid signature");</code></pre>
+<pre><code>    bytes32 sigHash = keccak256(abi.encodePacked(r, s, v));</code></pre>
+<pre><code>    require(!usedSignatures[sigHash], "signature already used");</code></pre>
+<pre><code>    usedSignatures[sigHash] = true;</code></pre>
+<pre><code>    paidOut[recipient] += amount;</code></pre>
+<pre><code>    emit Withdrawn(recipient, amount, sigHash);</code></pre>
+<pre><code>}</code></pre>
+<h3>The bug in one line</h3>
+<pre><code>bytes32 sigHash = keccak256(abi.encodePacked(r, s, v));</code></pre>
+<p><code>(r, s, v)</code> is <strong>not</strong> a unique identifier for "this authorization was used." ECDSA has two valid forms per (message, signer). Hashing the tuple means the guard only blocks one of them.</p>
+<hr>
+<h2>ECDSA Malleability Math</h2>
+<p>Given a valid signature <code>(r, s, v)</code> over a message:</p>
+<pre><code>(r, n - s, v XOR 1)     where n = secp256k1 order</code></pre>
+<pre><code>                        = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141</code></pre>
+<p>recovers the same signer. <code>ecrecover</code> accepts both. Only the tuple hash differs.</p>
+<p>From <code>used_signature.json</code>:</p>
+<pre><code>original:  s = 0x3310310d1c35bb4dbcbacb05478ad5d6f73f189a9f625db2a0764c842777310e</code></pre>
+<pre><code>           v = 28</code></pre>
+<pre><code>malleated: s' = n - s</code></pre>
+<pre><code>              = 0xccefcef2e3ca44b2434534fab8752a27c36fc44c0fe642891f5c1208a8bf1033</code></pre>
+<pre><code>           v' = 27</code></pre>
+<h3>Local confirmation</h3>
+<p>Both forms recover the same authorized signer:</p>
+<pre><code>original  recovers: 0x473b73dfEDfcE7A3F18ad8180ca81772889797DB</code></pre>
+<pre><code>malleated recovers: 0x473b73dfEDfcE7A3F18ad8180ca81772889797DB</code></pre>
+<p>Confirmed via <code>eth_account.Account.recover_message</code> using <code>encode_defunct(primitive=messageHash)</code> to reproduce the contract's exact EIP-191 pipeline.</p>
+<hr>
+<h2>Flag Derivation</h2>
+<p>The challenge asks for the flag from <strong>the replay-check hash the contract computes</strong> — i.e. the value stored in <code>usedSignatures</code> for the malleated signature. Not the message hash, not <code>ethSignedMessageHash</code>.</p>
+<h3>Exact steps</h3>
+<p>1. Take <code>r, s, v</code> from the provided signature. 2. Compute malleated values:</p>
+<pre><code>   s' = n - s</code></pre>
+<pre><code>   v' = 27   (flip of 28)</code></pre>
+<p>3. Compute the sigHash <strong>exactly as the contract would</strong> on the replay:</p>
+<pre><code>   sigHash = keccak256(abi.encodePacked(bytes32 r, bytes32 s', uint8 v'))</code></pre>
+<p><code>abi.encodePacked</code> of these types is raw concatenation:    <code>r || s' || v'</code> = 32 + 32 + 1 = 65 raw bytes, no padding, no length prefixes. 4. Truncate the hex digest to the first 16 hex chars (8 bytes), lowercase. 5. Wrap in <code>r00t{...}</code>.</p>
+<h3>Recompute</h3>
+<pre><code>from eth_hash.auto import keccak</code></pre>
+<pre><code>n  = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141</code></pre>
+<pre><code>r  = 0x3557278cc3fdf4ea20ef2d58d4cb891c5dadf772026e86568195eea6b86561af</code></pre>
+<pre><code>s  = 0x3310310d1c35bb4dbcbacb05478ad5d6f73f189a9f625db2a0764c842777310e</code></pre>
+<pre><code>v  = 28</code></pre>
+<pre><code>s2 = n - s</code></pre>
+<pre><code>v2 = 27</code></pre>
+<pre><code>sig_hash = keccak(</code></pre>
+<pre><code>    r.to_bytes(32, 'big') +</code></pre>
+<pre><code>    s2.to_bytes(32, 'big') +</code></pre>
+<pre><code>    bytes([v2])</code></pre>
+<pre><code>).hex()</code></pre>
+<pre><code>flag = "r00t{" + sig_hash[:16] + "}"</code></pre>
+<p>Output:</p>
+<pre><code>sigHash  = a492e46c96231d82708688031fe72538391b3bd1451c47d4a642890543cbc273</code></pre>
+<pre><code>first 16 = a492e46c96231d82</code></pre>
+<pre><code>flag     = r00t{a492e46c96231d82}</code></pre>
+<hr>
+<h2>What Worked</h2>
+<p>1. <strong>Reading the contract literally.</strong> The replay guard's failure mode    (<code>usedSignatures[keccak(r,s,v)]</code>) is visible in two lines of Solidity. 2. <strong>Knowing ECDSA malleability.</strong> <code>(r, s, v)</code> ↔ <code>(r, n-s, vXOR1)</code>. Both    recover the same signer. 3. <strong>Confirming locally with <code>eth_account</code>.</strong> Both forms recovering the same    address proved the replay was real, not theoretical. 4. <strong>Asking the author for a directional nudge</strong> after exhausting every    reasonable derivation. This is the single highest-leverage move on a    medium challenge you're stuck on. "Is the flag from the selector, the    signature material, or a phrase?" — one sentence, unblocked everything. 5. <strong>Listening precisely.</strong> When the author said "the malleated v, packed    r||s||v as raw bytes, truncated to 16 hex," applying that exactly landed    the flag.</p>
+<h2>What Failed (and Why)</h2>
+<p>1. <strong>Guessing flag formats.</strong> We submitted selectors, full hashes,    4-byte truncations, descriptive phrases, and header values. Dozens of    submissions. Zero landed.</p>
+<p>Lesson: don't guess when the challenge has a *derivable* answer. Compute,    don't conjecture.</p>
+<p>2. <strong>Assuming the same truncation as a similar challenge.</strong> "The Vault That    Ate Itself" used the 4-byte selector. We assumed Echo Signature would    too. It used an 8-byte (16 hex) truncation of a keccak hash instead.</p>
+<p>Lesson: similar wording ≠ identical derivation. Generate candidates at    *every* truncation length — 4, 8, 16, 32 hex — before submitting.</p>
+<p>3. <strong>Using the original <code>v = 28</code>.</strong> We computed the sigHash with the    original signature the first time. The flag is derived from the    <strong>malleated</strong> signature — the one that would actually be replayed. The    contract stores the malleated hash on the replay; that's the value the    flag encodes.</p>
+<p>Lesson: on a replay challenge, the flag encodes the *attacker's* inputs    (the replayed signature), not the legitimate one.</p>
+<p>4. <strong>Not reading the challenge description precisely enough.</strong> "Derive the    flag from the vulnerable function's own signature" — this could mean    many things. For Vault it meant the selector; here it meant the    replay-check hash. The phrase is deliberately ambiguous and does not    carry the derivation by itself.</p>
+<p>5. <strong>Very long heredocs with triple-backtick code fences.</strong> zsh parses    backticks as command substitution and swallows the heredoc terminator,    leaving the shell at <code>heredoc></code>. Multiple writeup attempts failed this    way.</p>
+<p>Lesson: write markdown containing code fences with <code>nano</code> or <code>vim</code>, or    use <code>~~~</code> fences instead of triple backticks.</p>
+<hr>
+<h2>Real-World Impact</h2>
+<h3>Signature replay on bridges and relays</h3>
+<p>Cross-chain bridges and meta-transaction relayers (ERC-2771, EIP-712-based forwarders) routinely accept off-chain signatures from a trusted signer or user. If they identify "a used signature" by hashing <code>(r, s, v)</code> instead of hashing the *message*, an attacker can replay indefinitely.</p>
+<p>Historical cases:</p>
+<ul>
+<li><strong>Poly Network (2021, ~$610M)</strong> — signature verification logic flaw.</li>
+<li><strong>Wormhole (2022, ~$326M)</strong> — signature verification bypass.</li>
+<li><strong>Nomad (2022, ~$190M)</strong> — replay of a valid root message.</li>
+<li><strong>Various ERC-2771 forwarders</strong> — replayed meta-transactions when nonces</li>
+</ul>
+<p>were missing from the signed payload.</p>
+<h3>The specific failure mode</h3>
+<p>Any system that uses <code>keccak256(r || s || v)</code> (or <code>abi.encodePacked(r, s, v)</code>) as the "used" identifier is <strong>broken by construction</strong>. It will always be malleable unless the code additionally rejects high-S signatures via <code>require(uint256(s) <= n / 2)</code>.</p>
+<hr>
+<h2>How It Happens in Real Codebases</h2>
+<p>1. <strong>"Signature hash" as identity.</strong> Developers naturally think of the    signature bytes as a unique fingerprint of an authorization. They aren't.    The *message* is the identity; the signature is one of many encodings. 2. <strong>Copying examples that hash (r, s, v).</strong> Many older tutorials use    <code>keccak256(abi.encodePacked(r, s, v))</code> because it works for the happy    path and looks reasonable. 3. <strong>No low-S enforcement.</strong> Solidity's <code>ecrecover</code> accepts both malleable    forms. EIP-2 rejects high-S at the *transaction signature* layer, but not    in application-level <code>ecrecover</code> calls. OpenZeppelin's <code>ECDSA.recover</code>    rejects high-S explicitly — many hand-rolled versions don't. 4. <strong>No nonce in the signed payload.</strong> If the signed message includes a    per-user monotonic nonce, replay is structurally impossible even if the    signature tuple is malleated. Many contracts omit this. 5. <strong>No <code>chainId</code> or contract address in the signed message.</strong> Cross-chain    and cross-contract replay become possible even without malleability.</p>
+<hr>
+<h2>Fixes (Defensive)</h2>
+<h3>1. Mark by messageHash, not sigHash</h3>
+<p>The simplest correct fix:</p>
+<pre><code>bytes32 messageHash = keccak256(abi.encodePacked(recipient, amount, requestId));</code></pre>
+<pre><code>require(!usedMessages[messageHash], "authorization already used");</code></pre>
+<pre><code>usedMessages[messageHash] = true;</code></pre>
+<p>The message is unique per authorization; the signature is not.</p>
+<h3>2. Include a per-user nonce in the signed payload</h3>
+<pre><code>bytes32 messageHash = keccak256(</code></pre>
+<pre><code>    abi.encodePacked(recipient, amount, nonces[recipient]++, requestId)</code></pre>
+<pre><code>);</code></pre>
+<p>Even a malleated signature cannot be replayed because the nonce advances on first use.</p>
+<h3>3. Use OpenZeppelin's ECDSA library</h3>
+<pre><code>import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";</code></pre>
+<pre><code>address signer = ECDSA.recover(ethSignedMessageHash, v, r, s);</code></pre>
+<p><code>ECDSA.recover</code> rejects <code>s > n / 2</code> (high-S). This kills malleability at the root: there is only one valid signature per message.</p>
+<h3>4. Adopt EIP-712 typed structured data</h3>
+<p>EIP-712 signatures include a domain separator (<code>name</code>, <code>version</code>, <code>chainId</code>, <code>verifyingContract</code>). This prevents cross-contract and cross-chain replay as a side effect of a stronger domain definition.</p>
+<h3>5. Add a deadline to the signed payload</h3>
+<pre><code>bytes32 messageHash = keccak256(</code></pre>
+<pre><code>    abi.encodePacked(recipient, amount, requestId, deadline)</code></pre>
+<pre><code>);</code></pre>
+<pre><code>require(block.timestamp &lt;= deadline, "expired");</code></pre>
+<p>Limits the blast radius if replay is possible through any other vector.</p>
+<h3>6. Prefer a commit-reveal or on-chain nonce over signature-based auth</h3>
+<p>If the authorization doesn't need to be off-chain, don't make it signature- based. Each simplification removes an attack surface.</p>
+<hr>
+<h2>Key Takeaways</h2>
+<ul>
+<li><strong>Signature ≠ identity.</strong> The message is the identity. Never key replay</li>
+</ul>
+<p>protection off the signature tuple.</p>
+<ul>
+<li>**ECDSA malleability is a property of the algorithm, not a bug in your</li>
+</ul>
+<p>code.** <code>(r, s, v)</code> and <code>(r, n-s, vXOR1)</code> are both valid. Every contract   that hashes <code>(r, s, v)</code> as an identity is exploitable.</p>
+<ul>
+<li><strong>EIP-2 does not protect you.</strong> It bans high-S at the transaction layer</li>
+</ul>
+<p>only. Application <code>ecrecover</code> calls accept both.</p>
+<ul>
+<li><strong>Use OZ <code>ECDSA.recover</code>.</strong> It rejects high-S. Use it. Don't hand-roll.</li>
+<li><strong>Nonce > signature-hash.</strong> A per-user nonce makes replay structurally</li>
+</ul>
+<p>impossible regardless of malleability.</p>
+<ul>
+<li><strong>Read the challenge description literally.</strong> "Replay-check hash" means</li>
+</ul>
+<p>the value stored in <code>usedSignatures</code> for the replayed signature — the   malleated one — not the legitimate one, and not the message hash.</p>
+<ul>
+<li><strong>Ask the author when stuck.</strong> After exhausting derivations, one</li>
+</ul>
+<p>directional nudge from a challenge author is legitimate and efficient.   Rule 03 forbids spoilers from other players; asking for a *direction*   from the author is not a spoiler.</p>
+<hr>
+<h2>Tools Used</h2>
+<ul>
+<li><code>eth_hash</code> (Python) — keccak-256 for hash and selector derivation</li>
+<li><code>eth_account</code> — EIP-191 aware <code>ecrecover</code> for local confirmation</li>
+<li>Foundry <code>cast sig</code> — independent selector cross-check</li>
+<li>Plain source review</li>
+</ul>
+<hr>
+<h2>Commands That Worked</h2>
+<pre><code># compute the sigHash the contract would store on the replay</code></pre>
+<pre><code>python3 - &lt;&lt; 'PY'</code></pre>
+<pre><code>from eth_hash.auto import keccak</code></pre>
+<pre><code>n = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141</code></pre>
+<pre><code>r = 0x3557278cc3fdf4ea20ef2d58d4cb891c5dadf772026e86568195eea6b86561af</code></pre>
+<pre><code>s = 0x3310310d1c35bb4dbcbacb05478ad5d6f73f189a9f625db2a0764c842777310e</code></pre>
+<pre><code>v = 28</code></pre>
+<pre><code>s2, v2 = n - s, 27</code></pre>
+<pre><code>h = keccak(r.to_bytes(32,'big') + s2.to_bytes(32,'big') + bytes([v2])).hex()</code></pre>
+<pre><code>print("r00t{" + h[:16] + "}")</code></pre>
+<pre><code>PY</code></pre>
+<h2>Commands That Did NOT Work (and why)</h2>
+<pre><code># Long heredoc with triple-backtick fences — zsh eats the terminator</code></pre>
+<pre><code>cat &gt; writeup.md &lt;&lt; 'EOF'</code></pre>
+<pre><code>...</code></pre>
+<pre><code>```solidity</code></pre>
+<pre><code>...</code></pre>
+<pre><code>EOF</code></pre>
+<pre><code># Fix: use nano/vim, or use ~~~ fences instead of ```</code></pre>
+<pre><code># Full 64-hex sigHash as flag — never tried the 16-hex truncation</code></pre>
+<pre><code>r00t{a492e46c96231d82708688031fe72538391b3bd1451c47d4a642890543cbc273}</code></pre>
+<pre><code># Fix: truncate to first 16 hex chars</code></pre>
+<pre><code># 4-byte selector — pattern borrowed from "The Vault That Ate Itself"</code></pre>
+<pre><code>r00t{346b4263}</code></pre>
+<pre><code># Fix: different challenge, different derivation</code></pre>
+<pre><code># Original signature (v = 28, s as given) — wrong form</code></pre>
+<pre><code>keccak(r || s || v = 28)</code></pre>
+<pre><code># Fix: use malleated values</code></pre>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><h4>somas3ccybersecurity</h4><p class="muted" style="font-size: 0.9em; margin: 0;">Cybersecurity analyst · Red team specialist · Cisco instructor.</p></div>
+    <div><h4>Explore</h4><ul><li><a href="../writeups.html">Writeups</a></li><li><a href="../labs.html">Labs</a></li><li><a href="../projects.html">Projects</a></li><li><a href="../roadmap.html">Roadmap</a></li></ul></div>
+    <div><h4>Connect</h4><ul><li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li><li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li><li><a href="../hire.html">Hire me</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span><span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span></div>
+</footer>
+<script src="../main.js"></script>
+<script>
+(function(){
+  "use strict";
+  var SEL=".flag-gate", WAIT_MS=3*60*1000, SCROLL_RATIO=0.6;
+  var startedAt=Date.now(), scrolledEnough=false, unlocked=false;
+  function article(){return document.querySelector(".writeup-body")||document.body;}
+  function onScroll(){
+    var a=article(),r=a.getBoundingClientRect();
+    var visible=Math.max(0,Math.min(a.offsetHeight,window.innerHeight-r.top));
+    if(visible/a.offsetHeight>=SCROLL_RATIO)scrolledEnough=true;
+    maybeUnlock();
+  }
+  function maybeUnlock(force){
+    if(unlocked)return;
+    if(force||(Date.now()-startedAt>=WAIT_MS&&scrolledEnough)){
+      unlocked=true;
+      document.querySelectorAll(SEL).forEach(function(e){e.classList.add("unlocked");});
+      var b=document.getElementById("flag-banner");if(b)b.remove();
+    }
+  }
+  function tick(){
+    if(unlocked)return;
+    var left=Math.max(0,Math.ceil((WAIT_MS-(Date.now()-startedAt))/1000));
+    var m=Math.floor(left/60),s=("0"+(left%60)).slice(-2);
+    var el=document.getElementById("flag-countdown");
+    if(el)el.textContent=(scrolledEnough?"unlock in ":"keep reading — ")+m+":"+s;
+    setTimeout(tick,500);
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    if(!document.querySelector(SEL))return;
+    var b=document.createElement("div");
+    b.id="flag-banner";b.className="flag-banner";
+    b.innerHTML='<span>🔒 Flag locked — <span id="flag-countdown">3:00</span></span>'+
+                '<button type="button" id="flag-skip">Reveal now</button>';
+    document.body.appendChild(b);
+    document.getElementById("flag-skip").onclick=function(){maybeUnlock(true);};
+    document.querySelectorAll(SEL).forEach(function(e){
+      e.onclick=function(){maybeUnlock(true);};
+      e.title="Click to reveal";
+    });
+    window.addEventListener("scroll",onScroll,{passive:true});
+    tick();
+  });
+})();
+</script>
+</body>
+</html>
