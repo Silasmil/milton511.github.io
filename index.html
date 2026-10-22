@@ -4,19 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>somas3ccybersecurity — Milton Silas · Red Team · CTF Writeups</title>
-<meta name="description" content="Cybersecurity analyst, red team specialist, and Cisco instructor. Hands-on labs, CTF writeups, and offensive security work.">
+<meta name="description" content="Cybersecurity analyst, red team specialist, and Cisco instructor. 9 CTF writeups, real labs, and fullstack projects.">
 <link rel="stylesheet" href="style.css">
 <script>
-  // Prevent theme flash: apply saved theme before CSS paints
-  (function () {
-    try {
-      var t = localStorage.getItem("theme");
-      if (!t) {
-        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-      }
-      document.documentElement.setAttribute("data-theme", t);
-    } catch (e) {}
-  })();
+(function () {
+  try {
+    var t = localStorage.getItem("theme");
+    if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+})();
 </script>
 </head>
 <body>
@@ -34,6 +31,7 @@
         <li><a href="writeups.html">Writeups</a></li>
         <li><a href="labs.html">Labs</a></li>
         <li><a href="projects.html">Projects</a></li>
+        <li><a href="signal.html">Signal</a></li>
         <li><a href="roadmap.html">Roadmap</a></li>
         <li><a href="cv.html">CV</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -65,28 +63,47 @@
 <main id="main">
 
   <!-- ============ HERO ============ -->
-  <section class="reveal" style="padding: 30px 0 20px;">
+  <section class="reveal" style="padding: 40px 0 20px;">
     <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 12px;">
       CYBERSECURITY · RED TEAM · TRAINING
     </p>
-    <h1 style="font-size: clamp(2.4em, 6vw, 4em); line-height: 1.05; margin-bottom: 18px;">
-      Milton Silas
+
+    <h1 class="hero-name" style="font-size: clamp(2.4em, 6vw, 4em); line-height: 1.05; margin-bottom: 18px; border: none; padding: 0;">
+      <span id="typewriter">Milton Silas</span><span class="cursor" aria-hidden="true">▊</span>
     </h1>
-    <p style="font-size: clamp(1.1em, 2vw, 1.4em); font-weight: 600; max-width: 720px; margin: 0 0 20px;">
+
+    <p style="font-size: clamp(1.1em, 2vw, 1.35em); font-weight: 600; max-width: 720px; margin: 0 0 20px;">
       I break systems to make them safer — and teach others to do the same.
     </p>
     <p class="muted" style="font-size: 1.05em; max-width: 720px; margin: 0 0 32px;">
       Cybersecurity analyst, red team specialist, and Cisco IT Essentials instructor.
-      I run hands-on labs, write up every challenge I solve, and help teams find what
-      attackers will find first.
+      I run hands-on labs, write up every challenge I solve, and help teams find
+      what attackers will find first.
     </p>
-    <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center;">
+    <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 40px;">
       <a class="btn" href="hire.html">Hire me →</a>
       <a class="btn btn-ghost" href="writeups.html">Read writeups</a>
     </div>
-    <p class="muted" style="font-size: 0.95em; margin-top: 22px;">
-      ⭐ 9 CTF writeups · 1 First Blood · Cisco Instructor
-    </p>
+
+    <!-- ANIMATED COUNTERS -->
+    <div class="counter-grid" id="counters">
+      <a class="counter" href="writeups.html">
+        <span class="counter-num" data-target="9">0</span>
+        <span class="counter-label">CTF Writeups</span>
+      </a>
+      <a class="counter" href="writeups/echo-signature.html">
+        <span class="counter-num" data-target="1">0</span>
+        <span class="counter-label">First Blood</span>
+      </a>
+      <a class="counter" href="labs.html">
+        <span class="counter-num" data-target="5">0</span>
+        <span class="counter-label">Labs &amp; Workshops</span>
+      </a>
+      <a class="counter" href="projects.html">
+        <span class="counter-num" data-target="3">0</span>
+        <span class="counter-label">Shipped Projects</span>
+      </a>
+    </div>
   </section>
 
   <hr class="divider">
@@ -124,11 +141,11 @@
 
   <hr class="divider">
 
-  <!-- ============ FEATURED WRITEUPS ============ -->
+  <!-- ============ FEATURED SHOWCASE ============ -->
   <section class="reveal">
     <div style="display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap;">
-      <h2 style="margin-bottom: 0;">Featured writeups</h2>
-      <a href="writeups.html" style="font-size: 0.9em; padding-bottom: 10px;">All 9 →</a>
+      <h2 style="margin-bottom: 0;">Featured work</h2>
+      <a href="writeups.html" style="font-size: 0.9em; padding-bottom: 10px;">Browse everything →</a>
     </div>
     <div class="grid grid-3" style="margin-top: 24px;">
 
@@ -143,24 +160,7 @@
           ECDSA malleability enables signature replay. One authorization, paid
           twice — flag derived from the malleated hash.
         </p>
-        <div class="card-foot">
-          <a href="writeups/echo-signature.html" style="font-weight: 700;">Read →</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
-          <span class="badge">Web</span>
-          <span class="badge badge-muted">Easy · 100 pts</span>
-        </div>
-        <h3 style="margin-top: 0;">Securebank</h3>
-        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
-          SQLi → client-trusted JWT → SSTI in EJS. Three bugs chained into
-          full remote code execution.
-        </p>
-        <div class="card-foot">
-          <a href="writeups/securebank.html" style="font-weight: 700;">Read →</a>
-        </div>
+        <div class="card-foot"><a href="writeups/echo-signature.html" style="font-weight: 700;">Read →</a></div>
       </article>
 
       <article class="card">
@@ -173,11 +173,116 @@
           CBC padding oracle against a silent binary. Full plaintext recovered
           byte-by-byte from exit codes alone.
         </p>
-        <div class="card-foot">
-          <a href="writeups/oracle.html" style="font-weight: 700;">Read →</a>
-        </div>
+        <div class="card-foot"><a href="writeups/oracle.html" style="font-weight: 700;">Read →</a></div>
       </article>
 
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">CCNP</span>
+          <span class="badge badge-muted">Packet Tracer</span>
+        </div>
+        <h3 style="margin-top: 0;">Enterprise Multi-VLAN Network</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          Production-ready network design for a 500+ employee enterprise.
+          5 VLANs, 802.1Q trunking, SVI routing, WAN serial link.
+        </p>
+        <div class="card-foot"><a href="https://github.com/Silasmil/inter-vlan-routing-lab" target="_blank" rel="noopener" style="font-weight: 700;">View on GitHub →</a></div>
+      </article>
+
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">Tool</span>
+          <span class="badge badge-muted">v1.1 · MIT</span>
+        </div>
+        <h3 style="margin-top: 0;">Pentest Toolkit</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          Modular Python toolkit for recon, port scanning, and web security
+          header analysis. Self-updating. Shipped as a release.
+        </p>
+        <div class="card-foot"><a href="https://github.com/Silasmil/pentest-toolkit" target="_blank" rel="noopener" style="font-weight: 700;">View on GitHub →</a></div>
+      </article>
+
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">Internship</span>
+          <span class="badge badge-muted">3 tasks</span>
+        </div>
+        <h3 style="margin-top: 0;">FUTURE_CS_01</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          Three-task cybersecurity internship: OWASP Juice Shop assessment,
+          phishing detection, and API security analysis.
+        </p>
+        <div class="card-foot"><a href="https://github.com/Silasmil/FUTURE_CS_01" target="_blank" rel="noopener" style="font-weight: 700;">View on GitHub →</a></div>
+      </article>
+
+      <article class="card">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="badge">Platform</span>
+          <span class="badge badge-muted">In development</span>
+        </div>
+        <h3 style="margin-top: 0;">SomaSec</h3>
+        <p class="muted" style="margin: 0 0 12px; font-size: 0.92em;">
+          Full-stack cybersecurity learning and creator platform. Flask, React,
+          PostgreSQL, Docker. Building the reading-history and auth layer now.
+        </p>
+        <div class="card-foot"><span class="muted" style="font-size: 0.9em;">Private — <a href="contact.html">ask for a walkthrough</a></span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ BY THE NUMBERS ============ -->
+  <section class="reveal">
+    <div class="numbers-band">
+      <div><strong>9</strong><span>CTF writeups · 1 First Blood</span></div>
+      <div><strong>5+</strong><span>Hands-on labs &amp; workshops</span></div>
+      <div><strong>3</strong><span>Shipped projects · 1 in development</span></div>
+      <div><strong>2</strong><span>Certifications in progress (OSCP, CRTP)</span></div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ SIGNAL TEASER ============ -->
+  <section class="reveal">
+    <div class="card" style="border-color: var(--accent);">
+      <div style="display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: center;">
+        <div style="flex: 1; min-width: 260px;">
+          <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.75em; margin: 0 0 8px;">NEW</p>
+          <h3 style="margin-top: 0;">Signal — the feed I actually read</h3>
+          <p class="muted" style="margin: 0; font-size: 0.95em;">
+            Daily cybersecurity, IT, and opportunity news — Kenya and Africa first,
+            then global. Updated every morning at 06:00 EAT. Free.
+          </p>
+        </div>
+        <a class="btn" href="signal.html">Open Signal →</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ COMING SOON — HOME LAB PLAYBOOK ============ -->
+  <section class="reveal">
+    <div class="card" style="border-color: var(--border);">
+      <div style="display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+        <div style="flex: 1; min-width: 260px;">
+          <p style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.75em; margin: 0 0 8px;">COMING Q2 2026</p>
+          <h3 style="margin-top: 0;">The Minimalist Home-Lab Playbook</h3>
+          <p class="muted" style="margin: 0 0 16px; font-size: 0.95em;">
+            From zero to a working red-team lab in one weekend — one laptop,
+            $0 in software. Seven chapters covering the stack, the network,
+            the first exploit, the pivot, and the blue-side detection to
+            watch your own attack.
+          </p>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a class="btn" href="playbook.html">Read chapter 1 free →</a>
+            <a class="btn btn-ghost" href="playbook.html#notify">Notify me at launch</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -215,24 +320,26 @@
         <li><a href="writeups.html">Writeups</a></li>
         <li><a href="labs.html">Labs</a></li>
         <li><a href="projects.html">Projects</a></li>
-        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="signal.html">Signal</a></li>
+        <li><a href="playbook.html">Home-Lab Playbook</a></li>
       </ul>
     </div>
     <div>
       <h4>Connect</h4>
       <ul>
-        <li><a href="mailto:miltonsilas564@proton.me">Email</a></li>
-        <li><a href="https://github.com/Milton511" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li>
+        <li><a href="https://github.com/Silasmil" target="_blank" rel="noopener">GitHub</a></li>
         <li><a href="hire.html">Hire me</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
-    <span><a href="https://github.com/Milton511/milton511.github.io" target="_blank" rel="noopener">Source</a></span>
+    <span><a href="https://github.com/Silasmil/silasmil.github.io" target="_blank" rel="noopener">Source</a></span>
   </div>
 </footer>
 
 <script src="main.js"></script>
+<script src="home.js"></script>
 </body>
 </html>

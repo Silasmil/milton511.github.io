@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Vault That Ate Itself — CTF Writeup — somas3ccybersecurity</title>
+<title>The Vault That Ate Itself — Reentrancy — somas3ccybersecurity</title>
 <link rel="stylesheet" href="../style.css">
 <script>
 (function(){try{var t=localStorage.getItem("theme");if(!t)t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();
@@ -23,6 +23,28 @@
 .flag-banner button:hover{background:var(--accent-hi,#ff3344)}
 @media (prefers-reduced-motion:reduce){.flag-gate{transition:none}}
 </style>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Vault That Ate Itself — Reentrancy">
+<meta property="og:description" content="Textbook reentrancy in withdraw(). Recursive drain in a single transaction, flag derived from the function selector.">
+<meta property="og:url" content="https://silasmil.github.io/writeups/vault-that-ate-itself.html">
+<meta property="og:site_name" content="somas3ccybersecurity">
+<meta property="og:image" content="https://silasmil.github.io/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Vault That Ate Itself — Reentrancy">
+<meta name="twitter:description" content="Textbook reentrancy in withdraw(). Recursive drain in a single transaction, flag derived from the function selector.">
+<meta name="twitter:image" content="https://silasmil.github.io/og-default.png">
+<link rel="canonical" href="https://silasmil.github.io/writeups/vault-that-ate-itself.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article",
+"headline":"The Vault That Ate Itself — Reentrancy",
+"description":"Textbook reentrancy in withdraw(). Recursive drain in a single transaction, flag derived from the function selector.",
+"url":"https://silasmil.github.io/writeups/vault-that-ate-itself.html",
+"author":{"@type":"Person","name":"Milton Silas"},
+"publisher":{"@type":"Organization","name":"somas3ccybersecurity"}}
+</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -360,6 +382,14 @@ for f in $(find . -type f ! -path "*__MACOSX*"); do cat "$f"; done
     tick();
   });
 })();
+</script>
+<script data-goatcounter="https://somas3c.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script>
+  // Skip tracking on localhost so local previews don't pollute the dashboard
+  if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    if (window.goatcounter) window.goatcounter.ignore = true;
+  }
 </script>
 </body>
 </html>
