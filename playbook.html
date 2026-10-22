@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Minimalist Home-Lab Playbook — somas3ccybersecurity</title>
+<meta name="description" content="From zero to a working red-team lab in one weekend — one laptop, $0 in software. Seven chapters on stack, network, exploit, pivot, and blue-side detection.">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem("theme");
+    if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+})();
+</script>
+<style>
+  .playbook-hero {
+    padding: 40px 0 30px;
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 40px;
+  }
+  .playbook-hero .eyebrow {
+    color: var(--accent-hi);
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 0.8em;
+    margin: 0 0 12px;
+  }
+  .playbook-hero h1 {
+    font-size: clamp(2em, 5vw, 3em);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    border: none;
+    padding: 0;
+  }
+  .playbook-hero .lede {
+    font-size: 1.15em;
+    color: var(--fg-muted);
+    max-width: 720px;
+    margin: 0 0 24px;
+  }
+  .chapters-list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+    counter-reset: ch;
+  }
+  .chapters-list li {
+    counter-increment: ch;
+    padding: 18px 20px 18px 60px;
+    margin: 10px 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    position: relative;
+  }
+  .chapters-list li::before {
+    content: counter(ch, decimal-leading-zero);
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.3em;
+    font-weight: 900;
+    color: var(--accent-hi);
+  }
+  .chapters-list li .ch-title {
+    font-weight: 800;
+    margin: 0 0 4px;
+    font-size: 1em;
+  }
+  .chapters-list li .ch-desc {
+    color: var(--fg-muted);
+    font-size: 0.9em;
+    margin: 0;
+  }
+  .chapters-list li.locked {
+    opacity: 0.7;
+  }
+  .chapters-list li.locked::after {
+    content: "🔒 Coming Q2 2026";
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--accent-hi);
+    background: var(--accent-soft);
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+  }
+  .chapters-list li.free::after {
+    content: "FREE";
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 0.7em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #28c840;
+    background: rgba(40,200,64,0.1);
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid #28c840;
+  }
+  .chapters-list li.free { opacity: 1; border-color: #28c840; }
+  .notify-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 480px;
+  }
+  .notify-form input[type="email"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 15px;
+  }
+  .notify-form input[type="email"]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .chapter-preview {
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 30px 0;
+    box-shadow: 0 0 40px rgba(225,29,46,0.18);
+  }
+  .chapter-preview h2 {
+    border: none;
+    padding-bottom: 0;
+    margin-top: 0;
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="playbook.html">Playbook</a></li>
+        <li><a href="roadmap.html">Roadmap</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="kbd-hint" type="button" id="palette-trigger" aria-label="Open command palette">
+      Search <kbd>Ctrl</kbd><kbd>K</kbd>
+    </button>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+
+<div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+<div id="ninja" aria-hidden="true">🥷</div>
+
+<div class="palette-overlay" id="palette-overlay" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <input type="text" id="palette-input" placeholder="Jump to a page or writeup…" autocomplete="off" />
+    <ul class="palette-list" id="palette-list"></ul>
+    <div class="palette-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="playbook-hero reveal">
+    <p class="eyebrow">COMING Q2 2026 · FREE CHAPTER 1</p>
+    <h1>The Minimalist Home-Lab Playbook</h1>
+    <p class="lede">
+      From zero to a working red-team lab in one weekend — one laptop, <strong>$0 in software</strong>, no hardware purchases. Seven chapters. Every step tested on the same Kali laptop you're probably using to read this.
+    </p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px;">
+      <a class="btn" href="book/chapter-01.html">Read chapter 1 free →</a>
+      <a class="btn btn-ghost" href="#notify">Notify me at launch</a>
+    </div>
+    <p class="muted" style="font-size: 0.9em; margin-top: 20px;">
+      <strong>Status:</strong> Chapter 1 published. Chapters 2–7 in progress. Full book ships Q2 2026.
+    </p>
+  </section>
+
+  <!-- ============ WHY THIS EXISTS ============ -->
+  <section class="reveal">
+    <h2>Why this exists</h2>
+    <div class="card">
+      <p class="muted" style="margin: 0 0 14px;">
+        Every "how do I start a home lab" tutorial on the internet makes one of three mistakes:
+      </p>
+      <ul style="margin: 0; padding-left: 20px; color: var(--fg-muted);">
+        <li><strong>They assume hardware you don't have</strong> — "buy a Dell R710 for $300, set up Proxmox, add 64GB RAM."</li>
+        <li><strong>They stop at "install Kali"</strong> — which is the first 5% of the lab. Nothing about what you actually <em>do</em> with it.</li>
+        <li><strong>They skip the blue side</strong> — you learn to attack, never to detect. That's why so many home labs produce attackers who can't read a log.</li>
+      </ul>
+      <p class="muted" style="margin: 14px 0 0;">
+        This playbook does the opposite. Everything runs on one laptop. Every chapter ends with a <em>working exploit or a working detection</em>. And chapter 7 is the one that turns the whole thing into a portfolio piece — which is what actually gets you hired.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ THE 7 CHAPTERS ============ -->
+  <section class="reveal">
+    <h2>The seven chapters</h2>
+    <ol class="chapters-list">
+      <li class="free">
+        <p class="ch-title">The stack</p>
+        <p class="ch-desc">VirtualBox, Kali, Metasploitable 2, Windows 10 eval — free, and installed in 45 minutes. Nothing else needed.</p>
+      </li>
+      <li class="locked">
+        <p class="ch-title">The network</p>
+        <p class="ch-desc">Host-only + NAT adapter setup. Isolate your lab from your real network in a single diagram. Why the wrong adapter setting can leak your attacker VM onto the home Wi-Fi.</p>
+      </li>
+      <li class="locked">
+        <p class="ch-title">The targets</p>
+        <p class="ch-desc">Metasploitable 2, DVWA, OWASP Juice Shop, one intentionally weak Windows VM. What each teaches, which to attack first, and why you don't need any of the other 30 "vulnerable VM" lists.</p>
+      </li>
+      <li class="locked">
+        <p class="ch-title">The first exploit</p>
+        <p class="ch-desc">msfconsole → Metasploitable vsftpd → shell. Twenty minutes, end to end. The chapter where the lab stops being a download and starts being a lab.</p>
+      </li>
+      <li class="locked">
+        <p class="ch-title">The pivot</p>
+        <p class="ch-desc">One compromised host, a chisel tunnel, a second host behind it. This is the chapter that separates hobbyists from practitioners — most tutorials never cover pivoting.</p>
+      </li>
+      <li class="locked">
+        <p class="ch-title">The blue side</p>
+        <p class="ch-desc">Install a Wazuh agent (free) on the Windows target. Watch your own attack in the SIEM. This is the chapter that makes you useful in a SOC interview.</p>
+      </li>
+      <li class="locked">
+        <p class="ch-title">The writeup</p>
+        <p class="ch-desc">Turn the whole thing into a portfolio piece. Exact template — the same one I used for all 9 Perfect Root writeups. Ends with a link to the public archive.</p>
+      </li>
+    </ol>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ CHAPTER 1 PREVIEW ============ -->
+  <section class="reveal">
+    <div class="chapter-preview">
+      <p class="eyebrow" style="color: var(--accent-hi); font-weight: 800; letter-spacing: 3px; font-size: 0.8em; margin: 0 0 8px;">FREE CHAPTER · 01</p>
+      <h2 style="margin-bottom: 16px;">The stack</h2>
+      <p class="muted">
+        In 45 minutes you'll go from a bare laptop to a working lab with an attacker machine, two target machines, and an isolated network between them. You don't need to buy anything. You don't need to be on a "real" OS — Kali, Ubuntu, macOS, and Windows all work.
+      </p>
+      <p class="muted">
+        By the end of the chapter you'll have:
+      </p>
+      <ul style="margin: 0 0 20px; padding-left: 20px; color: var(--fg-muted);">
+        <li>VirtualBox installed (the free version that runs on anything)</li>
+        <li>Kali Linux 2025 as the attacker</li>
+        <li>Metasploitable 2 as the first target</li>
+        <li>A Windows 10 eval VM as the second target</li>
+        <li>A host-only network isolating the three from the rest of your laptop</li>
+      </ul>
+      <a class="btn" href="book/chapter-01.html">Read the full chapter →</a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ NOTIFY FORM ============ -->
+  <section class="reveal" id="notify">
+    <h2>Notify me when chapters 2–7 ship</h2>
+    <div class="card">
+      <p class="muted" style="margin: 0 0 16px; max-width: 560px;">
+        One email per chapter. No marketing, no drip campaigns, no "10 secrets of home labs" nonsense. Just the next chapter when it's ready.
+      </p>
+      <form class="notify-form" action="https://buttondown.com/api/emails/embed-subscribe/somas3c" method="post" target="_blank">
+        <input type="email" name="email" placeholder="you@example.com" required aria-label="Your email address">
+        <button class="btn" type="submit">Notify me</button>
+      </form>
+      <p class="muted" style="font-size: 0.85em; margin: 14px 0 0;">
+        Unsubscribe in one click. Powered by Buttondown — no tracking pixels, no ads, no data resale.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ CTA ============ -->
+  <section class="reveal">
+    <div class="card center" style="border-color: var(--accent); box-shadow: 0 0 40px rgba(225,29,46,0.18);">
+      <h2 style="border-bottom: none; margin-top: 0; padding-bottom: 0;">Want the whole thing for your team?</h2>
+      <p class="muted" style="max-width: 560px; margin: 12px auto 28px;">
+        The playbook becomes a one-day workshop in Nairobi — "Home-Lab Weekend." 8 seats, hands-on, everyone leaves with a working lab on their own laptop.
+      </p>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;">
+        <a class="btn" href="mailto:cyberwiseafrica@gmail.com?subject=Home-Lab%20Weekend%20workshop">Email about the workshop</a>
+        <a class="btn btn-ghost" href="hire.html">See all services</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+      </p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="writeups.html">Writeups</a></li>
+        <li><a href="labs.html">Labs</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="playbook.html">Home-Lab Playbook</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li>
+        <li><a href="https://github.com/Silasmil" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Silasmil/silasmil.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

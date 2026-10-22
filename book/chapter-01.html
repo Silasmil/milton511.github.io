@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chapter 1 — The stack · The Minimalist Home-Lab Playbook</title>
+<meta name="description" content="Install VirtualBox, Kali, and two vulnerable targets in 45 minutes. Chapter 1 of the Minimalist Home-Lab Playbook.">
+<link rel="stylesheet" href="style.css">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem("theme");
+    if (!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html">somas3c<span>c</span>ybersecurity</a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../writeups.html">Writeups</a></li>
+        <li><a href="../playbook.html">Playbook</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <span class="nav-spacer"></span>
+    <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme">☀ Light</button>
+  </div>
+</header>
+
+<article class="book-body" id="main">
+
+  <p style="margin-bottom: 20px;">
+    <a href="../playbook.html">← Back to the playbook</a>
+  </p>
+
+  <div class="chapter-header">
+    <p class="ch-num">CHAPTER 01 · FREE</p>
+    <h1>The stack</h1>
+    <p class="muted" style="margin: 8px 0 0; font-size: 0.95em;">
+      45 minutes · 4 downloads · zero dollars
+    </p>
+  </div>
+
+  <p>
+    In this chapter you'll go from a bare laptop to a working lab with an attacker machine, two target machines, and an isolated network between them. You don't need to buy anything. You don't need a "real" server. You don't need a specific OS — Kali, Ubuntu, macOS, and Windows all work.
+  </p>
+
+  <p>
+    By the end you'll have:
+  </p>
+
+  <ul>
+    <li>VirtualBox installed (the free, open-source hypervisor that runs on anything)</li>
+    <li>Kali Linux 2025 as the attacker</li>
+    <li>Metasploitable 2 as the first target</li>
+    <li>A Windows 10 eval VM as the second target</li>
+    <li>A host-only network isolating all three from your real laptop</li>
+  </ul>
+
+  <h2>Why this stack and not something else</h2>
+
+  <p>
+    There are a dozen ways to build a home lab. You can buy a dedicated server. You can use Proxmox. You can rent a cloud VM. All of those are worse for the beginner than what you're about to do, for a specific reason: <strong>they all delay the first exploit</strong>.
+  </p>
+
+  <p>
+    The thing that teaches you security is not configuring the hypervisor. It's watching a payload land, and then seeing it in a log. Every hour you spend on infrastructure is an hour not spent on that. So the stack is chosen to get you to the first exploit in one chapter, not one week.
+  </p>
+
+  <p>
+    VirtualBox is free, runs on any OS, and is the same platform most beginner courses use. Kali is the standard pentester OS. Metasploitable 2 is deliberately vulnerable in ~10 ways so you can pick a different exploit every day. The Windows 10 eval VM gives you a Windows target to practice the techniques that only work against Windows (Active Directory attacks, LSASS dumping, etc.). All four are free downloads from the publishers, no torrents.
+  </p>
+
+  <h2>What you need before you start</h2>
+
+  <ul>
+    <li><strong>A laptop with at least 8GB of RAM.</strong> 16GB is better. 8GB will work but you'll only be able to run two VMs at once.</li>
+    <li><strong>At least 60GB of free disk.</strong> Kali ~20GB, Metasploitable ~8GB, Windows 10 ~30GB.</li>
+    <li><strong>Hardware virtualization enabled in BIOS.</strong> On most laptops this is called VT-x (Intel) or AMD-V (AMD). If VirtualBox complains later, this is the fix — reboot into BIOS, find the setting, enable it.</li>
+    <li><strong>A stable internet connection for the downloads.</strong> The full set is ~12GB.</li>
+  </ul>
+
+  <h2>Install VirtualBox</h2>
+
+  <p>
+    Download from <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener">virtualbox.org/wiki/Downloads</a>. Pick the installer for your host OS. Also download the <strong>Extension Pack</strong> from the same page (it enables USB 2.0/3.0 passthrough, which some USB attacks need — not chapter 1 material, but install it now while you're here).
+  </p>
+
+  <p>
+    Double-click the installer. On Linux, use the package manager if your distro has one (the Ubuntu / Debian install is a single .deb), otherwise the generic installer works. On macOS, the installer will ask for Kernel Extension permission — click "Allow" in System Settings → Privacy & Security.
+  </p>
+
+  <div class="note">
+    <strong>Linux tip:</strong> after installing, run
+    <code>sudo usermod -aG vboxusers $USER</code>
+    then log out and back in. This lets VirtualBox access USB devices without sudo.
+  </div>
+
+  <p>
+    Open VirtualBox. If it loads to the empty VM list, you're done. If it warns about VT-x, reboot into BIOS and enable it.
+  </p>
+
+  <h2>Download the three VMs</h2>
+
+  <p>
+    You'll download three virtual machine images. Put them all in a folder like <code>~/vms/</code> so they're easy to find later — not on your Desktop, not in Downloads.
+  </p>
+
+  <h3>1. Kali Linux</h3>
+
+  <p>
+    Go to <a href="https://www.kali.org/get-kali/#kali-virtual-machines" target="_blank" rel="noopener">kali.org/get-kali → Virtual Machines</a>. Download the <strong>VirtualBox</strong> image (7z archive, ~3GB). Extract it. You'll get a folder with a `.vbox` file — double-click it to import the VM into VirtualBox. When it asks about MAC address policy, choose "Generate new MAC addresses for all network adapters" (important — otherwise multiple lab machines cloned from the same image collide on the network).
+  </p>
+
+  <p>
+    Once imported, right-click the Kali VM → <strong>Settings</strong> → <strong>System</strong> → set <strong>Base Memory</strong> to 4GB if you have 16GB on the host, 3GB if you have 8GB. Under <strong>Display</strong>, set <strong>Video Memory</strong> to 128MB. Under <strong>Network</strong>, leave the first adapter as NAT for now (we'll fix this in chapter 2).
+  </p>
+
+  <h3>2. Metasploitable 2</h3>
+
+  <p>
+    This is the classic deliberately-vulnerable Linux target. The download URL has moved around over the years — search "Metasploitable 2 download" and you'll find the current mirror (the Rapid7 blog post usually has the direct link). It's a ~800MB zip. Extract it — you'll get a folder with a `.vmdk` file.
+  </p>
+
+  <p>
+    In VirtualBox, click <strong>New</strong>. Name it "Metasploitable 2", Type "Linux", Version "Ubuntu (64-bit)". Skip the ISO step. In <strong>Hard disk</strong>, choose <strong>"Use an existing virtual hard disk file"</strong> and point at the `.vmdk` you extracted. Set RAM to 1GB. Set network adapter to host-only (we'll fix this in chapter 2).
+  </p>
+
+  <h3>3. Windows 10 Enterprise Evaluation</h3>
+
+  <p>
+    Go to <a href="https://www.microsoft.com/en-us/evalcenter/download-windows-10-enterprise" target="_blank" rel="noopener">Microsoft Evaluation Center → Windows 10 Enterprise</a>. Download the 64-bit ISO. It's a 90-day evaluation license — legal, free, and enough for learning.
+  </p>
+
+  <p>
+    In VirtualBox, click <strong>New</strong>. Name it "Windows 10 Target", Type "Microsoft Windows", Version "Windows 10 (64-bit)". Set RAM to 3GB. Create a new virtual hard disk (VDI, dynamically allocated, 30GB). During the install wizard, attach the ISO you downloaded. Complete the Windows install (choose "I don't have a product key" — the eval works without one). Once installed, install VirtualBox Guest Additions from the VirtualBox menu → Devices → Insert Guest Additions CD image → run the installer inside the VM.
+  </p>
+
+  <div class="warning">
+    <strong>Important:</strong> do <em>not</em> install Windows 10 on a laptop you use for real work. Create a fresh VM, don't share folders with your host, and don't log into any real account (no Microsoft account, no email, no browser password sync). This VM will be attacked in later chapters — treat it as disposable.
+  </div>
+
+  <h2>The whole stack, side by side</h2>
+
+  <p>
+    After all three imports, your VirtualBox list should look like this:
+  </p>
+
+  <pre class="ascii">┌─────────────────────────────┬────────┬──────┬──────────┐
+│ VM name                     │ OS     │ RAM  │ Disk     │
+├─────────────────────────────┼────────┼──────┼──────────┤
+│ Kali Linux 2025.4           │ Kali   │ 4 GB │ 20 GB    │
+│ Metasploitable 2            │ Ubuntu │ 1 GB │ 8 GB     │
+│ Windows 10 Target           │ Win10  │ 3 GB │ 30 GB    │
+└─────────────────────────────┴────────┴──────┴──────────┘
+
+Total RAM needed when all three run: 8 GB
+Total disk used:                         58 GB
+Total cost:                              $0</pre>
+
+  <p>
+    If you have 8GB on your host, run two at a time, not three — the third will swap and everything gets slow. Metasploitable is tiny; you can leave it running permanently. Kali boots in ~30 seconds. Windows 10 is the slow one.
+  </p>
+
+  <h2>Verify the lab boots</h2>
+
+  <p>
+    Start each VM once to make sure the install worked. Log in:
+  </p>
+
+  <ul>
+    <li><strong>Kali</strong> — username <code>kali</code>, password <code>kali</code> (change it now)</li>
+    <li><strong>Metasploitable 2</strong> — username <code>msfadmin</code>, password <code>msfadmin</code></li>
+    <li><strong>Windows 10</strong> — the local account you created during install</li>
+  </ul>
+
+  <p>
+    In each VM, open a terminal (or Command Prompt on Windows) and run <code>ip addr</code> (Linux) or <code>ipconfig</code> (Windows). Write down the IP address you see — it'll be a <code>10.x.x.x</code> or <code>192.168.x.x</code>. That's the machine's address on the NAT network VirtualBox creates by default. In chapter 2 we'll replace this with the isolated host-only network that puts the three VMs on the same segment.
+  </p>
+
+  <p>
+    If all three VMs boot and show you a desktop, you've completed chapter 1.
+  </p>
+
+  <h2>What you have and what's next</h2>
+
+  <p>
+    You have:
+  </p>
+
+  <ul>
+    <li>An attacker VM (Kali) with every pentest tool pre-installed</li>
+    <li>Two target VMs, one Linux and one Windows</li>
+    <li>VirtualBox managing them all on one laptop</li>
+    <li>No money spent, no hardware purchased</li>
+  </ul>
+
+  <p>
+    Chapter 2 fixes the biggest beginner mistake: putting these VMs on your home Wi-Fi. Right now, if you start an attack inside Kali, it goes out your laptop's Wi-Fi adapter onto your real home network — which is illegal and dangerous. Chapter 2 shows you how to create a host-only network that isolates the lab from the rest of your laptop, in one VirtualBox network adapter setting change plus one <code>iptables</code> command.
+  </p>
+
+  <p>
+    Chapter 3 introduces the four targets in detail — Metasploitable, DVWA, Juice Shop, and the Windows VM — and what each teaches you that the others don't.
+  </p>
+
+  <div class="chapter-nav">
+    <a href="../playbook.html">← Back to the playbook</a>
+    <span class="muted" style="font-size: 0.9em;">Chapter 2 ships when you subscribe →</span>
+    <a href="../playbook.html#notify">Notify me →</a>
+  </div>
+
+</article>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <h4>somas3ccybersecurity</h4>
+      <p class="muted" style="font-size: 0.9em; margin: 0;">
+        Cybersecurity analyst · Red team specialist · Cisco instructor.
+      </p>
+    </div>
+    <div>
+      <h4>The playbook</h4>
+      <ul>
+        <li><a href="../playbook.html">Overview</a></li>
+        <li><a href="chapter-01.html">Chapter 1 — The stack</a></li>
+        <li><a href="../playbook.html#notify">Get notified</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="mailto:cyberwiseafrica@gmail.com">Email</a></li>
+        <li><a href="https://github.com/Silasmil" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="../hire.html">Hire me</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 somas3ccybersecurity · Built on GitHub Pages</span>
+    <span><a href="https://github.com/Silasmil/silasmil.github.io" target="_blank" rel="noopener">Source</a></span>
+  </div>
+</footer>
+
+<script src="../main.js"></script>
+</body>
+</html>

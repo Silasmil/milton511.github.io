@@ -1,0 +1,86 @@
+/* Book-specific styling — layered on top of ../style.css */
+@import url("../style.css");
+
+/* Long-form reading: wider line-height, calmer serif for prose */
+.book-body {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 40px 24px 100px;
+  font-size: 1.05em;
+  line-height: 1.8;
+}
+
+.book-body p { margin: 0 0 1.2em; }
+.book-body h2 { margin-top: 2.4em; }
+.book-body h3 { margin-top: 1.8em; }
+.book-body ul, .book-body ol { margin: 0 0 1.2em; padding-left: 1.6em; }
+.book-body li { margin: 0.4em 0; }
+
+/* Code blocks in the book get a bit more breathing room */
+.book-body pre {
+  padding: 22px 26px;
+  font-size: 0.88em;
+}
+
+/* Inline "note" callout */
+.book-body .note {
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+}
+.book-body .note strong { color: var(--accent-hi); }
+
+/* Inline "warning" callout */
+.book-body .warning {
+  border-left: 4px solid #f4b860;
+  background: rgba(244, 184, 96, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5em 0;
+  font-size: 0.95em;
+}
+.book-body .warning strong { color: #f4b860; }
+
+/* Chapter header */
+.chapter-header {
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+}
+.chapter-header .ch-num {
+  font-family: "JetBrains Mono", monospace;
+  color: var(--accent-hi);
+  font-weight: 900;
+  font-size: 0.9em;
+  letter-spacing: 3px;
+  margin: 0 0 6px;
+}
+.chapter-header h1 {
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: clamp(1.9em, 4.5vw, 2.6em);
+}
+
+/* "Next chapter" footer */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+/* Ascii-art diagrams — allow horizontal scroll */
+.book-body pre.ascii {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78em;
+  line-height: 1.4;
+  overflow-x: auto;
+  white-space: pre;
+}
